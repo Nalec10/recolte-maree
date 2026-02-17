@@ -16,7 +16,7 @@
             --sand: #fdfaf5;
         }
 
-        /* Défilement fluide forcé au niveau HTML */
+        /* Défilement fluide forcé */
         html {
             scroll-behavior: smooth;
         }
@@ -30,7 +30,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Style du carrousel corrigé */
+        /* Style du carrousel */
         .recipe-carousel-container {
             position: relative;
             width: 100%;
@@ -74,7 +74,6 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
         
-        /* Bouton nav mobile / Desktop */
         .nav-link {
             transition: all 0.3s;
             border-bottom: 2px solid transparent;
@@ -93,7 +92,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center cursor-pointer" onclick="showPage('home')">
-                    <!-- Logo supprimé ici comme demandé, texte uniquement -->
                     <div class="block">
                         <span class="text-xl font-bold tracking-tight text-[#1a2e4c] block leading-none">Récolte <span class="text-[#c5a47e]">&</span> Marée</span>
                         <span class="text-[9px] uppercase tracking-[0.3em] font-bold text-stone-400">Île de Ré</span>
@@ -116,7 +114,6 @@
             <img src="https://images.unsplash.com/photo-1534113414509-0eec2bfb493f?auto=format&fit=crop&w=1920&q=80" alt="Côte de l'Île de Ré" class="absolute inset-0 w-full h-full object-cover">
             
             <div class="relative z-20 max-w-4xl">
-                <!-- Logo affiché uniquement ici -->
                 <div class="mb-8 flex justify-center">
                     <img src="IMG_4073.jpeg" alt="Logo Récolte & Marée" class="w-40 h-40 logo-img brightness-0 invert opacity-90">
                 </div>
@@ -138,9 +135,9 @@
                     <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
                 </div>
 
-                <!-- Carousel Corrigé -->
                 <div class="recipe-carousel-container">
                     <div class="recipe-carousel" id="carousel">
+                        <!-- Recette 1 -->
                         <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
                             <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Saumon">
                             <div class="p-6">
@@ -152,6 +149,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Recette 2 -->
                         <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
                             <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Poulet">
                             <div class="p-6">
@@ -163,6 +161,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Recette 3 -->
                         <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
                             <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Huîtres">
                             <div class="p-6">
@@ -174,6 +173,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Recette 4 -->
                         <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
                             <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Salade">
                             <div class="p-6">
@@ -186,7 +186,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Boutons de contrôle -->
                     <button onclick="scrollCarouselManual(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 shadow-lg w-10 h-10 rounded-full flex items-center justify-center z-20 hover:bg-white transition">
                         <i class="fas fa-chevron-left text-[#1a2e4c]"></i>
                     </button>
@@ -231,7 +230,7 @@
     <main id="page-producteurs" class="hidden-page py-20 bg-white min-h-screen">
         <div class="max-w-5xl mx-auto px-4">
             <button onclick="showPage('home')" class="text-[#1a2e4c] mb-12 flex items-center gap-2 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-[#c5a47e] transition">
-                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                <i class="fas fa-arrow-left"></i> Retour
             </button>
             <div class="text-center mb-20">
                 <img src="IMG_4073.jpeg" alt="Logo" class="w-24 h-24 mx-auto mb-6 opacity-30">
@@ -241,20 +240,11 @@
             
             <div class="space-y-32">
                 <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition duration-700" alt="Jean, Maraîcher">
+                    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition duration-700" alt="Maraîcher">
                     <div>
                         <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Jean, Maraîcher à Ars</h3>
-                        <p class="text-stone-600 leading-relaxed italic text-lg">"La terre de l'île est sablonneuse, elle demande de la patience et beaucoup d'amour. Mes pommes de terre et mes asperges portent en elles le sel marin."</p>
-                        <p class="mt-6 text-stone-500 font-light uppercase tracking-widest text-xs">Producteur partenaire depuis 2021</p>
+                        <p class="text-stone-600 leading-relaxed italic text-lg">"La terre de l'île est sablonneuse, elle demande de la patience et beaucoup d'amour."</p>
                     </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div class="order-2 md:order-1 text-right">
-                        <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Marie, Saulnière</h3>
-                        <p class="text-stone-600 leading-relaxed italic text-lg">"Le sel de Ré, c'est l'alchimie entre le soleil et le vent. Je le récolte à la main, comme le faisaient mes ancêtres."</p>
-                        <p class="mt-6 text-stone-500 font-light uppercase tracking-widest text-xs">Marais du Fier d'Ars</p>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl order-1 md:order-2 grayscale hover:grayscale-0 transition duration-700" alt="Marie, Saulnière">
                 </div>
             </div>
         </div>
@@ -268,52 +258,36 @@
             </button>
             <div class="text-center mb-16">
                 <h1 class="text-5xl font-bold text-[#1a2e4c] font-serif mb-4">Rythme des Saisons</h1>
-                <p class="text-stone-500 italic">Cuisiner ce que la nature nous offre, au moment où elle nous l'offre.</p>
+                <p class="text-stone-500 italic">Cuisiner ce que la nature nous offre.</p>
             </div>
-
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Printemps -->
+                <!-- Grille saisons ici... -->
                 <div class="bg-white p-8 border border-stone-200 rounded-sm">
                     <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Printemps</span>
-                    <h3 class="font-bold text-[#1a2e4c] text-lg mb-4">Le Renouveau</h3>
                     <ul class="text-sm text-stone-600 space-y-2">
-                        <li>• Asperges blanches des sables</li>
+                        <li>• Asperges blanches</li>
                         <li>• Pommes de terre primeurs</li>
-                        <li>• Fraises de l'île</li>
-                        <li>• Agneau de pré-salé</li>
                     </ul>
                 </div>
-                <!-- Été -->
                 <div class="bg-white p-8 border border-stone-200 rounded-sm">
                     <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Été</span>
-                    <h3 class="font-bold text-[#1a2e4c] text-lg mb-4">L'Abondance</h3>
                     <ul class="text-sm text-stone-600 space-y-2">
                         <li>• Tomates anciennes</li>
                         <li>• Bar de ligne</li>
-                        <li>• Sel de fleur</li>
-                        <li>• Melons de Charente</li>
                     </ul>
                 </div>
-                <!-- Automne -->
                 <div class="bg-white p-8 border border-stone-200 rounded-sm">
                     <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Automne</span>
-                    <h3 class="font-bold text-[#1a2e4c] text-lg mb-4">La Douceur</h3>
                     <ul class="text-sm text-stone-600 space-y-2">
                         <li>• Huîtres affinées</li>
-                        <li>• Champignons des bois</li>
                         <li>• Courges & Potirons</li>
-                        <li>• Raisin local</li>
                     </ul>
                 </div>
-                <!-- Hiver -->
                 <div class="bg-white p-8 border border-stone-200 rounded-sm">
                     <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Hiver</span>
-                    <h3 class="font-bold text-[#1a2e4c] text-lg mb-4">Le Réconfort</h3>
                     <ul class="text-sm text-stone-600 space-y-2">
                         <li>• Coquilles Saint-Jacques</li>
                         <li>• Poireaux de sable</li>
-                        <li>• Miel de forêt</li>
-                        <li>• Fromage de chèvre affiné</li>
                     </ul>
                 </div>
             </div>
@@ -323,37 +297,12 @@
     <!-- Footer -->
     <footer class="bg-[#1a2e4c] text-stone-400 py-20 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <!-- Logo ajouté ici comme demandé -->
             <img src="IMG_4073.jpeg" alt="Logo Récolte & Marée" class="w-24 h-24 mx-auto mb-6 brightness-0 invert opacity-60">
             <h3 class="text-2xl font-serif text-white mb-2">Récolte & Marée</h3>
             <p class="text-[9px] uppercase tracking-[0.5em] mb-8 text-stone-500 font-bold">L'Authenticité Rétaise</p>
-            <div class="flex justify-center space-x-6 mb-12">
-                <a href="#" class="hover:text-[#c5a47e] transition"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="#" class="hover:text-[#c5a47e] transition"><i class="fab fa-facebook-f text-xl"></i></a>
-            </div>
-            <p class="text-[10px] text-stone-600 tracking-widest">&copy; 2024 Récolte & Marée. Tous droits réservés.</p>
+            <p class="text-[10px] text-stone-600 tracking-widest">&copy; 2024 Récolte & Marée.</p>
         </div>
     </footer>
-
-    <!-- Stripe Mock -->
-    <div id="checkout-modal" class="fixed inset-0 bg-[#1a2e4c]/95 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm">
-        <div class="bg-white max-w-lg w-full rounded-sm overflow-hidden relative shadow-2xl">
-            <button onclick="closeCheckout()" class="absolute top-6 right-6 text-stone-400 hover:text-stone-900 transition"><i class="fas fa-times text-xl"></i></button>
-            <div class="bg-[#1a2e4c] p-10 text-white text-center">
-                <img src="IMG_4073.jpeg" alt="Logo" class="w-16 h-16 mx-auto mb-4 brightness-0 invert opacity-90">
-                <span class="text-sm uppercase tracking-[0.3em] text-stone-400">Finaliser ma commande</span>
-                <div class="text-4xl font-serif mt-2" id="checkout-price">0.00 €</div>
-            </div>
-            <div class="p-10">
-                <div class="mb-6">
-                    <label class="block text-[10px] uppercase font-bold text-stone-400 mb-2">Email de livraison</label>
-                    <input type="email" placeholder="votre@email.com" class="w-full p-4 bg-stone-50 border border-stone-200 rounded-sm outline-none focus:border-[#c5a47e] transition">
-                </div>
-                <button onclick="finalizePayment()" class="w-full bg-[#1a2e4c] text-white py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#c5a47e] transition shadow-lg">Confirmer et Payer</button>
-                <p class="text-center mt-6 text-[10px] text-stone-400 font-bold uppercase tracking-widest italic">Livraison gratuite sur toute l'île</p>
-            </div>
-        </div>
-    </div>
 
     <script>
         let selectedRecipes = [];
@@ -368,10 +317,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Correction du carrousel avec défilement calculé
         function scrollCarouselManual(direction) {
             const carousel = document.getElementById('carousel');
-            const cardWidth = carousel.querySelector('.recipe-card').offsetWidth + 24; // Largeur + gap
+            const cardWidth = carousel.querySelector('.recipe-card').offsetWidth + 24;
             carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
         }
 
@@ -401,7 +349,6 @@
         function calculate() {
             const total = 3 * (guests * recipeCost);
             document.getElementById('total-price').innerText = total.toFixed(2) + " €";
-            document.getElementById('checkout-price').innerText = total.toFixed(2) + " €";
         }
 
         function updatePayButton() {
@@ -415,27 +362,7 @@
             }
         }
 
-        function openCheckout() { 
-            document.getElementById('checkout-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        function closeCheckout() { 
-            document.getElementById('checkout-modal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        function finalizePayment() {
-            alert("Merci ! Votre commande Récolte & Marée a bien été reçue. Un email de confirmation vous a été envoyé.");
-            closeCheckout();
-            selectedRecipes = [];
-            document.querySelectorAll('.recipe-card').forEach(c => c.classList.remove('selected'));
-            updatePayButton();
-            calculate();
-        }
-
-        // Init
-        window.onload = () => {
-            setGuests(2);
-        };
+        window.onload = () => { setGuests(2); };
     </script>
 </body>
 </html>
