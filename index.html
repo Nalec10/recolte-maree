@@ -350,7 +350,56 @@
             }
         }
 
-        window.onload = () => { setGuests(2); };
+        document.addEventListener("DOMContentLoaded", () => {
+  setGuests(2);
+  function initRecipeCarousel() {
+  const carousel = document.getElementById("carousel");
+  const prevBtn = document.getElementById("carousel-prev");
+  const nextBtn = document.getElementById("carousel-next");
+  const fadeLeft = document.getElementById("fade-left");
+  const fadeRight = document.getElementById("fade-right");
+
+  if (!carousel || !prevBtn || !nextBtn) {
+    console.warn("Carousel init: élément manquant", { carousel, prevBtn, nextBtn });
+    return;
+  }
+
+  const getStride = () => {
+    const card = carousel.querySelector(".recipe-card");
+    if (!card) return 340;
+    const styles = window.getComputedStyle(carousel);
+    const gap = parseFloat(styles.gap || "0") || 0;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const atStart = () => carousel.scrollLeft <= 2;
+  const atEnd = () => carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 2;
+
+  const updateUI = () => {
+    const start = atStart();
+    const end = atEnd();
+
+    prevBtn.disabled = start;
+    nextBtn.disabled = end;
+
+    if (fadeLeft) fadeLeft.style.opacity = start ? "0" : "1";
+    if (fadeRight) fadeRight.style.opacity = end ? "0" : "1";
+  };
+
+  const scrollByStride = (dir) => {
+    carousel.scrollBy({ left: dir * getStride(), behavior: "smooth" });
+  };
+
+  // Important: on enlève d’éventuels anciens handlers (si tu testes plusieurs fois)
+  prevBtn.onclick = () => scrollByStride(-1);
+  nextBtn.onclick = () => scrollByStride(1);
+
+  carousel.addEventListener("scroll", () => requestAnimationFrame(updateUI), { passive: true });
+  window.addEventListener("resize", () => requestAnimationFrame(updateUI));
+
+  updateUI();
+}
+});
     </script>
 </body>
 </html>
