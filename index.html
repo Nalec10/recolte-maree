@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Récolte & Marée | Paniers Repas de l'Île de Ré</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --marine: #1a2e4c;
+            --gold: #c5a47e;
+            --sand: #fdfaf5;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--sand);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .recipe-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1.5rem;
+            padding: 1rem;
+            scrollbar-width: none;
+        }
+
+        .recipe-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recipe-card {
+            min-width: 300px;
+            scroll-snap-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .recipe-card.selected {
+            border: 3px solid var(--marine);
+            transform: translateY(-5px);
+            background-color: white;
+        }
+
+        .hidden-page {
+            display: none;
+        }
+
+        /* Animation et style pour le logo */
+        .logo-img {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
+        .logo-container:hover .logo-img {
+            transform: scale(1.1) rotate(2deg);
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <div class="flex items-center gap-4 cursor-pointer logo-container" onclick="showPage('home')">
+                    <!-- Utilisation du logo téléchargé -->
+                    <img src="IMG_4073.jpeg" alt="Récolte & Marée Logo" class="w-20 h-20 object-contain logo-img" onerror="this.src='https://via.placeholder.com/80?text=RM'">
+                    <div class="hidden sm:block">
+                        <span class="text-2xl font-bold tracking-tight text-[#1a2e4c] block leading-none">Récolte <span class="text-[#c5a47e]">&</span> Marée</span>
+                        <span class="text-[10px] uppercase tracking-[0.3em] font-bold text-stone-400">Île de Ré</span>
+                    </div>
+                </div>
+                <div class="flex space-x-8 font-semibold text-xs uppercase tracking-[0.15em]">
+                    <button onclick="showPage('home')" class="hover:text-[#c5a47e] transition border-b-2 border-transparent hover:border-[#c5a47e] pb-1">Accueil</button>
+                    <button onclick="showPage('producteurs')" class="hover:text-[#c5a47e] transition border-b-2 border-transparent hover:border-[#c5a47e] pb-1">Producteurs</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE ACCUEIL -->
+    <main id="page-home">
+        <!-- Hero -->
+        <header class="relative h-[85vh] flex items-center justify-center text-white text-center px-4">
+            <div class="absolute inset-0 bg-black/30 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1534113414509-0eec2bfb493f?auto=format&fit=crop&w=1920&q=80" alt="Côte de l'Île de Ré" class="absolute inset-0 w-full h-full object-cover">
+            
+            <div class="relative z-20 max-w-4xl">
+                <div class="mb-6 flex justify-center">
+                    <img src="IMG_4073.jpeg" alt="Logo central" class="w-32 h-32 opacity-90 brightness-0 invert">
+                </div>
+                <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight">Le goût de l'île, <br><span class="italic font-normal">chez vous.</span></h1>
+                <p class="text-xl mb-10 text-stone-100 font-light max-w-2xl mx-auto italic">Des paniers repas d'exception, entre marais salants et océan.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#commander" class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">Composer mon panier</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sélection Recettes -->
+        <section id="commander" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">La Récolte de la Semaine</h2>
+                    <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
+                </div>
+
+                <!-- Carousel -->
+                <div class="relative mb-20">
+                    <div class="recipe-carousel" id="carousel">
+                        <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Saumon">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
+                                <p class="text-sm text-stone-500 mb-4 line-clamp-2 italic">Pommes de terre AOP et fleur de sel artisanale.</p>
+                                <div class="flex justify-between items-center text-[10px] font-bold tracking-tighter text-stone-400 border-t pt-4 uppercase">
+                                    <span><i class="far fa-clock mr-1"></i> 25 MIN</span>
+                                    <span><i class="fas fa-utensils mr-1"></i> IODÉ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Poulet">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
+                                <p class="text-sm text-stone-500 mb-4 line-clamp-2 italic">Miel de fleurs sauvages récolté sur la côte.</p>
+                                <div class="flex justify-between items-center text-[10px] font-bold tracking-tighter text-stone-400 border-t pt-4 uppercase">
+                                    <span><i class="far fa-clock mr-1"></i> 40 MIN</span>
+                                    <span><i class="fas fa-leaf mr-1"></i> TERROIR</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Huîtres">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Huîtres de Cabane Gratinées</h3>
+                                <p class="text-sm text-stone-500 mb-4 line-clamp-2 italic">Directement du parc à votre table.</p>
+                                <div class="flex justify-between items-center text-[10px] font-bold tracking-tighter text-stone-400 border-t pt-4 uppercase">
+                                    <span><i class="far fa-clock mr-1"></i> 20 MIN</span>
+                                    <span><i class="fas fa-anchor mr-1"></i> PREMIUM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="scrollCarousel(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-xl w-12 h-12 rounded-full flex items-center justify-center -ml-6 z-20"><i class="fas fa-chevron-left text-[#1a2e4c]"></i></button>
+                    <button onclick="scrollCarousel(1)" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-xl w-12 h-12 rounded-full flex items-center justify-center -mr-6 z-20"><i class="fas fa-chevron-right text-[#1a2e4c]"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configurator Panier -->
+        <section class="py-24 bg-stone-50">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm border border-stone-200">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-[#1a2e4c] mb-6 font-serif">Votre Panier Personnalisé</h3>
+                            <p class="text-stone-500 mb-8 text-sm">Chaque panier comprend les ingrédients frais pour 3 repas complets, sourcés localement sur l'île de Ré.</p>
+                            <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">Convives</label>
+                            <div class="flex gap-4">
+                                <button onclick="setGuests(2)" id="g-2" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">2</button>
+                                <button onclick="setGuests(3)" id="g-3" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">3</button>
+                                <button onclick="setGuests(4)" id="g-4" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">4</button>
+                                <button onclick="setGuests(5)" id="g-5" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">5</button>
+                            </div>
+                        </div>
+                        <div class="bg-[#1a2e4c] p-8 rounded-sm text-white flex flex-col items-center">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 mb-2">Total de l'escale</span>
+                            <div class="text-5xl font-serif mb-6" id="total-price">0.00 €</div>
+                            <button id="pay-button" disabled onclick="openCheckout()" class="w-full bg-[#c5a47e] text-white py-4 rounded-sm font-bold uppercase tracking-widest opacity-30 cursor-not-allowed hover:bg-[#b3936d] transition-all">
+                                Commander mon panier
+                            </button>
+                            <p class="text-[9px] mt-4 text-stone-400 uppercase tracking-widest">Paiement 100% sécurisé</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE PRODUCTEURS -->
+    <main id="page-producteurs" class="hidden-page py-20 bg-white min-h-screen">
+        <div class="max-w-5xl mx-auto px-4">
+            <button onclick="showPage('home')" class="text-[#1a2e4c] mb-12 flex items-center gap-2 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-[#c5a47e] transition">
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
+            </button>
+            <div class="text-center mb-20">
+                <img src="IMG_4073.jpeg" alt="Logo" class="w-24 h-24 mx-auto mb-6 opacity-30">
+                <h1 class="text-5xl font-bold text-[#1a2e4c] font-serif">Les Gardiens du Terroir</h1>
+                <div class="w-20 h-0.5 bg-[#c5a47e] mx-auto mt-6"></div>
+            </div>
+            
+            <div class="space-y-32">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition duration-700" alt="Jean, Maraîcher">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Jean, Maraîcher à Ars</h3>
+                        <p class="text-stone-600 leading-relaxed italic text-lg">"La terre de l'île est sablonneuse, elle demande de la patience et beaucoup d'amour. Mes pommes de terre et mes asperges portent en elles le sel marin."</p>
+                        <p class="mt-6 text-stone-500 font-light uppercase tracking-widest text-xs">Producteur partenaire depuis 2021</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 text-right">
+                        <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Marie, Saulnière</h3>
+                        <p class="text-stone-600 leading-relaxed italic text-lg">"Le sel de Ré, c'est l'alchimie entre le soleil et le vent. Je le récolte à la main, comme le faisaient mes ancêtres."</p>
+                        <p class="mt-6 text-stone-500 font-light uppercase tracking-widest text-xs">Marais du Fier d'Ars</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl order-1 md:order-2 grayscale hover:grayscale-0 transition duration-700" alt="Marie, Saulnière">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a2e4c] text-stone-400 py-20 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <img src="IMG_4073.jpeg" alt="Logo Footer" class="w-20 h-20 mx-auto mb-6 opacity-40 brightness-0 invert">
+            <h3 class="text-2xl font-serif text-white mb-2">Récolte & Marée</h3>
+            <p class="text-[9px] uppercase tracking-[0.5em] mb-8 text-stone-500 font-bold">L'Authenticité Rétaise</p>
+            <div class="flex justify-center space-x-6 mb-12">
+                <a href="#" class="hover:text-[#c5a47e] transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="hover:text-[#c5a47e] transition"><i class="fab fa-facebook-f text-xl"></i></a>
+            </div>
+            <p class="text-[10px] text-stone-600 tracking-widest">&copy; 2024 Récolte & Marée. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Stripe Mock -->
+    <div id="checkout-modal" class="fixed inset-0 bg-[#1a2e4c]/95 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm">
+        <div class="bg-white max-w-lg w-full rounded-sm overflow-hidden relative shadow-2xl">
+            <button onclick="closeCheckout()" class="absolute top-6 right-6 text-stone-400 hover:text-stone-900 transition"><i class="fas fa-times text-xl"></i></button>
+            <div class="bg-[#1a2e4c] p-10 text-white text-center">
+                <img src="IMG_4073.jpeg" alt="Logo" class="w-16 h-16 mx-auto mb-4 brightness-0 invert opacity-90">
+                <span class="text-sm uppercase tracking-[0.3em] text-stone-400">Finaliser ma commande</span>
+                <div class="text-4xl font-serif mt-2" id="checkout-price">0.00 €</div>
+            </div>
+            <div class="p-10">
+                <div class="mb-6">
+                    <label class="block text-[10px] uppercase font-bold text-stone-400 mb-2">Email de livraison</label>
+                    <input type="email" placeholder="votre@email.com" class="w-full p-4 bg-stone-50 border border-stone-200 rounded-sm outline-none focus:border-[#c5a47e] transition">
+                </div>
+                <button onclick="finalizePayment()" class="w-full bg-[#1a2e4c] text-white py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#c5a47e] transition shadow-lg">Confirmer et Payer</button>
+                <p class="text-center mt-6 text-[10px] text-stone-400 font-bold uppercase tracking-widest italic">Livraison gratuite sur toute l'île</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRecipes = [];
+        let guests = 2;
+        const recipeCost = 9.5; // Ajusté pour le standing
+
+        function showPage(pageId) {
+            document.getElementById('page-home').classList.add('hidden-page');
+            document.getElementById('page-producteurs').classList.add('hidden-page');
+            document.getElementById('page-' + pageId).classList.remove('hidden-page');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('carousel');
+            carousel.scrollBy({ left: direction * 320, behavior: 'smooth' });
+        }
+
+        function setGuests(num) {
+            guests = num;
+            document.querySelectorAll('.g-btn').forEach(b => {
+                b.classList.remove('border-[#1a2e4c]', 'bg-[#1a2e4c]', 'text-white');
+                b.classList.add('border-stone-200');
+            });
+            document.getElementById('g-' + num).classList.add('border-[#1a2e4c]', 'bg-[#1a2e4c]', 'text-white');
+            calculate();
+        }
+
+        function toggleRecipe(id) {
+            const card = document.getElementById(`recipe-${id}`);
+            if (selectedRecipes.includes(id)) {
+                selectedRecipes = selectedRecipes.filter(r => r !== id);
+                card.classList.remove('selected');
+            } else if (selectedRecipes.length < 3) {
+                selectedRecipes.push(id);
+                card.classList.add('selected');
+            }
+            updatePayButton();
+            calculate();
+        }
+
+        function calculate() {
+            const total = 3 * (guests * recipeCost);
+            document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+            document.getElementById('checkout-price').innerText = total.toFixed(2) + " €";
+        }
+
+        function updatePayButton() {
+            const btn = document.getElementById('pay-button');
+            if (selectedRecipes.length === 3) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-30', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-30', 'cursor-not-allowed');
+            }
+        }
+
+        function openCheckout() { 
+            document.getElementById('checkout-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeCheckout() { 
+            document.getElementById('checkout-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function finalizePayment() {
+            alert("Merci ! Votre commande Récolte & Marée a bien été reçue. Un email de confirmation vous a été envoyé.");
+            closeCheckout();
+            selectedRecipes = [];
+            document.querySelectorAll('.recipe-card').forEach(c => c.classList.remove('selected'));
+            updatePayButton();
+            calculate();
+        }
+
+        // Init
+        setGuests(2);
+    </script>
+</body>
+</html>
