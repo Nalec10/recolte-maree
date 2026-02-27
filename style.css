@@ -1,68 +1,66 @@
-<style>
-    :root {
-      --marine: #1a2e4c;
-      --gold: #c5a47e;
-      --sand: #fdfaf5;
-    }
+:root {
+  --marine: #1a2e4c;
+  --gold: #c5a47e;
+  --sand: #fdfaf5;
+}
 
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--sand); }
-    h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--sand); }
+h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 
-    .recipe-carousel-container {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
+.recipe-carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
 
-    /* ===== CAROUSEL iOS (snap au centre) ===== */
-    .recipe-carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 1.5rem;
+/* ===== CAROUSEL iOS (snap au centre) ===== */
+.recipe-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
 
-      scroll-snap-type: x mandatory;
-      scroll-padding-inline: 50%;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 50%;
 
-      /* permet au 1er/dernier item d'atteindre le centre */
-      padding: 1rem 50%;
+  /* permet au 1er/dernier item d'atteindre le centre */
+  padding: 1rem 50%;
 
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-    }
-    .recipe-carousel::-webkit-scrollbar { display: none; }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.recipe-carousel::-webkit-scrollbar { display: none; }
 
-    .recipe-card {
-      min-width: 300px;
-      flex: 0 0 auto;
-      scroll-snap-align: center;
-      scroll-snap-stop: always;
-      transition: all 0.3s ease;
-    }
+.recipe-card {
+  min-width: 300px;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  transition: all 0.3s ease;
+}
 
-    /* largeur plus "app" sur mobile */
-    @media (max-width: 640px) {
-      .recipe-card { min-width: 85vw; }
-      /* sur mobile, on cache les flèches (swipe only) */
-      #carousel-prev, #carousel-next { display: none; }
-    }
+/* largeur plus "app" sur mobile */
+@media (max-width: 640px) {
+  .recipe-card { min-width: 85vw; }
+  /* sur mobile, on cache les flèches (swipe only) */
+  #carousel-prev, #carousel-next { display: none; }
+}
 
-    .recipe-card.selected {
-      border: 3px solid var(--marine);
-      transform: translateY(-5px);
-      background-color: white;
-    }
+.recipe-card.selected {
+  border: 3px solid var(--marine);
+  transform: translateY(-5px);
+  background-color: white;
+}
 
-    .hidden-page { display: none; }
+.hidden-page { display: none; }
 
-    .nav-link { transition: all 0.3s; border-bottom: 2px solid transparent; padding-bottom: 4px; }
-    .nav-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-link { transition: all 0.3s; border-bottom: 2px solid transparent; padding-bottom: 4px; }
+.nav-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
-    .carousel-arrow:disabled {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-50%) scale(0.98);
-    }
-  </style>
+.carousel-arrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.98);
+}
