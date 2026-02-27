@@ -417,13 +417,15 @@
     btn.classList.toggle('cursor-not-allowed', !ok);
   }
 
-  // ✅ Nouveau: créer une session Checkout via ton Worker
+  // Créer une session Checkout via le Worker
   async function startCheckout() {
     const btn = document.getElementById('pay-button');
     if (btn.disabled) return;
 
     btn.disabled = true;
+    btn.classList.remove('opacity-30', 'cursor-not-allowed');
     btn.classList.add('opacity-50', 'cursor-wait');
+
     const originalText = btn.innerText;
     btn.innerText = "Redirection…";
 
@@ -447,179 +449,19 @@
 
       window.location.href = data.url;
     } catch (err) {
-      alert("Impossible de lancer le paiement. " + err.message);
+      alert("Impossible de lancer le paiement.\n\n" + err.message);
       btn.disabled = false;
       btn.classList.remove('opacity-50', 'cursor-wait');
+      updatePayButton();
       btn.innerText = originalText;
     }
   }
 
-  // ✅ On branche le bouton ici
   document.addEventListener("DOMContentLoaded", () => {
     setGuests(2);
     updatePayButton();
-    document.getElementById("pay-button").addEventListener("click", startCheckout);
-  });
-    
-    let selectedRecipes = [];
-  let guests = 2;
-
-  /* ====== LIENS STRIPE ====== */
-  const STRIPE_LINKS = {
-    2: "https://buy.stripe.com/8x2aEW932dct0frde393y00",
-    3: "https://buy.stripe.com/8x2eVc2EE2xPaU53Dt93y01",
-    4: "https://buy.stripe.com/aFa9AScfefkB6DP4Hx93y02",
-    5: "https://buy.stripe.com/eVq8wO4MMfkB3rD4Hx93y03",
-  };
-
-  const RECIPE_TITLES = {
-    1: "Saumon & Pommes de Ré",
-    2: "Poulet Fermier au Miel",
-    3: "Huîtres de Cabane",
-    4: "Salade Folle des Marais",
-    5: "Pâtes Fraîches aux Coques",
-  };
-
-  /* ============================ */
-
-  function showPage(pageId) {
-    document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
-    const target = document.getElementById('page-' + pageId);
-    if (target) target.classList.remove('hidden-page');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function setGuests(num) {
-    guests = num;
-    document.querySelectorAll('.g-btn').forEach(b => b.classList.remove('bg-[#1a2e4c]', 'text-white'));
-    const selectedBtn = document.getElementById('g-' + num);
-    if (selectedBtn) selectedBtn.classList.add('bg-[#1a2e4c]', 'text-white');
-    calculate();
-  }
-
-  function toggleRecipe(id) {
-    const card = document.getElementById(`recipe-${id}`);
-
-    if (selectedRecipes.includes(id)) {
-      selectedRecipes = selectedRecipes.filter(r => r !== id);
-      card.classList.remove('selected');
-    } else if (selectedRecipes.length < 3) {
-      selectedRecipes.push(id);
-      card.classList.add('selected');
-    }
-
-    updatePayButton();
-    calculate();
-  }
-
-  function calculate() {
-    let total = 0;
-    switch (guests) {
-      case 2: total = 59; break;
-      case 3: total = 88; break;
-      case 4: total = 117; break;
-      case 5: total = 145; break;
-    }
-    document.getElementById('total-price').innerText = total.toFixed(2) + " €";
-  }
-
-  function updatePayButton() {
-    const btn = document.getElementById('pay-button');
-    if (selectedRecipes.length === 3) {
-      btn.disabled = false;
-      btn.classList.remove('opacity-30', 'cursor-not-allowed');
-    } else {
-      btn.disabled = true;
-      btn.classList.add('opacity-30', 'cursor-not-allowed');
-    }
-  }
-
-  /* ===== REDIRECTION STRIPE ===== */
-
-  function goToStripeCheckout() {
-    if (selectedRecipes.length !== 3) return;
-
-    const stripeBase = STRIPE_LINKS[guests];
-    if (!stripeBase) return;
-
-    const recap = {
-      guests,
-      total: document.getElementById("total-price").innerText,
-      recipes: selectedRecipes.map(id => RECIPE_TITLES[id])
-    };
-
-    localStorage.setItem("rm_last_order", JSON.stringify(recap));
-
-    const params = new URLSearchParams();
-    params.set("g", guests);
-    params.set("r", selectedRecipes.join(","));
-
-    const successUrl = "https://nalec10.github.io/recolte-maree/merci.html?" + params.toString();
-
-    const finalUrl = stripeBase + "?success_url=" + encodeURIComponent(successUrl);
-
-    window.location.href = finalUrl;
-  }
-
-  /* ===== CAROUSEL iOS CENTER ===== */
-
-  function initIOSCarousel() {
-    const carousel = document.getElementById("carousel");
-    const prevBtn = document.getElementById("carousel-prev");
-    const nextBtn = document.getElementById("carousel-next");
-    if (!carousel) return;
-
-    function getClosestCard() {
-      const cards = [...carousel.querySelectorAll(".recipe-card")];
-      const center = carousel.getBoundingClientRect().left + carousel.offsetWidth / 2;
-
-      let best = null;
-      let bestDist = Infinity;
-
-      for (const card of cards) {
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
-        const dist = Math.abs(cardCenter - center);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = card;
-        }
-      }
-      return best;
-    }
-
-    function centerCard(card) {
-      if (!card) return;
-      card.scrollIntoView({ behavior: "smooth", inline: "center" });
-    }
-
-    let timeout = null;
-    carousel.addEventListener("scroll", () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => centerCard(getClosestCard()), 90);
-    }, { passive: true });
-
-    if (prevBtn) prevBtn.onclick = () => {
-      const cards = [...carousel.querySelectorAll(".recipe-card")];
-      const current = getClosestCard();
-      const i = cards.indexOf(current);
-      centerCard(cards[Math.max(0, i - 1)]);
-    };
-
-    if (nextBtn) nextBtn.onclick = () => {
-      const cards = [...carousel.querySelectorAll(".recipe-card")];
-      const current = getClosestCard();
-      const i = cards.indexOf(current);
-      centerCard(cards[Math.min(cards.length - 1, i + 1)]);
-    };
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    setGuests(2);
-    initIOSCarousel();
-    updatePayButton();
-
-    document.getElementById("pay-button").addEventListener("click", goToStripeCheckout);
+    const payBtn = document.getElementById("pay-button");
+    if (payBtn) payBtn.addEventListener("click", startCheckout);
   });
   </script>
 </body>
