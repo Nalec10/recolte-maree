@@ -362,6 +362,105 @@
   </footer>
 
   <script>
+    // URL de ton Worker Cloudflare
+  const WORKER_BASE = "https://still-breeze-dd09recolte-maree-orders.caneljules.workers.dev";
+
+  let selectedRecipes = [];
+  let guests = 2;
+
+  function showPage(pageId) {
+    document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.remove('hidden-page');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setGuests(num) {
+    guests = num;
+    document.querySelectorAll('.g-btn').forEach(b => b.classList.remove('bg-[#1a2e4c]', 'text-white'));
+    const selectedBtn = document.getElementById('g-' + num);
+    if (selectedBtn) selectedBtn.classList.add('bg-[#1a2e4c]', 'text-white');
+    calculate();
+    updatePayButton();
+  }
+
+  function toggleRecipe(id) {
+    const card = document.getElementById(`recipe-${id}`);
+    if (selectedRecipes.includes(id)) {
+      selectedRecipes = selectedRecipes.filter(r => r !== id);
+      card.classList.remove('selected');
+    } else if (selectedRecipes.length < 3) {
+      selectedRecipes.push(id);
+      card.classList.add('selected');
+    }
+    updatePayButton();
+    calculate();
+  }
+
+  function calculate() {
+    let total = 0;
+    switch (guests) {
+      case 2: total = 59; break;
+      case 3: total = 88; break;
+      case 4: total = 117; break;
+      case 5: total = 145; break;
+      default: total = 0;
+    }
+    document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+  }
+
+  function updatePayButton() {
+    const btn = document.getElementById('pay-button');
+    const ok = (selectedRecipes.length === 3);
+    btn.disabled = !ok;
+    btn.classList.toggle('opacity-30', !ok);
+    btn.classList.toggle('cursor-not-allowed', !ok);
+  }
+
+  // ✅ Nouveau: créer une session Checkout via ton Worker
+  async function startCheckout() {
+    const btn = document.getElementById('pay-button');
+    if (btn.disabled) return;
+
+    btn.disabled = true;
+    btn.classList.add('opacity-50', 'cursor-wait');
+    const originalText = btn.innerText;
+    btn.innerText = "Redirection…";
+
+    try {
+      const res = await fetch(`${WORKER_BASE}/api/create-session`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          guests,
+          recipeIds: selectedRecipes
+        })
+      });
+
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(`Worker error ${res.status}: ${txt}`);
+      }
+
+      const data = await res.json();
+      if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
+
+      window.location.href = data.url;
+    } catch (err) {
+      alert("Impossible de lancer le paiement. " + err.message);
+      btn.disabled = false;
+      btn.classList.remove('opacity-50', 'cursor-wait');
+      btn.innerText = originalText;
+    }
+  }
+
+  // ✅ On branche le bouton ici
+  document.addEventListener("DOMContentLoaded", () => {
+    setGuests(2);
+    updatePayButton();
+    document.getElementById("pay-button").addEventListener("click", startCheckout);
+  });
+    
     let selectedRecipes = [];
   let guests = 2;
 
