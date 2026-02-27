@@ -12,6 +12,13 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
   position: relative;
   width: 100%;
   overflow: hidden;
+  padding: 0 56px;
+}
+
+.carousel-arrow {
+  top: 170px;
+  transform: translateY(-50%);
+  z-index: 40;
 }
 
 /* ===== CAROUSEL iOS (snap au centre) ===== */
