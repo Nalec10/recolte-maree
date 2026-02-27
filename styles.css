@@ -44,8 +44,9 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 /* largeur plus "app" sur mobile */
 @media (max-width: 640px) {
   .recipe-card { min-width: 85vw; }
-  /* sur mobile, on cache les flèches (swipe only) */
-  #carousel-prev, #carousel-next { display: none; }
+
+  /* on garde les flèches visibles sur mobile */
+  #carousel-prev, #carousel-next { display: flex; }
 }
 
 .recipe-card.selected {
