@@ -12,13 +12,15 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: 0 56px;
+  padding: 0 56px; /* espace pour les flèches */
 }
 
 .carousel-arrow {
-  top: 170px;
+  position: absolute;
+  top: 50%;
   transform: translateY(-50%);
   z-index: 40;
+  display: flex; /* important */
 }
 
 /* ===== CAROUSEL iOS (snap au centre) ===== */
@@ -29,8 +31,6 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 50%;
-
-  /* permet au 1er/dernier item d'atteindre le centre */
   padding: 1rem 50%;
 
   scrollbar-width: none;
@@ -48,12 +48,22 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
   transition: all 0.3s ease;
 }
 
-/* largeur plus "app" sur mobile */
 @media (max-width: 640px) {
   .recipe-card { min-width: 85vw; }
 
+  /* on force visible sur mobile */
   #carousel-prev, #carousel-next {
     display: flex !important;
+  }
+
+  /* un peu plus petits sur mobile */
+  #carousel-prev, #carousel-next {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .recipe-carousel-container {
+    padding: 0 44px; /* espace adapté mobile */
   }
 }
 
@@ -78,5 +88,4 @@ i.fas, i.far {
   display: inline-block;
   width: 1.25em;
   text-align: center;
-}
 }
