@@ -27,32 +27,38 @@
       overflow: hidden;
     }
 
+    /* ===== CAROUSEL iOS (snap au centre) ===== */
     .recipe-carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 1.5rem;
-  padding: 1rem 1rem; /* padding mobile */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-behavior: smooth;
-  content: "";
-  flex: 0 0 1rem;
-}
+      display: flex;
+      overflow-x: auto;
+      gap: 1.5rem;
 
-/* Desktop uniquement */
-@media (min-width: 768px) {
-  .recipe-carousel {
-    padding: 1rem 3.5rem; /* espace pour les flèches */
-    flex: 0 0 3.5rem;
-  }
-}
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 50%;
+
+      /* permet au 1er/dernier item d'atteindre le centre */
+      padding: 1rem 50%;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .recipe-carousel::-webkit-scrollbar { display: none; }
 
     .recipe-card {
       min-width: 300px;
       flex: 0 0 auto;
-      scroll-snap-align: start;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
       transition: all 0.3s ease;
+    }
+
+    /* largeur plus "app" sur mobile */
+    @media (max-width: 640px) {
+      .recipe-card { min-width: 85vw; }
+      /* sur mobile, on cache les flèches (swipe only) */
+      #carousel-prev, #carousel-next { display: none; }
     }
 
     .recipe-card.selected {
@@ -66,7 +72,6 @@
     .nav-link { transition: all 0.3s; border-bottom: 2px solid transparent; padding-bottom: 4px; }
     .nav-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
-    /* Petites améliorations pour les flèches */
     .carousel-arrow:disabled {
       opacity: 0;
       pointer-events: none;
@@ -101,47 +106,45 @@
   <main id="page-home">
     <header class="relative h-[85vh] flex items-center justify-center text-center px-4 overflow-hidden">
 
-  <!-- Image de fond -->
-  <div class="absolute inset-0 bg-cover bg-center"
-       style="background-image: url('aurelie-bouguen-Mk1cSNHHiMA-unsplash.jpg');">
-  </div>
+      <!-- Image de fond -->
+      <div class="absolute inset-0 bg-cover bg-center"
+           style="background-image: url('aurelie-bouguen-Mk1cSNHHiMA-unsplash.jpg');">
+      </div>
 
-  <!-- Overlay contraste -->
-  <div class="absolute inset-0 bg-black/55"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/10"></div>
+      <!-- Overlay contraste -->
+      <div class="absolute inset-0 bg-black/55"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/10"></div>
 
-  <!-- Contenu -->
-  <div class="relative z-20 max-w-4xl text-white">
+      <!-- Contenu -->
+      <div class="relative z-20 max-w-4xl text-white">
 
-    <!-- Logo -->
-    <img src="IMG_4073.jpeg"
-         alt="Logo Récolte & Marée"
-         class="mx-auto mb-10 w-28 md:w-36 object-contain drop-shadow-xl">
+        <!-- Logo -->
+        <img src="IMG_4073.jpeg"
+             alt="Logo Récolte & Marée"
+             class="mx-auto mb-10 w-28 md:w-36 object-contain drop-shadow-xl">
 
-    <!-- Bloc texte avec léger effet verre -->
-    <div class="inline-block px-8 py-6 rounded-sm bg-black/30 backdrop-blur-sm">
+        <!-- Bloc texte avec léger effet verre -->
+        <div class="inline-block px-8 py-6 rounded-sm bg-black/30 backdrop-blur-sm">
+          <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight drop-shadow-2xl">
+            Le goût de l'île, <br>
+            <span class="italic font-normal">chez vous.</span>
+          </h1>
 
-      <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight drop-shadow-2xl">
-        Le goût de l'île, <br>
-        <span class="italic font-normal">chez vous.</span>
-      </h1>
+          <p class="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto italic drop-shadow-lg">
+            Des paniers repas d'exception, entre marais salants et océan.
+          </p>
+        </div>
 
-      <p class="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto italic drop-shadow-lg">
-        Des paniers repas d'exception, entre marais salants et océan.
-      </p>
+        <!-- Bouton -->
+        <div class="mt-10">
+          <button onclick="document.getElementById('commander').scrollIntoView({behavior: 'smooth'})"
+            class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">
+            Composer mon panier
+          </button>
+        </div>
 
-    </div>
-
-    <!-- Bouton -->
-    <div class="mt-10">
-      <button onclick="document.getElementById('commander').scrollIntoView({behavior: 'smooth'})"
-        class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">
-        Composer mon panier
-      </button>
-    </div>
-
-  </div>
-</header>
+      </div>
+    </header>
 
     <section id="commander" class="py-24 bg-white">
       <div class="max-w-7xl mx-auto px-4">
@@ -184,7 +187,7 @@
               <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Poulet">
               <div class="p-6">
                 <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
-                <p class="text-sm text-stone-500 mb-4 line-clamp-2 italic">Miel de fleurs sauvages récolté sur la côte.</p>
+                <p class="text-sm text-stone-500 mb-4 line-clamp-2 italic">Miel de fleurs sauvages récolé sur la côte.</p>
                 <div class="flex justify-between items-center text-[10px] font-bold tracking-tighter text-stone-400 border-t pt-4 uppercase">
                   <span><i class="far fa-clock mr-1"></i> 40 MIN</span>
                   <span><i class="fas fa-leaf mr-1"></i> TERROIR</span>
@@ -413,52 +416,68 @@
       }
     }
 
-    function initRecipeCarousel() {
+    /* ===== iOS: centre toujours la carte la plus proche ===== */
+    function initIOSCarousel() {
       const carousel = document.getElementById("carousel");
       const prevBtn = document.getElementById("carousel-prev");
       const nextBtn = document.getElementById("carousel-next");
-      const fadeLeft = document.getElementById("fade-left");
-      const fadeRight = document.getElementById("fade-right");
+      if (!carousel) return;
 
-      if (!carousel || !prevBtn || !nextBtn) return;
+      function getClosestCardToCenter() {
+        const cards = [...carousel.querySelectorAll(".recipe-card")];
+        if (!cards.length) return null;
 
-      const getStride = () => {
-        const card = carousel.querySelector(".recipe-card");
-        if (!card) return 340;
-        const gap = parseFloat(getComputedStyle(carousel).gap || "0") || 0;
-        return card.getBoundingClientRect().width + gap;
-      };
+        const carouselRect = carousel.getBoundingClientRect();
+        const center = carouselRect.left + carouselRect.width / 2;
 
-      const atStart = () => carousel.scrollLeft <= 2;
-      const atEnd = () => (carousel.scrollLeft + carousel.clientWidth) >= (carousel.scrollWidth - 2);
+        let best = null;
+        let bestDist = Infinity;
 
-      const updateUI = () => {
-        const start = atStart();
-        const end = atEnd();
+        for (const card of cards) {
+          const r = card.getBoundingClientRect();
+          const cardCenter = r.left + r.width / 2;
+          const dist = Math.abs(cardCenter - center);
+          if (dist < bestDist) { bestDist = dist; best = card; }
+        }
+        return best;
+      }
 
-        prevBtn.disabled = start;
-        nextBtn.disabled = end;
+      function centerCard(card) {
+        if (!card) return;
+        card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
 
-        if (fadeLeft) fadeLeft.style.opacity = start ? "0" : "1";
-        if (fadeRight) fadeRight.style.opacity = end ? "0" : "1";
-      };
+      // Debounce "scroll end" (swipe/trackpad)
+      let t = null;
+      function onScrollEnd() {
+        clearTimeout(t);
+        t = setTimeout(() => centerCard(getClosestCardToCenter()), 90);
+      }
+      carousel.addEventListener("scroll", onScrollEnd, { passive: true });
 
-      const scrollByStride = (dir) => {
-        carousel.scrollBy({ left: dir * getStride(), behavior: "smooth" });
-      };
+      // Flèches: aller à la carte suivante/précédente (centrée)
+      function go(dir) {
+        const cards = [...carousel.querySelectorAll(".recipe-card")];
+        const current = getClosestCardToCenter();
+        if (!current) return;
+        const idx = cards.indexOf(current);
+        const nextIdx = Math.max(0, Math.min(cards.length - 1, idx + dir));
+        centerCard(cards[nextIdx]);
+      }
 
-      prevBtn.addEventListener("click", () => scrollByStride(-1));
-      nextBtn.addEventListener("click", () => scrollByStride(1));
+      if (prevBtn) prevBtn.onclick = () => go(-1);
+      if (nextBtn) nextBtn.onclick = () => go(1);
 
-      carousel.addEventListener("scroll", () => requestAnimationFrame(updateUI), { passive: true });
-      window.addEventListener("resize", () => requestAnimationFrame(updateUI));
-
-      updateUI();
+      // Centre la première carte au chargement
+      requestAnimationFrame(() => {
+        const first = carousel.querySelector(".recipe-card");
+        if (first) centerCard(first);
+      });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
       setGuests(2);
-      initRecipeCarousel();
+      initIOSCarousel();
       updatePayButton();
     });
   </script>
