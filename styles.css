@@ -9,6 +9,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--san
 h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 
 .recipe-carousel-container {
+  <div class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent z-10"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
   position: relative;
   width: 100%;
   overflow: hidden;
