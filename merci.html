@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Merci | Récolte & Marée</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#fdfaf5] text-slate-900">
+
+  <main class="max-w-2xl mx-auto px-4 py-20">
+    <h1 class="text-4xl font-bold text-[#1a2e4c] mb-4">
+      Merci pour votre commande ✨
+    </h1>
+
+    <p class="text-stone-600 italic mb-10">
+      Votre panier Récolte & Marée est confirmé.
+    </p>
+
+    <div id="recap" class="bg-white border border-stone-200 rounded-sm p-6 shadow-sm"></div>
+
+    <a href="index.html"
+       class="inline-block mt-10 bg-[#c5a47e] text-white px-6 py-3 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition">
+       Retour à l’accueil
+    </a>
+  </main>
+
+<script>
+  const box = document.getElementById("recap");
+  const stored = localStorage.getItem("rm_last_order");
+
+  if (!stored) {
+    box.innerHTML = "<p>Impossible de récupérer le récapitulatif.</p>";
+  } else {
+    const data = JSON.parse(stored);
+
+    box.innerHTML = `
+      <div class="flex justify-between mb-4">
+        <span class="uppercase text-sm text-stone-500">Convives</span>
+        <span class="font-bold">${data.guests}</span>
+      </div>
+      <div class="flex justify-between mb-6">
+        <span class="uppercase text-sm text-stone-500">Total</span>
+        <span class="font-bold">${data.total}</span>
+      </div>
+
+      <div class="uppercase text-sm text-stone-500 mb-2">
+        Recettes sélectionnées
+      </div>
+      <ul class="bg-stone-50 border rounded-sm">
+        ${data.recipes.map(r => `<li class="p-3 border-b">${r}</li>`).join("")}
+      </ul>
+    `;
+  }
+</script>
+
+</body>
+</html>
