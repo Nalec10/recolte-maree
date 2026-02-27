@@ -28,16 +28,25 @@
     }
 
     .recipe-carousel {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      gap: 1.5rem;
-      padding: 1rem 5.5rem; /* place pour les flèches */
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      scroll-behavior: smooth;
-    }
-    .recipe-carousel::-webkit-scrollbar { display: none; }
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding: 1rem 1rem; /* padding mobile */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  content: "";
+  flex: 0 0 1rem;
+}
+
+/* Desktop uniquement */
+@media (min-width: 768px) {
+  .recipe-carousel {
+    padding: 1rem 3.5rem; /* espace pour les flèches */
+    flex: 0 0 3.5rem;
+  }
+}
 
     .recipe-card {
       min-width: 300px;
