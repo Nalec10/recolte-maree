@@ -31,83 +31,30 @@ h1,h2,h3,.font-serif{
   border-bottom-color:var(--gold);
 }
 
-/* =======================================================
-   FULL BLEED (ok)
-   ======================================================= */
-.carousel-bleed{
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
+/* =========================
+   CAROUSEL (stable mobile)
+   ========================= */
 
-/* ===== CAROUSEL ===== */
 .recipe-carousel-container{
-  position: relative;
-  width: 100%;
+  position:relative;
+  width:100%;
 }
 
-/* ✅ plus de padding = plus de “bandes” */
-.recipe-carousel{
-  --gap: 16px;
-  --card: clamp(260px, 84vw, 380px);
-
-  display:flex;
-  gap: var(--gap);
-  overflow-x:auto;
-
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-
-  padding: 12px 0 18px;          /* <- zéro padding latéral */
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  overscroll-behavior-x: contain;
-}
-.recipe-carousel::-webkit-scrollbar{ display:none; }
-
-/* ✅ spacers : centre automatiquement la 1ère et la dernière carte */
-.recipe-carousel::before,
-.recipe-carousel::after{
-  content:"";
-  flex: 0 0 calc((100% - var(--card)) / 2);
-}
-
-.recipe-card{
-  flex: 0 0 var(--card);
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius: 10px;
-  overflow:hidden;
-
-  scroll-snap-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,.06);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.recipe-card.selected{
-  transform: translateY(-4px);
-  box-shadow:
-    0 4px 12px rgba(0,0,0,.08),
-    0 0 0 3px var(--marine) inset;
-}
-
-/* ===== ARROWS (desktop only) ===== */
+/* Base: flèches cachées (donc mobile OK) */
 .carousel-arrow{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  z-index:50;
+  z-index:20;
 
   width:48px;
   height:48px;
   border-radius:999px;
+
   border:1px solid #e5e7eb;
   background:rgba(255,255,255,.92);
 
-  display:flex;
+  display:none;                /* ✅ caché par défaut */
   align-items:center;
   justify-content:center;
 
@@ -115,24 +62,72 @@ h1,h2,h3,.font-serif{
   cursor:pointer;
 }
 
+.carousel-arrow.left-3{ left:12px; }
+.carousel-arrow.right-3{ right:12px; }
+
 .carousel-arrow:disabled{
   opacity:0;
   pointer-events:none;
 }
 
-/* Desktop */
-@media (min-width: 768px){
-  .recipe-carousel{
-    --gap: 24px;
-    --card: 320px;
-  }
+/* Le “truc” qui centre la 1ère carte sans JS:
+   edge = (largeur viewport - largeur carte) / 2  */
+.recipe-carousel{
+  --card: clamp(260px, 88vw, 380px);
+  --gap: 16px;
+  --edge: max(16px, calc((100% - var(--card)) / 2));
+
+  display:flex;
+  gap: var(--gap);
+
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline: var(--edge);
+  padding: 12px var(--edge) 18px;
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  overscroll-behavior-x:contain;
+}
+.recipe-carousel::-webkit-scrollbar{ display:none; }
+
+.recipe-card{
+  flex: 0 0 var(--card);
+  width: var(--card);
+
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  overflow:hidden;
+
+  scroll-snap-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
-/* Mobile: pas de flèches */
-@media (max-width: 767px){
+/* ✅ Sélection = cadre intérieur (ne grossit pas la carte) */
+.recipe-card.selected{
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.10),
+    0 0 0 3px var(--marine) inset;
+}
+
+/* Desktop: flèches visibles + plus d’air */
+@media (min-width: 768px){
+  .recipe-carousel{
+    --card: 320px;
+    --gap: 24px;
+    --edge: 64px;
+    padding: 14px var(--edge) 22px;
+    scroll-padding-inline: var(--edge);
+  }
+
   #carousel-prev,
   #carousel-next{
-    display:none !important;
+    display:flex;              /* ✅ visibles desktop only */
   }
 }
 
