@@ -88,35 +88,42 @@
     </header>
 
     <section id="commander" class="py-10 md:py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- TEXTE (reste dans le container) -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-10 md:mb-16">
+    <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">La Récolte de la Semaine</h2>
+    <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
+    <p class="mt-3 text-[11px] text-stone-400 uppercase tracking-[0.25em]">
+      Glissez pour voir les autres recettes →
+    </p>
+  </div>
+</div>
 
-        <div class="text-center mb-10 md:mb-16">
-          <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">La Récolte de la Semaine</h2>
-          <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
-          <p class="mt-3 text-[11px] text-stone-400 uppercase tracking-[0.25em]">
-            Glissez pour voir les autres recettes →
-          </p>
-        </div>
+<!-- CAROUSEL (full-bleed, supprime les bandes) -->
+<div class="carousel-bleed">
+  <div class="recipe-carousel-container">
 
-        <!-- ✅ IMPORTANT: on "bleed" le carousel pour supprimer les bandes blanches -->
-        <div class="carousel-bleed">
-          <div class="recipe-carousel-container">
+    <button id="carousel-prev" type="button" aria-label="Recettes précédentes" class="carousel-arrow left-3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        width="20" height="20">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
 
-            <button id="carousel-prev" type="button" aria-label="Recettes précédentes" class="carousel-arrow left-3">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                width="20" height="20">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-            </button>
+    <button id="carousel-next" type="button" aria-label="Recettes suivantes" class="carousel-arrow right-3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        width="20" height="20">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
 
-            <button id="carousel-next" type="button" aria-label="Recettes suivantes" class="carousel-arrow right-3">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                width="20" height="20">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </button>
+    <div class="recipe-carousel" id="carousel">
+      <!-- tes .recipe-card ici (inchangées) -->
+    </div>
+  </div>
+</div>
 
             <div class="recipe-carousel" id="carousel">
               <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
