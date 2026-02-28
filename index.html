@@ -435,72 +435,92 @@
   const payBtn = document.getElementById("pay-button");
   if (payBtn) payBtn.addEventListener("click", startCheckout);
 
-  // ===== CAROUSEL ARROWS (snap exact) =====
+// ===== CAROUSEL ARROWS (robuste iOS) =====
 const carousel = document.getElementById("carousel");
 const prev = document.getElementById("carousel-prev");
 const next = document.getElementById("carousel-next");
 
-function getStep() {
-  const card = carousel?.querySelector(".recipe-card");
-  const cardWidth = card ? card.getBoundingClientRect().width : 320;
-
-  const styles = window.getComputedStyle(carousel);
-  const gap = parseFloat(styles.gap || styles.columnGap || "0") || 0;
-
-  return cardWidth + gap;
+function getCards() {
+  return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
 }
 
-function getMaxIndex() {
-  const cards = carousel?.querySelectorAll(".recipe-card") || [];
-  return Math.max(0, cards.length - 1);
-}
+/* Trouve l’index de la carte la plus centrée dans le viewport du carousel */
+function getCenteredIndex() {
+  const cards = getCards();
+  if (!carousel || cards.length === 0) return 0;
 
-function getIndex() {
-  const step = getStep();
-  const x = carousel ? carousel.scrollLeft : 0;
-  return step ? Math.round(x / step) : 0;
+  const cRect = carousel.getBoundingClientRect();
+  const cCenter = cRect.left + cRect.width / 2;
+
+  let bestIdx = 0;
+  let bestDist = Infinity;
+
+  cards.forEach((card, i) => {
+    const r = card.getBoundingClientRect();
+    const center = r.left + r.width / 2;
+    const dist = Math.abs(center - cCenter);
+    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+  });
+
+  return bestIdx;
 }
 
 function scrollToIndex(idx, smooth = true) {
-  if (!carousel) return;
-  const step = getStep();
-  const max = getMaxIndex();
+  const cards = getCards();
+  if (!carousel || cards.length === 0) return;
 
-  const clamped = Math.max(0, Math.min(max, idx));
-  carousel.scrollTo({ left: clamped * step, behavior: smooth ? "smooth" : "auto" });
+  const clamped = Math.max(0, Math.min(cards.length - 1, idx));
+  cards[clamped].scrollIntoView({
+    behavior: smooth ? "smooth" : "auto",
+    inline: "center",
+    block: "nearest"
+  });
 }
 
 function updateArrows() {
-  if (!carousel || !prev || !next) return;
-  const idx = getIndex();
-  const max = getMaxIndex();
+  const cards = getCards();
+  if (!prev || !next || cards.length === 0) return;
+
+  const idx = getCenteredIndex();
   prev.disabled = (idx <= 0);
-  next.disabled = (idx >= max);
+  next.disabled = (idx >= cards.length - 1);
 }
 
 if (prev) prev.addEventListener("click", () => {
-  scrollToIndex(getIndex() - 1, true);
+  scrollToIndex(getCenteredIndex() - 1, true);
   setTimeout(updateArrows, 250);
 });
 
 if (next) next.addEventListener("click", () => {
-  scrollToIndex(getIndex() + 1, true);
+  scrollToIndex(getCenteredIndex() + 1, true);
   setTimeout(updateArrows, 250);
 });
 
 if (carousel) {
-  carousel.addEventListener("scroll", updateArrows, { passive: true });
+  carousel.addEventListener("scroll", () => {
+    // petit throttle “light”
+    window.requestAnimationFrame(updateArrows);
+  }, { passive: true });
+
   window.addEventListener("resize", () => {
-    // quand la largeur change, on se recale sur l’index
-    scrollToIndex(getIndex(), false);
+    // on se recale sur la carte la plus centrée après resize
+    const idx = getCenteredIndex();
+    scrollToIndex(idx, false);
     updateArrows();
   });
 }
 
-// ✅ au chargement : on force la 1ère recette bien centrée
-requestAnimationFrame(() => {
+/* ✅ Au chargement + Safari (pageshow) : on force la 1ère carte centrée */
+function initCarouselPosition() {
   scrollToIndex(0, false);
   updateArrows();
+}
+
+// DOM ready (layout pas toujours final) => double tick
+requestAnimationFrame(() => requestAnimationFrame(initCarouselPosition));
+
+// Safari iOS peut restaurer un ancien scroll => pageshow
+window.addEventListener("pageshow", initCarouselPosition);
 });
     });
   </script>
