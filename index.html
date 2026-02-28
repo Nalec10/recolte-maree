@@ -13,14 +13,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-
-  <!-- Tailwind CSS (pas le script) -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Ton CSS -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </head>
 
 <body class="text-slate-900">
@@ -50,19 +48,19 @@
     <header class="relative h-[85vh] flex items-center justify-center text-center px-4 overflow-hidden">
 
       <!-- Image de fond optimisée (LCP) -->
-<picture class="absolute inset-0">
-  <source srcset="hero.webp" type="image/webp">
-  <img
-    src="hero.jpg"
-    alt=""
-    width="1600"
-    height="900"
-    class="w-full h-full object-cover"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-  >
-</picture>
+      <picture class="absolute inset-0">
+        <source srcset="hero.webp" type="image/webp">
+        <img
+          src="hero.jpg"
+          alt=""
+          width="1600"
+          height="900"
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        >
+      </picture>
 
       <!-- Overlay contraste -->
       <div class="absolute inset-0 bg-black/55"></div>
@@ -73,12 +71,12 @@
 
         <!-- Logo -->
         <img
-  src="IMG_4073.jpeg"
-  alt="Logo Récolte & Marée"
-  width="144"
-  height="144"
-  class="mx-auto mb-10 w-28 md:w-36 object-contain drop-shadow-xl"
->
+          src="IMG_4073.jpeg"
+          alt="Logo Récolte & Marée"
+          width="144"
+          height="144"
+          class="mx-auto mb-10 w-28 md:w-36 object-contain drop-shadow-xl"
+        >
 
         <!-- Bloc texte avec léger effet verre -->
         <div class="inline-block px-8 py-6 rounded-sm bg-black/30 backdrop-blur-sm">
@@ -109,28 +107,39 @@
           <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">La Récolte de la Semaine</h2>
           <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
           <p class="mt-3 text-[11px] text-stone-400 uppercase tracking-[0.25em]">
-  Glissez pour voir les autres recettes →
-</p>
+            Glissez pour voir les autres recettes →
+          </p>
         </div>
 
         <!-- CAROUSEL + FLÈCHES -->
         <div class="recipe-carousel-container">
 
-  <!-- Indice visuel (dégradés gauche/droite) -->
-  <div class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent z-10"></div>
-  <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
+          <!-- Indice visuel (dégradés gauche/droite) -->
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
 
-  <button id="carousel-prev" type="button" aria-label="Recettes précédentes"
-  class="ow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-       stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-       width="20" height="20">
-    <path d="M15 18l-6-6 6-6"/>
-  </svg>
-</button>
+          <!-- Flèche gauche -->
+          <button id="carousel-prev" type="button" aria-label="Recettes précédentes"
+            class="carousel-arrow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+              width="20" height="20">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
 
-  <!-- ✅ UN SEUL carousel -->
-  <div class="recipe-carousel" id="carousel">
+          <!-- Flèche droite -->
+          <button id="carousel-next" type="button" aria-label="Recettes suivantes"
+            class="carousel-arrow absolute right-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-200 shadow-md flex items-center justify-center hover:bg-white transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+              width="20" height="20">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+
+          <!-- ✅ UN SEUL carousel -->
+          <div class="recipe-carousel" id="carousel">
             <!-- Recette 1 -->
             <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
               <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" class="w-full h-64 object-cover" alt="Saumon">
@@ -325,191 +334,196 @@
 
   <script>
     // URL de ton Worker Cloudflare
-  const WORKER_BASE = "https://still-breeze-dd09recolte-maree-orders.caneljules.workers.dev";
+    const WORKER_BASE = "https://still-breeze-dd09recolte-maree-orders.caneljules.workers.dev";
 
-  let selectedRecipes = [];
-  let guests = 2;
+    let selectedRecipes = [];
+    let guests = 2;
 
-  function showPage(pageId) {
-    document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
-    const target = document.getElementById('page-' + pageId);
-    if (target) target.classList.remove('hidden-page');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function setGuests(num) {
-    guests = num;
-    document.querySelectorAll('.g-btn').forEach(b => b.classList.remove('bg-[#1a2e4c]', 'text-white'));
-    const selectedBtn = document.getElementById('g-' + num);
-    if (selectedBtn) selectedBtn.classList.add('bg-[#1a2e4c]', 'text-white');
-    calculate();
-    updatePayButton();
-  }
-
-  function toggleRecipe(id) {
-    const card = document.getElementById(`recipe-${id}`);
-    if (selectedRecipes.includes(id)) {
-      selectedRecipes = selectedRecipes.filter(r => r !== id);
-      card.classList.remove('selected');
-    } else if (selectedRecipes.length < 3) {
-      selectedRecipes.push(id);
-      card.classList.add('selected');
+    function showPage(pageId) {
+      document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.remove('hidden-page');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    updatePayButton();
-    calculate();
-  }
 
-  function calculate() {
-    let total = 0;
-    switch (guests) {
-      case 2: total = 59; break;
-      case 3: total = 88; break;
-      case 4: total = 117; break;
-      case 5: total = 145; break;
-      default: total = 0;
+    function setGuests(num) {
+      guests = num;
+      document.querySelectorAll('.g-btn').forEach(b => b.classList.remove('bg-[#1a2e4c]', 'text-white'));
+      const selectedBtn = document.getElementById('g-' + num);
+      if (selectedBtn) selectedBtn.classList.add('bg-[#1a2e4c]', 'text-white');
+      calculate();
+      updatePayButton();
     }
-    document.getElementById('total-price').innerText = total.toFixed(2) + " €";
-  }
 
-  function updatePayButton() {
-    const btn = document.getElementById('pay-button');
-    const ok = (selectedRecipes.length === 3);
-    btn.disabled = !ok;
-    btn.classList.toggle('opacity-30', !ok);
-    btn.classList.toggle('cursor-not-allowed', !ok);
-  }
+    function toggleRecipe(id) {
+      const card = document.getElementById(`recipe-${id}`);
+      if (selectedRecipes.includes(id)) {
+        selectedRecipes = selectedRecipes.filter(r => r !== id);
+        card.classList.remove('selected');
+      } else if (selectedRecipes.length < 3) {
+        selectedRecipes.push(id);
+        card.classList.add('selected');
+      }
+      updatePayButton();
+      calculate();
+    }
 
-  // Créer une session Checkout via le Worker
-  async function startCheckout() {
-    const btn = document.getElementById('pay-button');
-    if (btn.disabled) return;
+    function calculate() {
+      let total = 0;
+      switch (guests) {
+        case 2: total = 59; break;
+        case 3: total = 88; break;
+        case 4: total = 117; break;
+        case 5: total = 145; break;
+        default: total = 0;
+      }
+      document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+    }
 
-    btn.disabled = true;
-    btn.classList.remove('opacity-30', 'cursor-not-allowed');
-    btn.classList.add('opacity-50', 'cursor-wait');
+    function updatePayButton() {
+      const btn = document.getElementById('pay-button');
+      const ok = (selectedRecipes.length === 3);
+      btn.disabled = !ok;
+      btn.classList.toggle('opacity-30', !ok);
+      btn.classList.toggle('cursor-not-allowed', !ok);
+    }
 
-    const originalText = btn.innerText;
-    btn.innerText = "Redirection…";
+    // Créer une session Checkout via le Worker
+    async function startCheckout() {
+      const btn = document.getElementById('pay-button');
+      if (btn.disabled) return;
 
-    try {
-      const res = await fetch(`${WORKER_BASE}/api/create-session`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          guests,
-          recipeIds: selectedRecipes
-        })
-      });
+      btn.disabled = true;
+      btn.classList.remove('opacity-30', 'cursor-not-allowed');
+      btn.classList.add('opacity-50', 'cursor-wait');
 
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(`Worker error ${res.status}: ${txt}`);
+      const originalText = btn.innerText;
+      btn.innerText = "Redirection…";
+
+      try {
+        const res = await fetch(`${WORKER_BASE}/api/create-session`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            guests,
+            recipeIds: selectedRecipes
+          })
+        });
+
+        if (!res.ok) {
+          const txt = await res.text();
+          throw new Error(`Worker error ${res.status}: ${txt}`);
+        }
+
+        const data = await res.json();
+        if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
+
+        window.location.href = data.url;
+      } catch (err) {
+        alert("Impossible de lancer le paiement.\n\n" + err.message);
+        btn.disabled = false;
+        btn.classList.remove('opacity-50', 'cursor-wait');
+        updatePayButton();
+        btn.innerText = originalText;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setGuests(2);
+      updatePayButton();
+
+      const payBtn = document.getElementById("pay-button");
+      if (payBtn) payBtn.addEventListener("click", startCheckout);
+
+      // ===== CAROUSEL CLEAN (horizontal only, no vertical scroll) =====
+      const carousel = document.getElementById("carousel");
+      const prev = document.getElementById("carousel-prev");
+      const next = document.getElementById("carousel-next");
+
+      function getCards() {
+        return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
       }
 
-      const data = await res.json();
-      if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
+      function getCenteredIndex() {
+        const cards = getCards();
+        if (!carousel || cards.length === 0) return 0;
 
-      window.location.href = data.url;
-    } catch (err) {
-      alert("Impossible de lancer le paiement.\n\n" + err.message);
-      btn.disabled = false;
-      btn.classList.remove('opacity-50', 'cursor-wait');
-      updatePayButton();
-      btn.innerText = originalText;
-    }
-  }
+        const center = carousel.scrollLeft + carousel.clientWidth / 2;
 
-  document.addEventListener("DOMContentLoaded", () => {
-  setGuests(2);
-  updatePayButton();
+        let best = 0;
+        let bestDist = Infinity;
 
-  const payBtn = document.getElementById("pay-button");
-  if (payBtn) payBtn.addEventListener("click", startCheckout);
+        cards.forEach((card, i) => {
+          const cardCenter = card.offsetLeft + card.clientWidth / 2;
+          const dist = Math.abs(cardCenter - center);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = i;
+          }
+        });
 
-// ===== CAROUSEL ARROWS (robuste iOS) =====
-const carousel = document.getElementById("carousel");
-const prev = document.getElementById("carousel-prev");
-const next = document.getElementById("carousel-next");
+        return best;
+      }
 
-function getCards() {
-  return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
-}
+      function scrollToIndex(index, smooth = true) {
+        const cards = getCards();
+        if (!carousel || cards.length === 0) return;
 
-/* Trouve l’index de la carte la plus centrée dans le viewport du carousel */
-function getCenteredIndex() {
-  const cards = getCards();
-  if (!carousel || cards.length === 0) return 0;
+        const i = Math.max(0, Math.min(cards.length - 1, index));
+        const card = cards[i];
 
-  const cRect = carousel.getBoundingClientRect();
-  const cCenter = cRect.left + cRect.width / 2;
+        const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
 
-  let bestIdx = 0;
-  let bestDist = Infinity;
+        carousel.scrollTo({
+          left,
+          behavior: smooth ? "smooth" : "auto"
+        });
+      }
 
-  cards.forEach((card, i) => {
-    const r = card.getBoundingClientRect();
-    const center = r.left + r.width / 2;
-    const dist = Math.abs(center - cCenter);
-    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-  });
+      function updateArrows() {
+        if (!prev || !next) return;
+        const cards = getCards();
+        if (cards.length === 0) return;
 
-  return bestIdx;
-}
+        const idx = getCenteredIndex();
+        prev.disabled = (idx === 0);
+        next.disabled = (idx === cards.length - 1);
+      }
 
-function scrollToIndex(idx, smooth = true) {
-  const cards = getCards();
-  if (!carousel || cards.length === 0) return;
+      if (prev) {
+        prev.addEventListener("click", () => {
+          scrollToIndex(getCenteredIndex() - 1, true);
+          setTimeout(updateArrows, 300);
+        });
+      }
 
-  const clamped = Math.max(0, Math.min(cards.length - 1, idx));
-  const card = cards[clamped];
+      if (next) {
+        next.addEventListener("click", () => {
+          scrollToIndex(getCenteredIndex() + 1, true);
+          setTimeout(updateArrows, 300);
+        });
+      }
 
-  // centre la card dans le viewport du carousel (sans scroll vertical)
-  const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
+      if (carousel) {
+        carousel.addEventListener("scroll", () => {
+          requestAnimationFrame(updateArrows);
+        }, { passive: true });
+      }
 
-  carousel.scrollTo({
-    left,
-    behavior: smooth ? "smooth" : "auto"
-  });
-}
+      function initCarousel() {
+        if (!carousel) return;
+        carousel.scrollLeft = 0;
+        scrollToIndex(0, false);
+        updateArrows();
+      }
 
-function updateArrows() {
-  const cards = getCards();
-  if (!prev || !next || cards.length === 0) return;
-
-  const idx = getCenteredIndex();
-  prev.disabled = (idx <= 0);
-  next.disabled = (idx >= cards.length - 1);
-}
-
-if (prev) prev.addEventListener("click", () => {
-  scrollToIndex(getCenteredIndex() - 1, true);
-  setTimeout(updateArrows, 250);
-});
-
-if (next) next.addEventListener("click", () => {
-  scrollToIndex(getCenteredIndex() + 1, true);
-  setTimeout(updateArrows, 250);
-});
-
-if (carousel) {
-  carousel.addEventListener("scroll", () => {
-    // petit throttle “light”
-    window.requestAnimationFrame(updateArrows);
-  }, { passive: true });
-
-  window.addEventListener("resize", () => {
-    // on se recale sur la carte la plus centrée après resize
-    const idx = getCenteredIndex();
-    scrollToIndex(idx, false);
-    updateArrows();
-  });
-}
-
-function initCarouselPosition() {
-  carousel.scrollLeft = 0;      // reset horizontal
-  scrollToIndex(0, false);      // centre la 1ère carte (horizontal only)
-  updateArrows();
-}
+      requestAnimationFrame(() => requestAnimationFrame(initCarousel));
+      window.addEventListener("pageshow", initCarousel);
+      window.addEventListener("resize", () => {
+        scrollToIndex(getCenteredIndex(), false);
+        updateArrows();
+      });
+    });
   </script>
 </body>
 </html>
