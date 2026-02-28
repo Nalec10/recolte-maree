@@ -13,18 +13,27 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
 
 /* ===== NAV ===== */
 .hidden-page{ display:none; }
-.nav-link{ transition:all .3s; border-bottom:2px solid transparent; padding-bottom:4px; }
-.nav-link:hover{ color:var(--gold); border-bottom-color:var(--gold); }
+.nav-link{
+  transition:all .3s;
+  border-bottom:2px solid transparent;
+  padding-bottom:4px;
+}
+.nav-link:hover{
+  color:var(--gold);
+  border-bottom-color:var(--gold);
+}
 
 /* ===== CAROUSEL WRAP ===== */
 .recipe-carousel-container{
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible; /* IMPORTANT : ne coupe plus les bords/ombres */
 }
 
-/* dégradés (indice swipe) au-dessus du carousel */
-.recipe-carousel-container .pointer-events-none{ z-index: 20; }
+/* dégradés (indice swipe) */
+.recipe-carousel-container .pointer-events-none{
+  z-index: 20;
+}
 
 /* ===== ARROWS ===== */
 .carousel-arrow{
@@ -44,9 +53,7 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
   pointer-events:none;
 }
 
-/* ===== CAROUSEL =====
-   Important: on gère le centrage via padding = (largeur viewport - largeur carte)/2
-*/
+/* ===== CAROUSEL ===== */
 .recipe-carousel{
   --cardw: 300px;
   --gap: 24px;
@@ -66,7 +73,6 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
   scrollbar-width:none;
   -ms-overflow-style:none;
 
-  /* évite l’effet “scroll chaining” */
   overscroll-behavior-x: contain;
 }
 .recipe-carousel::-webkit-scrollbar{ display:none; }
@@ -93,30 +99,39 @@ i.fas,i.far{
   text-align:center;
 }
 
-/* === MOBILE FIX CAROUSEL === */
+/* =========================
+   MOBILE (FIX ROBUSTE iOS)
+   ========================= */
 @media (max-width: 640px){
 
-  /* 1) Les dégradés masquent les bords -> on les enlève sur mobile */
+  /* 1) On passe le carousel en “full-bleed”
+        (annule le px-4 du parent tailwind) */
+  .recipe-carousel-container{
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  /* 2) On enlève les dégradés (souvent perçus comme “coupure”) */
   .recipe-carousel-container > .pointer-events-none{
     display: none !important;
   }
 
-  /* 2) Optionnel : pas de flèches sur mobile */
+  /* 3) Optionnel : pas de flèches sur mobile (tu l’avais demandé) */
   #carousel-prev, #carousel-next{
     display: none !important;
   }
 
-  /* 3) On garantit une “marge” visible autour de la carte centrée */
+  /* 4) Paddings internes fiables */
   .recipe-carousel{
-    --edge: 20px;                 /* marge fixe, fiable sur iOS */
-    padding-inline: var(--edge);
+    --gap: 14px;
+    --edge: 16px;              /* padding réel visible */
+    padding: 12px var(--edge);
     scroll-padding-inline: var(--edge);
   }
 
-  /* 4) Carte un poil moins large que l’écran pour ne jamais toucher les bords */
+  /* 5) Carte = largeur écran - 2*edge => jamais collée aux bords */
   .recipe-card{
-    width: calc(100% - 40px);     /* 2 * edge */
-    flex: 0 0 calc(100% - 40px);
+    width: calc(100% - (var(--edge) * 2));
+    flex: 0 0 calc(100% - (var(--edge) * 2));
   }
-}
 }
