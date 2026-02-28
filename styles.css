@@ -155,13 +155,21 @@ i.fas,i.far{
 @media (max-width: 767px){
   /* On désactive le contour extérieur (qui peut être rogné par Safari) */
   .recipe-wrap.selected::after{
-    content: none !important;
-  }
+  content: none !important; /* on coupe l’ancien pseudo-element */
+}
 
-  /* Et on fait un contour intérieur, impossible à couper */
-  .recipe-wrap.selected .recipe-card{
-    box-shadow:
-      0 6px 18px rgba(0,0,0,.12),
-      0 0 0 var(--ring) var(--marine) inset !important;
-  }
+/* On dessine le contour SUR la carte, au-dessus de l'image */
+.recipe-wrap.selected .recipe-card{
+  position: relative;
+  z-index: 2;
+
+  /* contour */
+  outline: var(--ring) solid var(--marine);
+  outline-offset: calc(-1 * var(--ring)); /* le fait “rentrer” dans la carte */
+}
+
+/* garde ton effet de lift si tu veux */
+.recipe-wrap.selected{
+  transform: translateY(-4px);
+}
 }
