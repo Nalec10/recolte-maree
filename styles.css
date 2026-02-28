@@ -93,30 +93,30 @@ i.fas,i.far{
   text-align:center;
 }
 
-/* === MOBILE === */
+/* === MOBILE FIX CAROUSEL === */
 @media (max-width: 640px){
 
-  /* important: la card doit être basée sur la largeur DU carousel, pas du viewport */
-  .recipe-carousel{
-    /* 16px de marge à gauche + 16px à droite */
-    padding: 12px 16px;
-
-    /* pour que le "center snap" n'aille pas dans le padding */
-    scroll-padding-inline: 16px;
-
-    gap: 14px;
+  /* 1) Les dégradés masquent les bords -> on les enlève sur mobile */
+  .recipe-carousel-container > .pointer-events-none{
+    display: none !important;
   }
 
+  /* 2) Optionnel : pas de flèches sur mobile */
+  #carousel-prev, #carousel-next{
+    display: none !important;
+  }
+
+  /* 3) On garantit une “marge” visible autour de la carte centrée */
+  .recipe-carousel{
+    --edge: 20px;                 /* marge fixe, fiable sur iOS */
+    padding-inline: var(--edge);
+    scroll-padding-inline: var(--edge);
+  }
+
+  /* 4) Carte un poil moins large que l’écran pour ne jamais toucher les bords */
   .recipe-card{
-    /* ✅ largeur qui rentre TOUJOURS dans le carousel */
-    width: calc(100% - 32px);
-    flex: 0 0 calc(100% - 32px);
-
-    /* tu peux limiter si tu veux pas trop large sur grands mobiles */
-    max-width: 420px;
-
-    box-sizing: border-box;
-    scroll-snap-align: center;
+    width: calc(100% - 40px);     /* 2 * edge */
+    flex: 0 0 calc(100% - 40px);
   }
 }
 }
