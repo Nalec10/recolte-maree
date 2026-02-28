@@ -57,11 +57,16 @@ h1,h2,h3,.font-serif{
 
 /* ✅ WRAPPER qui porte le contour */
 .recipe-wrap{
-  flex: 0 0 85%;
+  flex: 0 0 clamp(260px, 82vw, 380px);
   scroll-snap-align: center;
   border-radius: 12px;
   position: relative;
   transition: transform .2s ease;
+  cursor: pointer;
+}
+
+@media (min-width:768px){
+  .recipe-wrap{ flex: 0 0 320px; }
 }
 
 /* Le “cadre” sélection, sur le wrapper (donc jamais coupé) */
