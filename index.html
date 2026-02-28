@@ -103,9 +103,7 @@
 
     <section id="commander" class="py-10 md:py-20 bg-white">
 
-  <!-- ========================= -->
-  <!-- TEXTE (DANS CONTAINER)  -->
-  <!-- ========================= -->
+  <!-- TEXTE -->
   <div class="max-w-7xl mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">
@@ -120,98 +118,73 @@
     </div>
   </div>
 
-  <!-- ========================= -->
-  <!-- CAROUSEL FULL WIDTH      -->
-  <!-- ========================= -->
-  <div class="recipe-carousel-container relative">
+  <!-- CAROUSEL -->
+  <div class="recipe-carousel-container">
 
-    <!-- Dégradés swipe -->
-    <div class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent z-10"></div>
-    <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
-
-    <!-- Flèche gauche -->
-    <button id="carousel-prev" type="button" aria-label="Recettes précédentes"
-      class="carousel-arrow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-        width="20" height="20">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
+    <!-- Flèche gauche (desktop only) -->
+    <button id="carousel-prev"
+      class="carousel-arrow absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-md items-center justify-center hidden">
+      ‹
     </button>
 
-    <!-- Flèche droite -->
-    <button id="carousel-next" type="button" aria-label="Recettes suivantes"
-      class="carousel-arrow absolute right-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-200 shadow-md flex items-center justify-center hover:bg-white transition">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-        width="20" height="20">
-        <path d="M9 18l6-6-6-6"/>
-      </svg>
+    <!-- Flèche droite (desktop only) -->
+    <button id="carousel-next"
+      class="carousel-arrow absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-md items-center justify-center hidden">
+      ›
     </button>
 
-    <!-- CAROUSEL -->
     <div class="recipe-carousel" id="carousel">
 
-      <!-- Recette 1 -->
-      <div onclick="toggleRecipe(1)" id="recipe-1"
-        class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+      <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
         <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover" alt="Saumon">
+          class="w-full h-64 object-cover">
         <div class="p-6">
           <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
-          <p class="text-sm text-stone-500 mb-4 italic">
+          <p class="text-sm text-stone-500 italic">
             Pommes de terre AOP et fleur de sel artisanale.
           </p>
         </div>
       </div>
 
-      <!-- Recette 2 -->
-      <div onclick="toggleRecipe(2)" id="recipe-2"
-        class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+      <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card">
         <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover" alt="Poulet">
+          class="w-full h-64 object-cover">
         <div class="p-6">
           <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
-          <p class="text-sm text-stone-500 mb-4 italic">
-            Miel de fleurs sauvages récolé sur la côte.
+          <p class="text-sm text-stone-500 italic">
+            Miel de fleurs sauvages.
           </p>
         </div>
       </div>
 
-      <!-- Recette 3 -->
-      <div onclick="toggleRecipe(3)" id="recipe-3"
-        class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+      <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card">
         <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover" alt="Huîtres">
+          class="w-full h-64 object-cover">
         <div class="p-6">
           <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
-          <p class="text-sm text-stone-500 mb-4 italic">
+          <p class="text-sm text-stone-500 italic">
             Directement du parc à votre table.
           </p>
         </div>
       </div>
 
-      <!-- Recette 4 -->
-      <div onclick="toggleRecipe(4)" id="recipe-4"
-        class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+      <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card">
         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover" alt="Salade">
+          class="w-full h-64 object-cover">
         <div class="p-6">
           <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
-          <p class="text-sm text-stone-500 mb-4 italic">
-            Légumes croquants et herbes salines de l'île.
+          <p class="text-sm text-stone-500 italic">
+            Légumes croquants et herbes salines.
           </p>
         </div>
       </div>
 
-      <!-- Recette 5 -->
-      <div onclick="toggleRecipe(5)" id="recipe-5"
-        class="recipe-card bg-stone-50 rounded-sm overflow-hidden border border-stone-200 cursor-pointer shadow-sm">
+      <div onclick="toggleRecipe(5)" id="recipe-5" class="recipe-card">
         <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover" alt="Coques">
+          class="w-full h-64 object-cover">
         <div class="p-6">
           <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
-          <p class="text-sm text-stone-500 mb-4 italic">
+          <p class="text-sm text-stone-500 italic">
             Pêchées à pied le matin même.
           </p>
         </div>
