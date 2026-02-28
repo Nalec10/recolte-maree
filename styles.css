@@ -17,7 +17,9 @@ body{
   color:#0f172a;
 }
 
-h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
+h1,h2,h3,.font-serif{
+  font-family:'Playfair Display',serif;
+}
 
 /* ===== NAV / PAGES ===== */
 .hidden-page{ display:none; }
@@ -33,31 +35,32 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
 }
 
 /* ======================================================
-   CAROUSEL (anti-wrap + centrage + clickable)
+   CAROUSEL : anti-wrap + tailles stables + centrage
    ====================================================== */
+
 .recipe-carousel-container{
   position: relative;
   width: 100%;
 }
 
-/* IMPORTANT: on force le non-wrap (sinon “cartes serrées”) */
+/* IMPORTANT: surtout PAS overflow hidden ici */
 .recipe-carousel{
-  /* sizing */
   --cardw: min(86vw, 380px);
   --gap: 16px;
   --edge: calc((100% - var(--cardw)) / 2);
 
   display:flex !important;
-  flex-wrap: nowrap !important;     /* ✅ anti “serrées” */
+  flex-wrap: nowrap !important;
   gap: var(--gap);
 
   overflow-x:auto;
-  overflow-y: visible;              /* pour que le contour puisse dépasser */
-  -webkit-overflow-scrolling:touch;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
 
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 
+  /* padding qui centre la 1ère carte */
   padding: 12px max(16px, var(--edge)) 18px max(16px, var(--edge));
   scroll-padding-inline: max(16px, var(--edge));
 
@@ -67,47 +70,33 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
 }
 .recipe-carousel::-webkit-scrollbar{ display:none; }
 
-/* WRAP = l’item qui snap + qui porte le contour */
-.recipe-wrap{
+/* Card */
+.recipe-card{
   flex: 0 0 var(--cardw);
   scroll-snap-align: center;
   scroll-snap-stop: always;
 
-  position: relative;
-  border-radius: var(--radius);
-  cursor: pointer;
-
-  /* important: on laisse visible pour le contour extérieur */
-  overflow: visible;
-  transform: translateZ(0);
-}
-
-/* La carte à l’intérieur (image rognée OK) */
-.recipe-card{
-  width: 100%;
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius: var(--radius);
-  overflow:hidden;                  /* ✅ image rognée dans la carte */
+  overflow:hidden;
+
   box-shadow: 0 4px 12px rgba(0,0,0,.06);
   transition: transform .2s ease, box-shadow .2s ease;
+
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+
+  position: relative;
 }
 
-/* Selection: contour EXTERIEUR (tout le tour) */
-.recipe-wrap.selected{
+/* Selection : ring intérieur (impossible à couper) */
+.recipe-card.selected{
   transform: translateY(-4px);
-}
-.recipe-wrap.selected .recipe-card{
-  box-shadow: 0 6px 18px rgba(0,0,0,.12);
-}
-.recipe-wrap.selected::after{
-  content:"";
-  position:absolute;
-  inset: calc(-1 * var(--ring));    /* ✅ contour à l’extérieur */
-  border-radius: calc(var(--radius) + var(--ring));
-  border: var(--ring) solid var(--marine);
-  pointer-events:none;
-  z-index: 10;
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.12),
+    0 0 0 var(--ring) var(--marine) inset;
 }
 
 /* ===== ARROWS (desktop only) ===== */
@@ -115,7 +104,7 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  z-index: 50;
+  z-index:50;
 
   width:48px;
   height:48px;
@@ -123,14 +112,13 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
   border:1px solid #e5e7eb;
   background:rgba(255,255,255,.92);
 
-  display:none;                     /* ✅ hidden par défaut */
+  display:none;
   align-items:center;
   justify-content:center;
 
   box-shadow:0 8px 24px rgba(0,0,0,.10);
   cursor:pointer;
   user-select:none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .carousel-arrow.left-3{ left: 12px; }
@@ -141,18 +129,17 @@ h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
   pointer-events:none;
 }
 
-/* Desktop: flèches visibles + cards fixes + padding pour laisser la place */
+/* Desktop */
 @media (min-width: 768px){
   .recipe-carousel{
     --cardw: 320px;
     --gap: 24px;
-    --edge: 64px;
+    --edge: 64px; /* laisse respirer + place pour flèches */
   }
-
   .carousel-arrow{ display:flex; }
 }
 
-/* Mobile: flèches jamais visibles même si un class tailwind traine */
+/* Mobile : jamais de flèches */
 @media (max-width: 767px){
   .carousel-arrow{ display:none !important; }
 }
