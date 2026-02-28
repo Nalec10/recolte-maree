@@ -8,63 +8,83 @@ html { scroll-behavior: smooth; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--sand); }
 h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 
-.recipe-carousel-container {
+/* === CAROUSEL WRAP === */
+.recipe-carousel-container{
   position: relative;
   width: 100%;
-  overflow: hidden;
-  padding: 0 56px; /* espace pour les flèches */
+  overflow: visible; /* pour éviter que les cartes soient "coupées" */
 }
 
-.carousel-arrow {
+/* === FLÈCHES === */
+.carousel-arrow{
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 40;
-  display: flex; /* important */
+  z-index: 50;
+  display: flex;
 }
 
-/* ===== CAROUSEL iOS (snap au centre) ===== */
-.recipe-carousel {
+/* (optionnel) si tu veux qu’elles soient un peu plus "lisibles" */
+.carousel-arrow{
+  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+/* === CAROUSEL (scroll + snap) === */
+.recipe-carousel{
+  /* largeur des cards (desktop par défaut) */
+  --cardw: 300px;
+  /* padding latéral = demi espace restant pour centrer la 1re/dernière */
+  --edge: calc((100% - var(--cardw)) / 2);
+
   display: flex;
-  overflow-x: auto;
   gap: 1.5rem;
+  overflow-x: auto;
 
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 50%;
-  padding: 1rem 50%;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ plus de 50% qui casse tout */
+  padding: 1rem var(--edge);
+  scroll-padding-inline: var(--edge);
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
 }
-.recipe-carousel::-webkit-scrollbar { display: none; }
+.recipe-carousel::-webkit-scrollbar{ display:none; }
 
-.recipe-card {
-  min-width: 300px;
-  flex: 0 0 auto;
+.recipe-card{
+  flex: 0 0 var(--cardw);
+  width: var(--cardw);
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  transition: all 0.3s ease;
+  transition: all .3s ease;
 }
 
-@media (max-width: 640px) {
-  .recipe-card { min-width: 85vw; }
-
-  /* on force visible sur mobile */
-  #carousel-prev, #carousel-next {
-    display: flex !important;
+/* === MOBILE === */
+@media (max-width: 640px){
+  .recipe-carousel{
+    --cardw: 86vw;          /* ✅ carte grande mais pas coupée */
+    gap: 14px;
+    padding-block: 12px;
   }
 
-  /* un peu plus petits sur mobile */
-  #carousel-prev, #carousel-next {
+  /* flèches un peu plus petites */
+  #carousel-prev, #carousel-next{
     width: 44px !important;
     height: 44px !important;
   }
+}
 
-  .recipe-carousel-container {
-    padding: 0 44px; /* espace adapté mobile */
-  }
+/* ✅ cacher les flèches quand disabled */
+.carousel-arrow:disabled{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* (si tu gardes tes gradients) */
+.recipe-carousel-container .pointer-events-none{
+  z-index: 20;
 }
 
 .recipe-card.selected {
