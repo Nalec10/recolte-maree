@@ -4,18 +4,21 @@
   --sand:#fdfaf5;
 }
 
+*{ box-sizing:border-box; }
+
 html{ scroll-behavior:smooth; }
 
 body{
+  margin:0;
   font-family:'Plus Jakarta Sans',sans-serif;
   background-color:var(--sand);
-  margin:0;
 }
 
 h1,h2,h3,.font-serif{
   font-family:'Playfair Display',serif;
 }
 
+/* ===== NAV ===== */
 .hidden-page{ display:none; }
 
 .nav-link{
@@ -23,56 +26,126 @@ h1,h2,h3,.font-serif{
   border-bottom:2px solid transparent;
   padding-bottom:4px;
 }
-
 .nav-link:hover{
   color:var(--gold);
   border-bottom-color:var(--gold);
 }
 
-/* ========================= */
-/* CAROUSEL SIMPLE & STABLE */
-/* ========================= */
+/* =======================================================
+   CAROUSEL: "BLEED" FULL WIDTH (supprime les bandes blanches)
+   ======================================================= */
+
+/* Le parent qui enlève l'effet "deux bandes" du px-4 */
+.carousel-bleed{
+  /* 16px = px-4 (mobile Tailwind). On “sort” du padding */
+  margin-left: -16px;
+  margin-right: -16px;
+
+  /* et on remet une marge interne contrôlée */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Sur sm+ (si tu changes ton padding Tailwind un jour, adapte ici) */
+@media (min-width: 640px){
+  .carousel-bleed{
+    margin-left: -24px;   /* proche de sm:px-6 */
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+@media (min-width: 1024px){
+  .carousel-bleed{
+    margin-left: -32px;   /* proche de lg:px-8 */
+    margin-right: -32px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
 
 .recipe-carousel-container{
-  position: relative;
-  width: 100%;
-  overflow: visible; /* important */
+  position:relative;
+  width:100%;
 }
 
+/* ===== CAROUSEL ===== */
 .recipe-carousel{
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
+  --gap: 16px;
 
-.recipe-carousel::-webkit-scrollbar{
-  display: none;
-}
+  display:flex;
+  gap: var(--gap);
+  overflow-x:auto;
 
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+
+  /* marge “safe” pour que la carte centrée ne touche jamais les bords */
+  padding: 10px 14px;
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+
+  overscroll-behavior-x: contain;
+}
+.recipe-carousel::-webkit-scrollbar{ display:none; }
+
+/* Cartes mobile: légèrement plus petites que l'écran */
 .recipe-card{
-  flex: 0 0 90%;
-  scroll-snap-align: center;
-  background: white;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  flex: 0 0 82%;
+  max-width: 420px;
+
+  scroll-snap-align:center;
+
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  overflow:hidden;
+
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 
-.recipe-card.selected {
-  outline: 3px solid var(--marine);
-  outline-offset: -3px;
-  transform: translateY(-4px);
+/* IMPORTANT: le border “selected” ne doit pas agrandir la carte */
+.recipe-card.selected{
+  border:3px solid var(--marine);
+  transform:translateY(-4px);
 }
 
-/* Desktop */
-@media (min-width:768px){
+/* ===== Flèches ===== */
+.carousel-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:50;
+
+  width:48px;
+  height:48px;
+  border-radius:999px;
+  border:1px solid #e5e7eb;
+  background:rgba(255,255,255,.92);
+
+  display:none; /* mobile: caché */
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
+}
+
+.carousel-arrow:disabled{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Desktop: cartes fixes + flèches */
+@media (min-width: 768px){
+  .recipe-carousel{
+    padding: 12px 40px;
+    --gap: 24px;
+  }
 
   .recipe-card{
-    flex:0 0 320px;
+    flex: 0 0 320px;
   }
 
   #carousel-prev,
@@ -81,9 +154,9 @@ h1,h2,h3,.font-serif{
   }
 }
 
-/* Mobile : pas de flèches */
-@media (max-width: 767px) {
-  .carousel-arrow {
-    display: none !important;
-  }
+/* FontAwesome icônes */
+i.fas,i.far{
+  display:inline-block;
+  width:1.25em;
+  text-align:center;
 }
