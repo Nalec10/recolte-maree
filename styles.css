@@ -5,133 +5,86 @@
 }
 
 html{ scroll-behavior:smooth; }
+
 body{
   font-family:'Plus Jakarta Sans',sans-serif;
   background-color:var(--sand);
+  margin:0;
 }
-h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
 
-/* ===== NAV ===== */
+h1,h2,h3,.font-serif{
+  font-family:'Playfair Display',serif;
+}
+
 .hidden-page{ display:none; }
+
 .nav-link{
   transition:all .3s;
   border-bottom:2px solid transparent;
   padding-bottom:4px;
 }
+
 .nav-link:hover{
   color:var(--gold);
   border-bottom-color:var(--gold);
 }
 
-/* ===== CAROUSEL WRAP ===== */
+/* ========================= */
+/* CAROUSEL SIMPLE & STABLE */
+/* ========================= */
+
 .recipe-carousel-container{
-  position: relative;
-  width: 100%;
-  overflow: visible; /* IMPORTANT : ne coupe plus les bords/ombres */
+  position:relative;
+  width:100%;
 }
 
-/* dégradés (indice swipe) */
-.recipe-carousel-container .pointer-events-none{
-  z-index: 20;
-}
-
-/* ===== ARROWS ===== */
-.carousel-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:50;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.10);
-}
-
-/* cacher les flèches quand disabled */
-.carousel-arrow:disabled{
-  opacity:0;
-  pointer-events:none;
-}
-
-/* ===== CAROUSEL ===== */
 .recipe-carousel{
-  --cardw: 300px;
-  --gap: 24px;
-  --edge: calc((100% - var(--cardw)) / 2);
-
   display:flex;
-  gap: var(--gap);
+  gap:16px;
   overflow-x:auto;
-
   scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
   -webkit-overflow-scrolling:touch;
-
-  padding: 12px var(--edge);
-  scroll-padding-inline: var(--edge);
-
+  padding:0 20px;
   scrollbar-width:none;
-  -ms-overflow-style:none;
-
-  overscroll-behavior-x: contain;
 }
-.recipe-carousel::-webkit-scrollbar{ display:none; }
+
+.recipe-carousel::-webkit-scrollbar{
+  display:none;
+}
 
 .recipe-card{
-  flex: 0 0 var(--cardw);
-  width: var(--cardw);
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  transition: all .3s ease;
+  flex:0 0 85%;
+  scroll-snap-align:center;
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid #e5e7eb;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+  transition:all .3s ease;
 }
 
-/* sélection */
 .recipe-card.selected{
   border:3px solid var(--marine);
-  transform:translateY(-5px);
-  background-color:#fff;
+  transform:translateY(-4px);
 }
 
-/* icônes fontawesome */
-i.fas,i.far{
-  display:inline-block;
-  width:1.25em;
-  text-align:center;
-}
+/* Desktop */
+@media (min-width:768px){
 
-/* =========================
-   MOBILE (FIX ROBUSTE iOS)
-   ========================= */
-@media (max-width: 640px){
-
-  /* 1) On passe le carousel en “full-bleed”
-        (annule le px-4 du parent tailwind) */
-  .recipe-carousel-container{
-    margin-left: -16px;
-    margin-right: -16px;
-  }
-
-  /* 2) On enlève les dégradés (souvent perçus comme “coupure”) */
-  .recipe-carousel-container > .pointer-events-none{
-    display: none !important;
-  }
-
-  /* 3) Optionnel : pas de flèches sur mobile (tu l’avais demandé) */
-  #carousel-prev, #carousel-next{
-    display: none !important;
-  }
-
-  /* 4) Paddings internes fiables */
-  .recipe-carousel{
-    --gap: 14px;
-    --edge: 16px;              /* padding réel visible */
-    padding: 12px var(--edge);
-    scroll-padding-inline: var(--edge);
-  }
-
-  /* 5) Carte = largeur écran - 2*edge => jamais collée aux bords */
   .recipe-card{
-    width: calc(100% - (var(--edge) * 2));
-    flex: 0 0 calc(100% - (var(--edge) * 2));
+    flex:0 0 320px;
+  }
+
+  #carousel-prev,
+  #carousel-next{
+    display:flex;
+  }
+}
+
+/* Mobile : pas de flèches */
+@media (max-width:767px){
+  #carousel-prev,
+  #carousel-next{
+    display:none !important;
   }
 }
