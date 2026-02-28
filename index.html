@@ -120,7 +120,7 @@
   <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
 
   <button id="carousel-prev" type="button" aria-label="Recettes précédentes"
-  class="carousel-arrow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-200 shadow-md flex items-center justify-center hover:bg-white transition">
+  class="carousel-arrow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
        width="20" height="20">
@@ -434,24 +434,44 @@
   const payBtn = document.getElementById("pay-button");
   if (payBtn) payBtn.addEventListener("click", startCheckout);
 
-  // ===== CAROUSEL ARROWS =====
   const carousel = document.getElementById("carousel");
   const prev = document.getElementById("carousel-prev");
   const next = document.getElementById("carousel-next");
 
+  function updateArrows() {
+    if (!carousel || !prev || !next) return;
+
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+    const x = carousel.scrollLeft;
+
+    prev.disabled = (x <= 2);
+    next.disabled = (x >= maxScroll - 2);
+  }
+
   function scrollByCard(dir) {
     if (!carousel) return;
 
-    // on prend la largeur d'une card + le gap (~24px = 1.5rem)
     const card = carousel.querySelector(".recipe-card");
     const cardWidth = card ? card.getBoundingClientRect().width : 320;
-    const gap = 24;
+
+    const styles = window.getComputedStyle(carousel);
+    const gap = parseFloat(styles.gap || styles.columnGap || "0") || 0;
 
     carousel.scrollBy({ left: dir * (cardWidth + gap), behavior: "smooth" });
+
+    // ✅ recalcul propre (plus fiable que setTimeout)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(updateArrows);
+    });
   }
 
   if (prev) prev.addEventListener("click", () => scrollByCard(-1));
   if (next) next.addEventListener("click", () => scrollByCard(1));
+  if (carousel) carousel.addEventListener("scroll", updateArrows, { passive: true });
+
+  window.addEventListener("resize", updateArrows);
+
+  updateArrows();
 });
   </script>
 </body>
