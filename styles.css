@@ -47,6 +47,11 @@ h1,h2,h3,.font-serif{
 .recipe-carousel-container{
   position: relative;
   width: 100%;
+  pointer-events: none;
+}
+.recipe-carousel,
+.carousel-arrow{
+  pointer-events: auto;
 }
 
 /* IMPORTANT : ne mets PAS overflow:hidden ici */
