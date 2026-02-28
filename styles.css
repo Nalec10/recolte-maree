@@ -34,11 +34,12 @@ h1,h2,h3,.font-serif{
 /* ========================= */
 
 .recipe-carousel-container{
-  position:relative;
-  width:100%;
+  position: relative;
+  width: 100%;
+  overflow: visible; /* important */
 }
 
-.recipe-carousel {
+.recipe-carousel{
   display: flex;
   gap: 16px;
   overflow-x: auto;
@@ -47,20 +48,18 @@ h1,h2,h3,.font-serif{
   scrollbar-width: none;
 }
 
-.recipe-carousel::-webkit-scrollbar {
+.recipe-carousel::-webkit-scrollbar{
   display: none;
 }
 
-.recipe-card {
-  flex: 0 0 calc(100% - 40px);
-  margin: 0 20px;
+.recipe-card{
+  flex: 0 0 90%;
   scroll-snap-align: center;
   background: white;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0,0,0,.05);
-  transition: all .3s ease;
 }
 
 .recipe-card.selected {
