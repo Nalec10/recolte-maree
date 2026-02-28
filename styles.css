@@ -1,105 +1,99 @@
-:root {
-  --marine: #1a2e4c;
-  --gold: #c5a47e;
-  --sand: #fdfaf5;
+:root{
+  --marine:#1a2e4c;
+  --gold:#c5a47e;
+  --sand:#fdfaf5;
 }
 
-html { scroll-behavior: smooth; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--sand); }
-h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--sand);}
+h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
 
 /* === CAROUSEL WRAP === */
 .recipe-carousel-container{
-  position: relative;
-  width: 100%;
-  overflow: visible; /* évite que les cartes soient coupées */
+  position:relative;
+  width:100%;
+  overflow:visible;
 }
 
 /* === FLÈCHES === */
 .carousel-arrow{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,.10);
-}
-
-/* === CAROUSEL (scroll + snap) === */
-.recipe-carousel{
-  --cardw: 300px;
-  --edge: calc((100% - var(--cardw)) / 2);
-
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-
-  padding: 1rem var(--edge);
-  scroll-padding-inline: var(--edge);
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.recipe-carousel::-webkit-scrollbar{ display:none; }
-
-.recipe-card{
-  flex: 0 0 var(--cardw);
-  width: var(--cardw);
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  transition: all .3s ease;
-}
-
-/* === MOBILE === */
-@media (max-width: 640px){
-  .recipe-carousel{
-    --cardw: 86vw;
-    gap: 14px;
-    padding-block: 12px;
-  }
-
-  #carousel-prev, #carousel-next{
-    width: 44px !important;
-    height: 44px !important;
-  }
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
 }
 
 /* cacher les flèches quand disabled */
 .carousel-arrow:disabled{
-  opacity: 0;
-  pointer-events: none;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* === CAROUSEL (scroll + snap) === */
+.recipe-carousel{
+  --cardw:300px;
+  --edge:calc((100% - var(--cardw)) / 2);
+
+  display:flex;
+  gap:1.5rem;
+  overflow-x:auto;
+
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+
+  padding:1rem var(--edge);
+  scroll-padding-inline:var(--edge);
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.recipe-carousel::-webkit-scrollbar{display:none;}
+
+.recipe-card{
+  flex:0 0 var(--cardw);
+  width:var(--cardw);
+  scroll-snap-align:center;
+  scroll-snap-stop:always;
+  transition:all .3s ease;
+}
+
+/* === MOBILE === */
+@media (max-width:640px){
+  .recipe-carousel{
+    --cardw:86vw;
+    gap:14px;
+    padding:12px var(--edge); /* ✅ clair et propre */
+  }
+
+  #carousel-prev,#carousel-next{
+    width:44px !important;
+    height:44px !important;
+  }
 }
 
 /* si tu gardes tes gradients */
 .recipe-carousel-container .pointer-events-none{
-  z-index: 20;
+  z-index:20;
 }
 
-.recipe-card.selected {
-  border: 3px solid var(--marine);
-  transform: translateY(-5px);
-  background-color: white;
+.recipe-card.selected{
+  border:3px solid var(--marine);
+  transform:translateY(-5px);
+  background-color:#fff;
 }
 
-.hidden-page { display: none; }
+.hidden-page{display:none;}
 
-.nav-link { transition: all 0.3s; border-bottom: 2px solid transparent; padding-bottom: 4px; }
-.nav-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-link{transition:all .3s;border-bottom:2px solid transparent;padding-bottom:4px;}
+.nav-link:hover{color:var(--gold);border-bottom-color:var(--gold);}
 
-.carousel-arrow:disabled {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-50%) scale(0.98);
-}
-
-i.fas, i.far {
-  display: inline-block;
-  width: 1.25em;
-  text-align: center;
+i.fas,i.far{
+  display:inline-block;
+  width:1.25em;
+  text-align:center;
 }
