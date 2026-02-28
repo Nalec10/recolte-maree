@@ -32,87 +32,66 @@ h1,h2,h3,.font-serif{
 }
 
 /* =======================================================
-   CAROUSEL: "BLEED" FULL WIDTH (supprime les bandes blanches)
+   FULL BLEED (supprime les bandes dues au container)
    ======================================================= */
-
-/* Le parent qui enlève l'effet "deux bandes" du px-4 */
 .carousel-bleed{
-  /* 16px = px-4 (mobile Tailwind). On “sort” du padding */
-  margin-left: -16px;
-  margin-right: -16px;
-
-  /* et on remet une marge interne contrôlée */
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-/* Sur sm+ (si tu changes ton padding Tailwind un jour, adapte ici) */
-@media (min-width: 640px){
-  .carousel-bleed{
-    margin-left: -24px;   /* proche de sm:px-6 */
-    margin-right: -24px;
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-@media (min-width: 1024px){
-  .carousel-bleed{
-    margin-left: -32px;   /* proche de lg:px-8 */
-    margin-right: -32px;
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-}
-
-.recipe-carousel-container{
-  position:relative;
-  width:100%;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 /* ===== CAROUSEL ===== */
-.recipe-carousel{
-  --gap: 16px;
+.recipe-carousel-container{
+  position: relative;
+  width: 100%;
+}
 
+/* IMPORTANT : ne mets PAS overflow:hidden ici */
+.recipe-carousel{
   display:flex;
-  gap: var(--gap);
+  gap: 16px;
   overflow-x:auto;
 
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 
-  /* marge “safe” pour que la carte centrée ne touche jamais les bords */
-  padding: 10px 14px;
+  /* marge interne sûre (avec notch iPhone) */
+  padding: 12px max(16px, env(safe-area-inset-left))
+           18px max(16px, env(safe-area-inset-right));
 
+  scroll-padding-inline: max(16px, env(safe-area-inset-left));
   scrollbar-width:none;
   -ms-overflow-style:none;
-
   overscroll-behavior-x: contain;
 }
 .recipe-carousel::-webkit-scrollbar{ display:none; }
 
-/* Cartes mobile: légèrement plus petites que l'écran */
+/* Cartes mobile: largeur stable, jamais collée aux bords */
 .recipe-card{
-  flex: 0 0 82%;
-  max-width: 420px;
-
-  scroll-snap-align:center;
-
+  flex: 0 0 clamp(260px, 82vw, 380px);
   background:#fff;
   border:1px solid #e5e7eb;
-  border-radius:6px;
+  border-radius: 10px;
   overflow:hidden;
 
-  box-shadow:0 4px 12px rgba(0,0,0,.05);
-  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  scroll-snap-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
-/* IMPORTANT: le border “selected” ne doit pas agrandir la carte */
+/* Sélection: PAS de border (sinon ça “grossit” et peut se faire couper).
+   On met un “cadre” DEDANS, impossible à rogner. */
 .recipe-card.selected{
-  border:3px solid var(--marine);
-  transform:translateY(-4px);
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.08),
+    0 0 0 3px var(--marine) inset;
 }
 
-/* ===== Flèches ===== */
+/* ===== ARROWS (desktop only) ===== */
 .carousel-arrow{
   position:absolute;
   top:50%;
@@ -125,7 +104,7 @@ h1,h2,h3,.font-serif{
   border:1px solid #e5e7eb;
   background:rgba(255,255,255,.92);
 
-  display:none; /* mobile: caché */
+  display:none;
   align-items:center;
   justify-content:center;
 
@@ -137,11 +116,12 @@ h1,h2,h3,.font-serif{
   pointer-events:none;
 }
 
-/* Desktop: cartes fixes + flèches */
+/* Desktop */
 @media (min-width: 768px){
   .recipe-carousel{
-    padding: 12px 40px;
-    --gap: 24px;
+    gap: 24px;
+    padding: 14px 64px 22px 64px;
+    scroll-padding-inline: 64px;
   }
 
   .recipe-card{
@@ -151,6 +131,14 @@ h1,h2,h3,.font-serif{
   #carousel-prev,
   #carousel-next{
     display:flex;
+  }
+}
+
+/* Mobile: pas de flèches */
+@media (max-width: 767px){
+  #carousel-prev,
+  #carousel-next{
+    display:none !important;
   }
 }
 
