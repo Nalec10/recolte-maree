@@ -5,18 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Récolte & Marée | Paniers Repas de l'Île de Ré</title>
 
-  <!-- LCP image -->
   <link rel="preload" as="image" href="hero.webp" type="image/webp">
 
-  <!-- Fonts (une seule fois) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Ton CSS -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -43,11 +39,8 @@
     </div>
   </nav>
 
-  <!-- PAGE ACCUEIL -->
   <main id="page-home">
     <header class="relative h-[85vh] flex items-center justify-center text-center px-4 overflow-hidden">
-
-      <!-- Image de fond optimisée (LCP) -->
       <picture class="absolute inset-0">
         <source srcset="hero.webp" type="image/webp">
         <img
@@ -62,14 +55,10 @@
         >
       </picture>
 
-      <!-- Overlay contraste -->
       <div class="absolute inset-0 bg-black/55"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/10"></div>
 
-      <!-- Contenu -->
       <div class="relative z-20 max-w-4xl text-white">
-
-        <!-- Logo -->
         <img
           src="IMG_4073.jpeg"
           alt="Logo Récolte & Marée"
@@ -78,7 +67,6 @@
           class="mx-auto mb-10 w-28 md:w-36 object-contain drop-shadow-xl"
         >
 
-        <!-- Bloc texte avec léger effet verre -->
         <div class="inline-block px-8 py-6 rounded-sm bg-black/30 backdrop-blur-sm">
           <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight drop-shadow-2xl">
             Le goût de l'île, <br>
@@ -90,99 +78,100 @@
           </p>
         </div>
 
-        <!-- Bouton -->
         <div class="mt-10">
           <button onclick="document.getElementById('commander').scrollIntoView({behavior: 'smooth'})"
             class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">
             Composer mon panier
           </button>
         </div>
-
       </div>
     </header>
 
     <section id="commander" class="py-10 md:py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-  <!-- TEXTE -->
-  <div class="max-w-7xl mx-auto px-4">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">
-        La Récolte de la Semaine
-      </h2>
-      <p class="text-stone-500 max-w-xl mx-auto italic">
-        Sélectionnez vos 3 escales culinaires.
-      </p>
-      <p class="mt-3 text-[11px] text-stone-400 uppercase tracking-[0.25em]">
-        Glissez pour voir les autres recettes →
-      </p>
-    </div>
-  </div>
-
-  <!-- CAROUSEL -->
-  <div class="recipe-carousel-container">
-
-    <div class="recipe-carousel" id="carousel">
-
-      <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
-        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
-          <p class="text-sm text-stone-500 italic">
-            Pommes de terre AOP et fleur de sel artisanale.
+        <div class="text-center mb-10 md:mb-16">
+          <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">La Récolte de la Semaine</h2>
+          <p class="text-stone-500 max-w-xl mx-auto italic">Sélectionnez vos 3 escales culinaires.</p>
+          <p class="mt-3 text-[11px] text-stone-400 uppercase tracking-[0.25em]">
+            Glissez pour voir les autres recettes →
           </p>
         </div>
-      </div>
 
-      <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card">
-        <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
-          <p class="text-sm text-stone-500 italic">
-            Miel de fleurs sauvages.
-          </p>
+        <!-- ✅ IMPORTANT: on "bleed" le carousel pour supprimer les bandes blanches -->
+        <div class="carousel-bleed">
+          <div class="recipe-carousel-container">
+
+            <button id="carousel-prev" type="button" aria-label="Recettes précédentes" class="carousel-arrow left-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                width="20" height="20">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+
+            <button id="carousel-next" type="button" aria-label="Recettes suivantes" class="carousel-arrow right-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                width="20" height="20">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+
+            <div class="recipe-carousel" id="carousel">
+              <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
+                  class="w-full h-64 object-cover" alt="Saumon">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
+                  <p class="text-sm text-stone-500 italic">Pommes de terre AOP et fleur de sel artisanale.</p>
+                </div>
+              </div>
+
+              <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
+                  class="w-full h-64 object-cover" alt="Poulet">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
+                  <p class="text-sm text-stone-500 italic">Miel de fleurs sauvages.</p>
+                </div>
+              </div>
+
+              <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80"
+                  class="w-full h-64 object-cover" alt="Huîtres">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
+                  <p class="text-sm text-stone-500 italic">Directement du parc à votre table.</p>
+                </div>
+              </div>
+
+              <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+                  class="w-full h-64 object-cover" alt="Salade">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
+                  <p class="text-sm text-stone-500 italic">Légumes croquants et herbes salines.</p>
+                </div>
+              </div>
+
+              <div onclick="toggleRecipe(5)" id="recipe-5" class="recipe-card">
+                <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=600&q=80"
+                  class="w-full h-64 object-cover" alt="Coques">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
+                  <p class="text-sm text-stone-500 italic">Pêchées à pied le matin même.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
+
       </div>
+    </section>
 
-      <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card">
-        <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
-          <p class="text-sm text-stone-500 italic">
-            Directement du parc à votre table.
-          </p>
-        </div>
-      </div>
-
-      <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card">
-        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
-          <p class="text-sm text-stone-500 italic">
-            Légumes croquants et herbes salines.
-          </p>
-        </div>
-      </div>
-
-      <div onclick="toggleRecipe(5)" id="recipe-5" class="recipe-card">
-        <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=600&q=80"
-          class="w-full h-64 object-cover">
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
-          <p class="text-sm text-stone-500 italic">
-            Pêchées à pied le matin même.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</section>
-
+    <!-- (le reste inchangé) -->
     <section class="py-10 md:py-20 bg-stone-50">
       <div class="max-w-5xl mx-auto px-4">
         <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm border border-stone-200">
@@ -214,87 +203,6 @@
     </section>
   </main>
 
-  <!-- PAGE PRODUCTEURS -->
-  <main id="page-producteurs" class="hidden-page py-20 bg-white min-h-screen">
-    <div class="max-w-5xl mx-auto px-4">
-      <button onclick="showPage('home')" class="text-[#1a2e4c] mb-12 flex items-center gap-2 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-[#c5a47e] transition">
-        <i class="fas fa-arrow-left"></i> Retour
-      </button>
-
-      <div class="text-center mb-20">
-        <img src="IMG_4073.jpeg" alt="Logo" class="w-24 h-24 mx-auto mb-6 object-contain opacity-50">
-        <h1 class="text-5xl font-bold text-[#1a2e4c] font-serif">Les Gardiens du Terroir</h1>
-        <div class="w-20 h-0.5 bg-[#c5a47e] mx-auto mt-6"></div>
-      </div>
-
-      <div class="space-y-32">
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition duration-700" alt="Maraîcher">
-          <div>
-            <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Jean, Maraîcher à Ars</h3>
-            <p class="text-stone-600 leading-relaxed italic text-lg">"La terre de l'île est sablonneuse, elle demande de la patience et beaucoup d'amour."</p>
-          </div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <div class="order-2 md:order-1 text-right">
-            <h3 class="text-3xl font-bold mb-4 font-serif text-[#1a2e4c]">Marie, Saulnière</h3>
-            <p class="text-stone-600 leading-relaxed italic text-lg">"Le sel de Ré, c'est l'alchimie entre le soleil et le vent. Je le récolte à la main, comme le faisaient mes ancêtres."</p>
-          </div>
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" class="rounded-sm shadow-2xl order-1 md:order-2 grayscale hover:grayscale-0 transition duration-700" alt="Marie, Saulnière">
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- PAGE SAISONS -->
-  <main id="page-saisons" class="hidden-page py-20 bg-stone-50 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4">
-      <button onclick="showPage('home')" class="text-[#1a2e4c] mb-12 flex items-center gap-2 font-bold uppercase text-[10px] tracking-[0.2em] hover:text-[#c5a47e] transition">
-        <i class="fas fa-arrow-left"></i> Retour
-      </button>
-
-      <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-[#1a2e4c] font-serif mb-4">Rythme des Saisons</h1>
-        <p class="text-stone-500 italic">Cuisiner ce que la nature nous offre.</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="bg-white p-8 border border-stone-200 rounded-sm">
-          <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Printemps</span>
-          <ul class="text-sm text-stone-600 space-y-2">
-            <li>• Asperges blanches</li>
-            <li>• Pommes de terre primeurs</li>
-          </ul>
-        </div>
-
-        <div class="bg-white p-8 border border-stone-200 rounded-sm">
-          <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Été</span>
-          <ul class="text-sm text-stone-600 space-y-2">
-            <li>• Tomates anciennes</li>
-            <li>• Bar de ligne</li>
-          </ul>
-        </div>
-
-        <div class="bg-white p-8 border border-stone-200 rounded-sm">
-          <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Automne</span>
-          <ul class="text-sm text-stone-600 space-y-2">
-            <li>• Huîtres affinées</li>
-            <li>• Courges & Potirons</li>
-          </ul>
-        </div>
-
-        <div class="bg-white p-8 border border-stone-200 rounded-sm">
-          <span class="text-[#c5a47e] font-serif italic text-xl mb-4 block">Hiver</span>
-          <ul class="text-sm text-stone-600 space-y-2">
-            <li>• Coquilles Saint-Jacques</li>
-            <li>• Poireaux de sable</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </main>
-
   <footer class="bg-[#1a2e4c] text-stone-400 py-20 border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <img src="IMG_4073.jpeg" alt="Logo Récolte & Marée" class="w-24 h-24 mx-auto mb-6 object-contain">
@@ -305,7 +213,6 @@
   </footer>
 
   <script>
-    // URL de ton Worker Cloudflare
     const WORKER_BASE = "https://still-breeze-dd09recolte-maree-orders.caneljules.workers.dev";
 
     let selectedRecipes = [];
@@ -347,7 +254,6 @@
         case 3: total = 88; break;
         case 4: total = 117; break;
         case 5: total = 145; break;
-        default: total = 0;
       }
       document.getElementById('total-price').innerText = total.toFixed(2) + " €";
     }
@@ -360,7 +266,6 @@
       btn.classList.toggle('cursor-not-allowed', !ok);
     }
 
-    // Créer une session Checkout via le Worker
     async function startCheckout() {
       const btn = document.getElementById('pay-button');
       if (btn.disabled) return;
@@ -376,20 +281,12 @@
         const res = await fetch(`${WORKER_BASE}/api/create-session`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            guests,
-            recipeIds: selectedRecipes
-          })
+          body: JSON.stringify({ guests, recipeIds: selectedRecipes })
         });
 
-        if (!res.ok) {
-          const txt = await res.text();
-          throw new Error(`Worker error ${res.status}: ${txt}`);
-        }
-
+        if (!res.ok) throw new Error(await res.text());
         const data = await res.json();
         if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
-
         window.location.href = data.url;
       } catch (err) {
         alert("Impossible de lancer le paiement.\n\n" + err.message);
@@ -407,7 +304,6 @@
       const payBtn = document.getElementById("pay-button");
       if (payBtn) payBtn.addEventListener("click", startCheckout);
 
-      // ===== CAROUSEL CLEAN (horizontal only, no vertical scroll) =====
       const carousel = document.getElementById("carousel");
       const prev = document.getElementById("carousel-prev");
       const next = document.getElementById("carousel-next");
@@ -421,17 +317,13 @@
         if (!carousel || cards.length === 0) return 0;
 
         const center = carousel.scrollLeft + carousel.clientWidth / 2;
-
         let best = 0;
         let bestDist = Infinity;
 
         cards.forEach((card, i) => {
           const cardCenter = card.offsetLeft + card.clientWidth / 2;
           const dist = Math.abs(cardCenter - center);
-          if (dist < bestDist) {
-            bestDist = dist;
-            best = i;
-          }
+          if (dist < bestDist) { bestDist = dist; best = i; }
         });
 
         return best;
@@ -443,58 +335,28 @@
 
         const i = Math.max(0, Math.min(cards.length - 1, index));
         const card = cards[i];
-
         const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
 
-        carousel.scrollTo({
-          left,
-          behavior: smooth ? "smooth" : "auto"
-        });
+        carousel.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
       }
 
       function updateArrows() {
         if (!prev || !next) return;
         const cards = getCards();
         if (cards.length === 0) return;
-
         const idx = getCenteredIndex();
         prev.disabled = (idx === 0);
         next.disabled = (idx === cards.length - 1);
       }
 
-      if (prev) {
-        prev.addEventListener("click", () => {
-          scrollToIndex(getCenteredIndex() - 1, true);
-          setTimeout(updateArrows, 300);
-        });
-      }
+      if (prev) prev.addEventListener("click", () => { scrollToIndex(getCenteredIndex() - 1, true); setTimeout(updateArrows, 250); });
+      if (next) next.addEventListener("click", () => { scrollToIndex(getCenteredIndex() + 1, true); setTimeout(updateArrows, 250); });
 
-      if (next) {
-        next.addEventListener("click", () => {
-          scrollToIndex(getCenteredIndex() + 1, true);
-          setTimeout(updateArrows, 300);
-        });
-      }
+      if (carousel) carousel.addEventListener("scroll", () => requestAnimationFrame(updateArrows), { passive: true });
 
-      if (carousel) {
-        carousel.addEventListener("scroll", () => {
-          requestAnimationFrame(updateArrows);
-        }, { passive: true });
-      }
-
-      function initCarousel() {
-        if (!carousel) return;
-        carousel.scrollLeft = 0;
-        scrollToIndex(0, false);
-        updateArrows();
-      }
-
-      requestAnimationFrame(() => requestAnimationFrame(initCarousel));
-      window.addEventListener("pageshow", initCarousel);
-      window.addEventListener("resize", () => {
-        scrollToIndex(getCenteredIndex(), false);
-        updateArrows();
-      });
+      // Pas d'auto-scroll au chargement (on laisse scrollLeft = 0)
+      updateArrows();
+      window.addEventListener("resize", () => { scrollToIndex(getCenteredIndex(), false); updateArrows(); });
     });
   </script>
 </body>
