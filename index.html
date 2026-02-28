@@ -283,8 +283,8 @@
       const next = document.getElementById("carousel-next");
 
       function getCards() {
-        return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
-      }
+  return carousel ? Array.from(carousel.querySelectorAll(".recipe-wrap")) : [];
+}
 
       function getCenteredIndex() {
         const cards = getCards();
