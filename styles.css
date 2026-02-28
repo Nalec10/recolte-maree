@@ -38,29 +38,29 @@ h1,h2,h3,.font-serif{
   width:100%;
 }
 
-.recipe-carousel{
-  display:flex;
-  gap:16px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  padding:0 20px;
-  scrollbar-width:none;
+.recipe-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.recipe-carousel::-webkit-scrollbar{
-  display:none;
+.recipe-carousel::-webkit-scrollbar {
+  display: none;
 }
 
-.recipe-card{
-  flex:0 0 85%;
-  scroll-snap-align:center;
-  background:white;
-  border-radius:6px;
-  overflow:hidden;
-  border:1px solid #e5e7eb;
-  box-shadow:0 4px 12px rgba(0,0,0,.05);
-  transition:all .3s ease;
+.recipe-card {
+  flex: 0 0 calc(100% - 40px);
+  margin: 0 20px;
+  scroll-snap-align: center;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  transition: all .3s ease;
 }
 
 .recipe-card.selected{
