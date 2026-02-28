@@ -70,25 +70,25 @@ h1,h2,h3,.font-serif{
 
   box-shadow: 0 4px 12px rgba(0,0,0,.06);
   transition: transform .2s ease, box-shadow .2s ease;
+
+  position: relative; /* ← ici directement */
 }
 
-/* Sélection: cadre intérieur (pas de border qui grossit) */
-.recipe-card{
-  position: relative;
-}
-
+/* Sélection */
 .recipe-card.selected{
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
 }
 
+/* ✅ Le contour passe AU-DESSUS et ne peut pas être coupé */
 .recipe-card.selected::after{
   content:"";
   position:absolute;
   inset:0;
-  border-radius:10px;
+  border-radius:inherit;   /* ← plus propre que 10px */
   border:3px solid var(--marine);
   pointer-events:none;
+  z-index:2;               /* ← important */
 }
 
 /* ===== ARROWS ===== */
