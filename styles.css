@@ -63,9 +63,10 @@ h1,h2,h3,.font-serif{
   transition: all .3s ease;
 }
 
-.recipe-card.selected{
-  border:3px solid var(--marine);
-  transform:translateY(-4px);
+.recipe-card.selected {
+  outline: 3px solid var(--marine);
+  outline-offset: -3px;
+  transform: translateY(-4px);
 }
 
 /* Desktop */
