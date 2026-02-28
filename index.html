@@ -104,118 +104,74 @@
 <div class="w-full overflow-hidden">
   <div class="recipe-carousel-container">
 
-    <button id="carousel-prev"
-      type="button"
-      aria-label="Recettes précédentes"
-      class="carousel-arrow left-3">
+    <button id="carousel-prev" type="button" aria-label="Recettes précédentes" class="carousel-arrow left-3">
       ←
     </button>
 
-    <button id="carousel-next"
-      type="button"
-      aria-label="Recettes suivantes"
-      class="carousel-arrow right-3">
+    <button id="carousel-next" type="button" aria-label="Recettes suivantes" class="carousel-arrow right-3">
       →
     </button>
 
-          <!-- ✅ UN SEUL #carousel -->
-          <div class="recipe-carousel" id="carousel">
+    <div class="recipe-carousel" id="carousel">
 
-  <div class="recipe-wrap" onclick="toggleRecipe(1)" id="wrap-1">
-    <div id="recipe-1" class="recipe-card">
-      <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
-        class="w-full h-64 object-cover" alt="Saumon">
-      <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
-        <p class="text-sm text-stone-500 italic">
-          Pommes de terre AOP et fleur de sel artisanale.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe-wrap" onclick="toggleRecipe(2)" id="wrap-2">
-    <div id="recipe-2" class="recipe-card">
-      <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
-        class="w-full h-64 object-cover" alt="Poulet">
-      <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
-        <p class="text-sm text-stone-500 italic">
-          Miel de fleurs sauvages.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe-wrap" onclick="toggleRecipe(3)" id="wrap-3">
-    <div id="recipe-3" class="recipe-card">
-      <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80"
-        class="w-full h-64 object-cover" alt="Huîtres">
-      <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
-        <p class="text-sm text-stone-500 italic">
-          Directement du parc à votre table.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe-wrap" onclick="toggleRecipe(4)" id="wrap-4">
-    <div id="recipe-4" class="recipe-card">
-      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
-        class="w-full h-64 object-cover" alt="Salade">
-      <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
-        <p class="text-sm text-stone-500 italic">
-          Légumes croquants et herbes salines.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="recipe-wrap" onclick="toggleRecipe(5)" id="wrap-5">
-    <div id="recipe-5" class="recipe-card">
-      <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=600&q=80"
-        class="w-full h-64 object-cover" alt="Coques">
-      <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
-        <p class="text-sm text-stone-500 italic">
-          Pêchées à pied le matin même.
-        </p>
-      </div>
-    </div>
-  </div>
-    </section>
-
-    <!-- (le reste inchangé) -->
-    <section class="py-10 md:py-20 bg-stone-50">
-      <div class="max-w-5xl mx-auto px-4">
-        <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm border border-stone-200">
-          <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 class="text-3xl font-bold text-[#1a2e4c] mb-6 font-serif">Votre Panier Personnalisé</h3>
-              <p class="text-stone-500 mb-8 text-sm">Chaque panier comprend les ingrédients frais pour 3 repas complets.</p>
-              <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">Convives</label>
-              <div class="flex gap-4">
-                <button onclick="setGuests(2)" id="g-2" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">2</button>
-                <button onclick="setGuests(3)" id="g-3" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">3</button>
-                <button onclick="setGuests(4)" id="g-4" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">4</button>
-                <button onclick="setGuests(5)" id="g-5" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">5</button>
-              </div>
-            </div>
-
-            <div class="bg-[#1a2e4c] p-8 rounded-sm text-white flex flex-col items-center">
-              <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 mb-2">Total de l'escale</span>
-              <div class="text-5xl font-serif mb-6" id="total-price">0.00 €</div>
-              <button id="pay-button" disabled class="w-full bg-[#c5a47e] text-white py-4 rounded-sm font-bold uppercase tracking-widest opacity-30 cursor-not-allowed hover:bg-[#b3936d] transition-all">
-                Commander mon panier
-              </button>
-              <p class="text-[9px] mt-4 text-stone-400 uppercase tracking-widest">Paiement 100% sécurisé</p>
-            </div>
-
+      <div class="recipe-wrap" onclick="toggleRecipe(1)" id="wrap-1">
+        <div class="recipe-card">
+          <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
+            class="w-full h-64 object-cover" alt="Saumon">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
+            <p class="text-sm text-stone-500 italic">Pommes de terre AOP et fleur de sel artisanale.</p>
           </div>
         </div>
       </div>
+
+      <div class="recipe-wrap" onclick="toggleRecipe(2)" id="wrap-2">
+        <div class="recipe-card">
+          <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
+            class="w-full h-64 object-cover" alt="Poulet">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
+            <p class="text-sm text-stone-500 italic">Miel de fleurs sauvages.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-wrap" onclick="toggleRecipe(3)" id="wrap-3">
+        <div class="recipe-card">
+          <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80"
+            class="w-full h-64 object-cover" alt="Huîtres">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
+            <p class="text-sm text-stone-500 italic">Directement du parc à votre table.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-wrap" onclick="toggleRecipe(4)" id="wrap-4">
+        <div class="recipe-card">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+            class="w-full h-64 object-cover" alt="Salade">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
+            <p class="text-sm text-stone-500 italic">Légumes croquants et herbes salines.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-wrap" onclick="toggleRecipe(5)" id="wrap-5">
+        <div class="recipe-card">
+          <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=600&q=80"
+            class="w-full h-64 object-cover" alt="Coques">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
+            <p class="text-sm text-stone-500 italic">Pêchées à pied le matin même.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#carousel -->
+  </div><!-- /.recipe-carousel-container -->
+</div><!-- /.w-full -->
     </section>
   </main>
 
