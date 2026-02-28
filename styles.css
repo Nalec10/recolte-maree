@@ -63,12 +63,15 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
 
 /* Mobile */
 @media (max-width: 640px){
-  .recipe-carousel{
-    /* IMPORTANT : préfère %/px plutôt que vw “pur” */
-    --cardw: min(340px, calc(100% - 72px)); /* 72px = marge pour respirer */
-    gap: 14px;
-    padding: 12px 12px;
+  #carousel-prev, #carousel-next{
+    display: none !important;
   }
+
+  /* optionnel: enlever aussi les dégradés d’indice */
+  .recipe-carousel-container .pointer-events-none{
+    display: none !important;
+  }
+}
 
   #carousel-prev, #carousel-next{
     width: 44px !important;
