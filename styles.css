@@ -4,100 +4,107 @@
   --sand:#fdfaf5;
 }
 
-html{scroll-behavior:smooth;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--sand);}
-h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background-color:var(--sand);
+}
+h1,h2,h3,.font-serif{ font-family:'Playfair Display',serif; }
 
-/* === CAROUSEL WRAP === */
+/* ===== NAV ===== */
+.hidden-page{ display:none; }
+.nav-link{ transition:all .3s; border-bottom:2px solid transparent; padding-bottom:4px; }
+.nav-link:hover{ color:var(--gold); border-bottom-color:var(--gold); }
+
+/* ===== CAROUSEL WRAP ===== */
 .recipe-carousel-container{
   position: relative;
   width: 100%;
-  overflow: visible; /* évite les coupes visuelles */
+  overflow: hidden;
 }
 
-/* === FLÈCHES === */
+/* dégradés (indice swipe) au-dessus du carousel */
+.recipe-carousel-container .pointer-events-none{ z-index: 20; }
+
+/* ===== ARROWS ===== */
 .carousel-arrow{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
 }
 
-/* === CAROUSEL === */
+/* cacher les flèches quand disabled */
+.carousel-arrow:disabled{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* ===== CAROUSEL =====
+   Important: on gère le centrage via padding = (largeur viewport - largeur carte)/2
+*/
 .recipe-carousel{
   --cardw: 300px;
+  --gap: 24px;
+  --edge: calc((100% - var(--cardw)) / 2);
 
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
+  display:flex;
+  gap: var(--gap);
+  overflow-x:auto;
 
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
 
-  /* petit padding pour que ça respire */
-  padding: 12px 16px;
+  padding: 12px var(--edge);
+  scroll-padding-inline: var(--edge);
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+
+  /* évite l’effet “scroll chaining” */
+  overscroll-behavior-x: contain;
 }
 .recipe-carousel::-webkit-scrollbar{ display:none; }
-
-/* Spacers : permettent de centrer la 1ère/dernière carte parfaitement */
-.recipe-carousel::before,
-.recipe-carousel::after{
-  content: "";
-  flex: 0 0 calc((100% - var(--cardw)) / 2);
-}
 
 .recipe-card{
   flex: 0 0 var(--cardw);
   width: var(--cardw);
   scroll-snap-align: center;
   scroll-snap-stop: always;
+  transition: all .3s ease;
 }
 
-/* Mobile */
-@media (max-width: 640px){
-  #carousel-prev, #carousel-next{
-    display: none !important;
-  }
-
-  /* optionnel: enlever aussi les dégradés d’indice */
-  .recipe-carousel-container .pointer-events-none{
-    display: none !important;
-  }
-}
-
-  #carousel-prev, #carousel-next{
-    width: 44px !important;
-    height: 44px !important;
-  }
-}
-
-/* cacher les flèches quand disabled */
-.carousel-arrow:disabled{
-  opacity: 0;
-  pointer-events: none;
-}
-
+/* sélection */
 .recipe-card.selected{
   border:3px solid var(--marine);
   transform:translateY(-5px);
   background-color:#fff;
 }
 
-.hidden-page{display:none;}
-
-.nav-link{transition:all .3s;border-bottom:2px solid transparent;padding-bottom:4px;}
-.nav-link:hover{color:var(--gold);border-bottom-color:var(--gold);}
-
+/* icônes fontawesome */
 i.fas,i.far{
   display:inline-block;
   width:1.25em;
   text-align:center;
+}
+
+/* ===== MOBILE =====
+   - On cache les flèches (plus propre + évite bugs iOS)
+   - On ajuste largeur carte + gaps
+*/
+@media (max-width: 640px){
+  /* pas de flèches sur mobile */
+  #carousel-prev, #carousel-next{
+    display:none !important;
+  }
+
+  .recipe-carousel{
+    --cardw: 88vw;   /* grande, mais laisse un petit souffle */
+    --gap: 14px;
+  }
 }
