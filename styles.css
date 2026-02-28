@@ -107,4 +107,22 @@ i.fas,i.far{
     --cardw: 88vw;   /* grande, mais laisse un petit souffle */
     --gap: 14px;
   }
+
+  /* Empêche le "clipping" des cards sur mobile */
+@media (max-width: 640px){
+  .recipe-carousel-container{
+    overflow: visible; /* ✅ ne coupe plus les bords/ombres */
+  }
+
+  /* petit souffle supplémentaire pour être sûr */
+  .recipe-carousel{
+    padding-left: calc(var(--edge) + 10px);
+    padding-right: calc(var(--edge) + 10px);
+  }
+
+  /* au cas où une bordure augmente la largeur réelle */
+  .recipe-card{
+    box-sizing: border-box;
+  }
+}
 }
