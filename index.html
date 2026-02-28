@@ -121,64 +121,53 @@
 
         <div class="recipe-carousel" id="carousel">
 
-          <div class="recipe-wrap" id="wrap-1" onclick="toggleRecipe(1)">
-            <div class="recipe-card">
-              <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80"
-                class="w-full h-64 object-cover" alt="Saumon">
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
-                <p class="text-sm text-stone-500 italic">Pommes de terre AOP et fleur de sel artisanale.</p>
-              </div>
+          <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
+            <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80"
+              class="w-full h-64 object-cover" alt="Saumon">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Saumon & Pommes de Ré</h3>
+              <p class="text-sm text-stone-500 italic">Pommes de terre AOP et fleur de sel artisanale.</p>
             </div>
           </div>
 
-          <div class="recipe-wrap" id="wrap-2" onclick="toggleRecipe(2)">
-            <div class="recipe-card">
-              <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80"
-                class="w-full h-64 object-cover" alt="Poulet">
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
-                <p class="text-sm text-stone-500 italic">Miel de fleurs sauvages.</p>
-              </div>
+          <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card">
+            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80"
+              class="w-full h-64 object-cover" alt="Poulet">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Poulet Fermier au Miel</h3>
+              <p class="text-sm text-stone-500 italic">Miel de fleurs sauvages.</p>
             </div>
           </div>
 
-          <div class="recipe-wrap" id="wrap-3" onclick="toggleRecipe(3)">
-            <div class="recipe-card">
-              <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=1200&q=80"
-                class="w-full h-64 object-cover" alt="Huîtres">
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
-                <p class="text-sm text-stone-500 italic">Directement du parc à votre table.</p>
-              </div>
+          <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card">
+            <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=1200&q=80"
+              class="w-full h-64 object-cover" alt="Huîtres">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Huîtres de Cabane</h3>
+              <p class="text-sm text-stone-500 italic">Directement du parc à votre table.</p>
             </div>
           </div>
 
-          <div class="recipe-wrap" id="wrap-4" onclick="toggleRecipe(4)">
-            <div class="recipe-card">
-              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80"
-                class="w-full h-64 object-cover" alt="Salade">
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
-                <p class="text-sm text-stone-500 italic">Légumes croquants et herbes salines.</p>
-              </div>
+          <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80"
+              class="w-full h-64 object-cover" alt="Salade">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Salade Folle des Marais</h3>
+              <p class="text-sm text-stone-500 italic">Légumes croquants et herbes salines.</p>
             </div>
           </div>
 
-          <div class="recipe-wrap" id="wrap-5" onclick="toggleRecipe(5)">
-            <div class="recipe-card">
-              <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=1200&q=80"
-                class="w-full h-64 object-cover" alt="Coques">
-              <div class="p-6">
-                <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
-                <p class="text-sm text-stone-500 italic">Pêchées à pied le matin même.</p>
-              </div>
+          <div onclick="toggleRecipe(5)" id="recipe-5" class="recipe-card">
+            <img src="https://images.unsplash.com/photo-1515511856280-7b23f68d2996?auto=format&fit=crop&w=1200&q=80"
+              class="w-full h-64 object-cover" alt="Coques">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Pâtes Fraîches aux Coques</h3>
+              <p class="text-sm text-stone-500 italic">Pêchées à pied le matin même.</p>
             </div>
           </div>
 
         </div><!-- /#carousel -->
       </div><!-- /.recipe-carousel-container -->
-
     </section>
 
     <!-- ====== PANIER / PRIX / PAIEMENT ====== -->
@@ -226,6 +215,7 @@
   </footer>
 
   <script>
+    // URL de ton Worker Cloudflare
     const WORKER_BASE = "https://still-breeze-dd09recolte-maree-orders.caneljules.workers.dev";
 
     let selectedRecipes = [];
@@ -248,15 +238,15 @@
     }
 
     function toggleRecipe(id) {
-      const wrap = document.getElementById(`wrap-${id}`);
-      if (!wrap) return;
+      const card = document.getElementById(`recipe-${id}`);
+      if (!card) return;
 
       if (selectedRecipes.includes(id)) {
         selectedRecipes = selectedRecipes.filter(r => r !== id);
-        wrap.classList.remove('selected');
+        card.classList.remove('selected');
       } else if (selectedRecipes.length < 3) {
         selectedRecipes.push(id);
-        wrap.classList.add('selected');
+        card.classList.add('selected');
       }
       updatePayButton();
       calculate();
@@ -320,12 +310,13 @@
       const payBtn = document.getElementById("pay-button");
       if (payBtn) payBtn.addEventListener("click", startCheckout);
 
+      // ===== Carousel arrows desktop =====
       const carousel = document.getElementById("carousel");
       const prev = document.getElementById("carousel-prev");
       const next = document.getElementById("carousel-next");
 
       function getCards() {
-        return carousel ? Array.from(carousel.querySelectorAll(".recipe-wrap")) : [];
+        return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
       }
 
       function getCenteredIndex() {
@@ -333,8 +324,7 @@
         if (!carousel || cards.length === 0) return 0;
 
         const center = carousel.scrollLeft + carousel.clientWidth / 2;
-        let best = 0;
-        let bestDist = Infinity;
+        let best = 0, bestDist = Infinity;
 
         cards.forEach((card, i) => {
           const cardCenter = card.offsetLeft + card.clientWidth / 2;
@@ -378,7 +368,7 @@
 
       if (carousel) carousel.addEventListener("scroll", () => requestAnimationFrame(updateArrows), { passive: true });
 
-      // ✅ centre la première carte au chargement
+      // centre la 1ère carte au chargement
       requestAnimationFrame(() => {
         scrollToIndex(0, false);
         updateArrows();
