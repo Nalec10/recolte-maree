@@ -12,7 +12,7 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 .recipe-carousel-container{
   position: relative;
   width: 100%;
-  overflow: visible; /* pour éviter que les cartes soient "coupées" */
+  overflow: visible; /* évite que les cartes soient coupées */
 }
 
 /* === FLÈCHES === */
@@ -22,18 +22,14 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
   transform: translateY(-50%);
   z-index: 50;
   display: flex;
-}
-
-/* (optionnel) si tu veux qu’elles soient un peu plus "lisibles" */
-.carousel-arrow{
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 24px rgba(0,0,0,.10);
 }
 
 /* === CAROUSEL (scroll + snap) === */
 .recipe-carousel{
-  /* largeur des cards (desktop par défaut) */
   --cardw: 300px;
-  /* padding latéral = demi espace restant pour centrer la 1re/dernière */
   --edge: calc((100% - var(--cardw)) / 2);
 
   display: flex;
@@ -44,7 +40,6 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 
-  /* ✅ plus de 50% qui casse tout */
   padding: 1rem var(--edge);
   scroll-padding-inline: var(--edge);
 
@@ -64,25 +59,24 @@ h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
 /* === MOBILE === */
 @media (max-width: 640px){
   .recipe-carousel{
-    --cardw: 86vw;          /* ✅ carte grande mais pas coupée */
+    --cardw: 86vw;
     gap: 14px;
     padding-block: 12px;
   }
 
-  /* flèches un peu plus petites */
   #carousel-prev, #carousel-next{
     width: 44px !important;
     height: 44px !important;
   }
 }
 
-/* ✅ cacher les flèches quand disabled */
+/* cacher les flèches quand disabled */
 .carousel-arrow:disabled{
   opacity: 0;
   pointer-events: none;
 }
 
-/* (si tu gardes tes gradients) */
+/* si tu gardes tes gradients */
 .recipe-carousel-container .pointer-events-none{
   z-index: 20;
 }
