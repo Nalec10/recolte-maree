@@ -10,75 +10,71 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
 
 /* === CAROUSEL WRAP === */
 .recipe-carousel-container{
-  position:relative;
-  width:100%;
-  overflow:visible;
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* ok, les cartes ne seront pas coupées grâce au padding du carousel */
 }
 
 /* === FLÈCHES === */
 .carousel-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:50;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.10);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+/* === CAROUSEL === */
+.recipe-carousel{
+  /* largeur de carte */
+  --cardw: 300px;
+  /* padding latéral pour centrer la 1ère/dernière carte */
+  --edge: calc((100% - var(--cardw)) / 2);
+
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 12px var(--edge);
+  scroll-padding-inline: var(--edge);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.recipe-carousel::-webkit-scrollbar{ display:none; }
+
+.recipe-card{
+  flex: 0 0 var(--cardw);
+  width: var(--cardw);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Mobile */
+@media (max-width: 640px){
+  .recipe-carousel{
+    --cardw: 86vw;
+    gap: 14px;
+    padding-block: 12px;
+  }
+
+  #carousel-prev, #carousel-next{
+    width: 44px !important;
+    height: 44px !important;
+  }
 }
 
 /* cacher les flèches quand disabled */
 .carousel-arrow:disabled{
-  opacity:0;
-  pointer-events:none;
-}
-
-/* === CAROUSEL (scroll + snap) === */
-.recipe-carousel{
-  --cardw:300px;
-  --edge:calc((100% - var(--cardw)) / 2);
-
-  display:flex;
-  gap:1.5rem;
-  overflow-x:auto;
-
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
-  -webkit-overflow-scrolling:touch;
-
-  padding:1rem var(--edge);
-  scroll-padding-inline:var(--edge);
-
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-}
-.recipe-carousel::-webkit-scrollbar{display:none;}
-
-.recipe-card{
-  flex:0 0 var(--cardw);
-  width:var(--cardw);
-  scroll-snap-align:center;
-  scroll-snap-stop:always;
-  transition:all .3s ease;
-}
-
-/* === MOBILE === */
-@media (max-width:640px){
-  .recipe-carousel{
-    --cardw:86vw;
-    gap:14px;
-    padding:12px var(--edge); /* ✅ clair et propre */
-  }
-
-  #carousel-prev,#carousel-next{
-    width:44px !important;
-    height:44px !important;
-  }
-}
-
-/* si tu gardes tes gradients */
-.recipe-carousel-container .pointer-events-none{
-  z-index:20;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .recipe-card.selected{
