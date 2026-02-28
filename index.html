@@ -121,20 +121,11 @@
   <div class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent z-10"></div>
 
   <button id="carousel-prev" type="button" aria-label="Recettes précédentes"
-  class="carousel-arrow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
+  class="ow absolute left-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-300 ring-1 ring-black/5 shadow-md flex items-center justify-center hover:bg-white transition">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
        stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
        width="20" height="20">
     <path d="M15 18l-6-6 6-6"/>
-  </svg>
-</button>
-
-<button id="carousel-next" type="button" aria-label="Recettes suivantes"
-  class="carousel-arrow absolute right-3 z-30 w-12 h-12 rounded-full bg-white/90 backdrop-blur border border-stone-200 shadow-md flex items-center justify-center hover:bg-white transition">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-       stroke="#1a2e4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-       width="20" height="20">
-    <path d="M9 18l6-6-6-6"/>
   </svg>
 </button>
 
@@ -470,10 +461,14 @@ function scrollToIndex(idx, smooth = true) {
   if (!carousel || cards.length === 0) return;
 
   const clamped = Math.max(0, Math.min(cards.length - 1, idx));
-  cards[clamped].scrollIntoView({
-    behavior: smooth ? "smooth" : "auto",
-    inline: "center",
-    block: "nearest"
+  const card = cards[clamped];
+
+  // centre la card dans le viewport du carousel (sans scroll vertical)
+  const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
+
+  carousel.scrollTo({
+    left,
+    behavior: smooth ? "smooth" : "auto"
   });
 }
 
@@ -510,18 +505,11 @@ if (carousel) {
   });
 }
 
-/* ✅ Au chargement + Safari (pageshow) : on force la 1ère carte centrée */
 function initCarouselPosition() {
-  scrollToIndex(0, false);
+  carousel.scrollLeft = 0;      // reset horizontal
+  scrollToIndex(0, false);      // centre la 1ère carte (horizontal only)
   updateArrows();
 }
-
-// DOM ready (layout pas toujours final) => double tick
-requestAnimationFrame(() => requestAnimationFrame(initCarouselPosition));
-
-// Safari iOS peut restaurer un ancien scroll => pageshow
-window.addEventListener("pageshow", initCarouselPosition);
-    });
   </script>
 </body>
 </html>
