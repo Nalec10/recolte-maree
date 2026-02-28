@@ -147,4 +147,8 @@ i.fas,i.far{
   display:inline-block;
   width:1.25em;
   text-align:center;
+
+  .carousel-arrow{
+  cursor: pointer;
+}
 }
