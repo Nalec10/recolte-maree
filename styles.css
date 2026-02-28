@@ -12,7 +12,7 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
 .recipe-carousel-container{
   position: relative;
   width: 100%;
-  overflow: hidden; /* ok, les cartes ne seront pas coupées grâce au padding du carousel */
+  overflow: visible; /* évite les coupes visuelles */
 }
 
 /* === FLÈCHES === */
@@ -25,15 +25,11 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 24px rgba(0,0,0,.10);
-  pointer-events: auto;
 }
 
 /* === CAROUSEL === */
 .recipe-carousel{
-  /* largeur de carte */
   --cardw: 300px;
-  /* padding latéral pour centrer la 1ère/dernière carte */
-  --edge: calc((100% - var(--cardw)) / 2);
 
   display: flex;
   gap: 24px;
@@ -43,13 +39,20 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 
-  padding: 12px var(--edge);
-  scroll-padding-inline: var(--edge);
+  /* petit padding pour que ça respire */
+  padding: 12px 16px;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .recipe-carousel::-webkit-scrollbar{ display:none; }
+
+/* Spacers : permettent de centrer la 1ère/dernière carte parfaitement */
+.recipe-carousel::before,
+.recipe-carousel::after{
+  content: "";
+  flex: 0 0 calc((100% - var(--cardw)) / 2);
+}
 
 .recipe-card{
   flex: 0 0 var(--cardw);
@@ -61,9 +64,10 @@ h1,h2,h3,.font-serif{font-family:'Playfair Display',serif;}
 /* Mobile */
 @media (max-width: 640px){
   .recipe-carousel{
-    --cardw: 86vw;
+    /* IMPORTANT : préfère %/px plutôt que vw “pur” */
+    --cardw: min(340px, calc(100% - 72px)); /* 72px = marge pour respirer */
     gap: 14px;
-    padding-block: 12px;
+    padding: 12px 12px;
   }
 
   #carousel-prev, #carousel-next{
