@@ -2,320 +2,176 @@
   --marine:#1a2e4c;
   --gold:#c5a47e;
   --sand:#fdfaf5;
-  --white:#ffffff;
-  --stone:#78716c;
-  --line:#e7e5e4;
 
-  --radius:16px;
-  --shadow:0 8px 24px rgba(15, 23, 42, 0.08);
-  --shadow-strong:0 12px 32px rgba(15, 23, 42, 0.14);
-  --ring:3px;
+  --radius: 12px;
+  --ring: 3px;
 }
 
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
 
 body{
   margin:0;
-  font-family:'Plus Jakarta Sans', sans-serif;
-  background:var(--sand);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background-color:var(--sand);
   color:#0f172a;
-}
-
-img{
-  display:block;
-  max-width:100%;
 }
 
 h1,h2,h3,.font-serif{
-  font-family:'Playfair Display', serif;
+  font-family:'Playfair Display',serif;
 }
 
-.hidden-page{
-  display:none;
-}
-
-/* ===== NAV ===== */
+/* ===== NAV / PAGES ===== */
+.hidden-page{ display:none; }
 
 .nav-link{
-  transition:all .25s ease;
-  border-bottom:2px solid transparent;
-  padding-bottom:4px;
+  transition: all .3s;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
 }
-
 .nav-link:hover{
-  color:var(--gold);
-  border-bottom-color:var(--gold);
+  color: var(--gold);
+  border-bottom-color: var(--gold);
 }
 
-/* ===== HERO ===== */
-
-.hero-overlay{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.48);
-}
-
-.hero-gradient{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.42), rgba(0,0,0,.18), rgba(0,0,0,.08));
-}
-
-.hero-badge-row{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-top:2rem;
-  font-size:.92rem;
-  color:rgba(255,255,255,.82);
-}
-
-.hero-badge{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  padding:.65rem .9rem;
-  border-radius:999px;
-  backdrop-filter:blur(10px);
-}
-
-/* ===== CAROUSEL ===== */
+/* ======================================================
+   CAROUSEL : anti-wrap + tailles stables + centrage
+   ====================================================== */
 
 .recipe-carousel-container{
-  position:relative;
-  width:100%;
+  position: relative;
+  width: 100%;
 }
 
+/* IMPORTANT: surtout PAS overflow hidden ici */
 .recipe-carousel{
-  --cardw:min(86vw, 380px);
-  --gap:18px;
-  --edge:calc((100% - var(--cardw)) / 2);
+  --cardw: min(86vw, 380px);
+  --gap: 16px;
+  --edge: calc((100% - var(--cardw)) / 2);
 
-  display:flex;
-  flex-wrap:nowrap;
-  gap:var(--gap);
+  display:flex !important;
+  flex-wrap: nowrap !important;
+  gap: var(--gap);
 
   overflow-x:auto;
-  overflow-y:visible;
-  -webkit-overflow-scrolling:touch;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
 
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
-  overscroll-behavior-x:contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 
-  padding:14px max(16px, var(--edge)) 22px max(16px, var(--edge));
-  scroll-padding-inline:max(16px, var(--edge));
+  /* padding qui centre la 1ère carte */
+  padding: 12px max(16px, var(--edge)) 18px max(16px, var(--edge));
+  scroll-padding-inline: max(16px, var(--edge));
 
   scrollbar-width:none;
   -ms-overflow-style:none;
+  overscroll-behavior-x: contain;
 }
+.recipe-carousel::-webkit-scrollbar{ display:none; }
 
-.recipe-carousel::-webkit-scrollbar{
-  display:none;
-}
-
-/* ===== CARTE RECETTE ===== */
-
+/* Card */
 .recipe-card{
-  flex:0 0 var(--cardw);
-  scroll-snap-align:center;
-  scroll-snap-stop:always;
+  flex: 0 0 var(--cardw);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 
-  position:relative;
-  border-radius:var(--radius);
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius: var(--radius);
   overflow:hidden;
-  background:var(--white);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
 
   cursor:pointer;
   user-select:none;
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color: transparent;
 
-  transition:
-    transform .22s ease,
-    box-shadow .22s ease,
-    border-color .22s ease;
+  position: relative;
+}
+
+/* Selection : ring intérieur (impossible à couper) */
+.recipe-card.selected{
+  outline:3px solid #1a2e4c;
+  outline-offset:2px;
 }
 
 .recipe-card:hover{
-  transform:translateY(-4px);
-  box-shadow:var(--shadow-strong);
+  transform: translateY(-4px);
 }
 
-.recipe-card img{
-  width:100%;
-  height:260px;
-  object-fit:cover;
-}
-
-.recipe-card-content{
-  padding:1.25rem 1.25rem 1.35rem;
-}
-
-.recipe-card-title{
-  margin:0 0 .45rem;
-  font-size:1.25rem;
-  line-height:1.2;
-  font-weight:700;
-  color:#0f172a;
-}
-
-.recipe-card-text{
-  margin:0;
-  font-size:.95rem;
-  line-height:1.55;
-  color:#78716c;
-  font-style:italic;
-}
-
-/* ===== CONTOUR COMPLET AU CLIC ===== */
-/* On dessine le contour en pseudo-élément INTERNE.
-   Donc il ne se fait pas couper par le carousel. */
-.recipe-card.selected::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border:var(--ring) solid var(--marine);
-  border-radius:var(--radius);
-  pointer-events:none;
-  z-index:3;
-}
-
-.recipe-card.selected{
-  box-shadow:0 12px 30px rgba(15,23,42,.16);
-  transform:translateY(-4px);
-}
-
-/* Pastille sélection */
-.recipe-card-check{
-  position:absolute;
-  top:12px;
-  right:12px;
-  width:34px;
-  height:34px;
-  border-radius:999px;
-  background:rgba(255,255,255,.96);
-  color:var(--marine);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.14);
-  opacity:0;
-  transform:scale(.9);
-  transition:opacity .2s ease, transform .2s ease;
-  z-index:4;
-  font-size:.95rem;
-}
-
-.recipe-card.selected .recipe-card-check{
-  opacity:1;
-  transform:scale(1);
-}
-
-/* ===== ARROWS ===== */
-
+/* ===== ARROWS (desktop only) ===== */
 .carousel-arrow{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  z-index:20;
+  z-index:50;
 
-  width:50px;
-  height:50px;
+  width:48px;
+  height:48px;
   border-radius:999px;
   border:1px solid #e5e7eb;
-  background:rgba(255,255,255,.94);
+  background:rgba(255,255,255,.92);
 
   display:none;
   align-items:center;
   justify-content:center;
 
-  box-shadow:0 12px 24px rgba(15,23,42,.12);
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
   cursor:pointer;
-  transition:all .2s ease;
+  user-select:none;
 }
 
-.carousel-arrow:hover{
-  transform:translateY(-50%) scale(1.04);
-}
-
-.carousel-arrow.left-3{
-  left:12px;
-}
-
-.carousel-arrow.right-3{
-  right:12px;
-}
+.carousel-arrow.left-3{ left: 12px; }
+.carousel-arrow.right-3{ right: 12px; }
 
 .carousel-arrow:disabled{
   opacity:0;
   pointer-events:none;
 }
 
-/* ===== PANIER ===== */
-
-.price-panel{
-  background:var(--marine);
-  padding:2rem;
-  border-radius:16px;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.guest-btn-active{
-  background:var(--marine);
-  color:#fff;
-  border-color:var(--marine) !important;
-}
-
-/* ===== FOOTER ===== */
-
-.footer-logo{
-  width:96px;
-  height:96px;
-  border-radius:999px;
-  object-fit:cover;
-  margin:0 auto 1.5rem;
-}
-
-/* ===== RESPONSIVE ===== */
-
-@media (min-width:768px){
+/* Desktop */
+@media (min-width: 768px){
   .recipe-carousel{
-    --cardw:320px;
-    --gap:24px;
-    --edge:72px;
+    --cardw: 320px;
+    --gap: 24px;
+    --edge: 64px; /* laisse respirer + place pour flèches */
   }
-
-  .carousel-arrow{
-    display:flex;
-  }
+  .carousel-arrow{ display:flex; }
 }
 
-@media (max-width:767px){
-  .carousel-arrow{
-    display:none !important;
-  }
+/* Mobile : jamais de flèches */
+@media (max-width: 767px){
+  .carousel-arrow{ display:none !important; }
+}
 
-  .recipe-card img{
-    height:240px;
-  }
+/* Helpers FontAwesome */
+i.fas,i.far{
+  display:inline-block;
+  width:1.25em;
+  text-align:center;
+}
 
-  .hero-badge-row{
-    gap:10px;
-    font-size:.84rem;
-  }
+/* ===== FIX iOS (mobile) : contour complet ===== */
+@media (max-width: 767px){
+  /* On désactive le contour extérieur (qui peut être rogné par Safari) */
+  .recipe-wrap.selected::after{
+  content: none !important; /* on coupe l’ancien pseudo-element */
+}
 
-  .hero-badge{
-    padding:.55rem .8rem;
-  }
+/* On dessine le contour SUR la carte, au-dessus de l'image */
+.recipe-wrap.selected .recipe-card{
+  position: relative;
+  z-index: 2;
+
+  /* contour */
+  outline: var(--ring) solid var(--marine);
+  outline-offset: calc(-1 * var(--ring)); /* le fait “rentrer” dans la carte */
+}
+
+/* garde ton effet de lift si tu veux */
+.recipe-wrap.selected{
+  transform: translateY(-4px);
+}
 }
