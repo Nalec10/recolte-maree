@@ -262,10 +262,10 @@
     function calculate() {
       let total = 0;
       switch (guests) {
-        case 2: total = 84,90; break;
-        case 3: total = 119,90; break;
-        case 4: total = 149,90; break;
-        case 5: total = 179,90; break;
+        case 2: total = 84.90; break;
+        case 3: total = 119.90; break;
+        case 4: total = 149.90; break;
+        case 5: total = 179.90; break;
         default: total = 0;
       }
       document.getElementById('total-price').innerText = total.toFixed(2) + " €";
