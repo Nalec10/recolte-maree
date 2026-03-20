@@ -261,14 +261,24 @@
 
     function calculate() {
       let total = 0;
+
       switch (guests) {
-        case 2: total = 84.90; break;
-        case 3: total = 119.90; break;
-        case 4: total = 149.90; break;
-        case 5: total = 179.90; break;
-        default: total = 0;
-      }
-      document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+      case 2: total = 84.90; break;
+      case 3: total = 119.90; break;
+      case 4: total = 149.90; break;
+      case 5: total = 179.90; break;
+      default: total = 0;
+    }
+
+    // Affichage total
+    document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+
+    // Calcul prix par assiette
+    const meals = guests * 3;
+    const perMeal = total / meals;
+
+    document.getElementById('price-per-meal').innerText =
+      "Soit " + perMeal.toFixed(2) + " € / assiette";
     }
 
     function updatePayButton() {
