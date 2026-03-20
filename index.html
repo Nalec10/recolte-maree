@@ -66,13 +66,16 @@
         >
 
         <div class="inline-block px-8 py-6 rounded-sm bg-black/30 backdrop-blur-sm">
-          <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight drop-shadow-2xl">
-            Le goût de l'île, <br>
-            <span class="italic font-normal">chez vous.</span>
+          <h1 class="text-5xl md:text-7xl mb-6 font-serif leading-tight">
+            3 repas bistronomiques prêts à cuisiner chez vous rapidement
           </h1>
 
-          <p class="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto italic drop-shadow-lg">
-            La façon la plus simple de cuisiner l’Île de Ré chez soi.
+          <p class="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
+            Ingrédients locaux + recettes guidées. 
+            Zéro courses. Zéro prise de tête.
+          </p>
+          <p class="mt-6 text-sm text-white/80">
+            À partir de 84,90€ • Livraison semaine prochaine • Quantités limitées
           </p>
         </div>
 
@@ -85,7 +88,7 @@
         <div class="mt-10">
           <button onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})"
             class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">
-            Réserver mon panier de la semaine
+            Commander mon panier de la semaine
           </button>
         </div>
       </div>
@@ -94,6 +97,29 @@
     <!-- ====== SECTION COMMANDER ====== -->
     <section id="commander" class="py-10 md:py-20 bg-white">
 
+      <section class="py-16 bg-white text-center">
+  <h2 class="text-3xl font-serif mb-8">Pourquoi ça change tout</h2>
+
+  <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-sm">
+
+    <div>
+      <strong>❌ Plus de courses</strong><br>
+      Tout est déjà chez vous
+    </div>
+
+    <div>
+      <strong>⚡ 20 minutes en cuisine</strong><br>
+      Résultat restaurant sans effort
+    </div>
+
+    <div>
+      <strong>🌊 Produits locaux</strong><br>
+      Direct Île de Ré
+    </div>
+
+  </div>
+</section>
+      
       <!-- TEXTE -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10 md:mb-16">
@@ -198,6 +224,9 @@
                 <p id="price-per-meal" class="text-xs text-stone-400">
                   —
                 </p>
+              <p class="text-xs text-red-500 mt-3">
+              ⚠️ Seulement quelques box disponibles cette semaine
+              </p>
 
               <button id="pay-button" disabled
                 class="w-full bg-[#c5a47e] text-white py-4 rounded-sm font-bold uppercase tracking-widest opacity-30 cursor-not-allowed hover:bg-[#b3936d] transition-all">
