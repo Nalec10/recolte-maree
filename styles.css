@@ -169,13 +169,14 @@ i.fas,i.far{
   outline: var(--ring) solid var(--marine);
   outline-offset: calc(-1 * var(--ring)); /* le fait “rentrer” dans la carte */
 }
-
-/* garde ton effet de lift si tu veux */
-.recipe-wrap.selected{
-  transform: translateY(-4px);
-}
 }
 
 #commander{
   scroll-margin-top: 100px;
+}
+
+@media (max-width: 767px){
+  .recipe-card:hover{
+    transform: none;
+  }
 }
