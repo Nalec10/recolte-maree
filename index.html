@@ -320,6 +320,18 @@
       }
     }
 
+    function scrollToCommander() {
+        const el = document.getElementById('commander');
+        const offset = 80;
+
+        const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+    
     document.addEventListener("DOMContentLoaded", () => {
       setGuests(2);
       updatePayButton();
@@ -361,18 +373,6 @@
         const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
 
         carousel.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
-      }
-
-      function scrollToCommander() {
-        const el = document.getElementById('commander');
-        const offset = 80;
-
-        const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
-
-        window.scrollTo({
-          top: y,
-          behavior: 'smooth'
-        });
       }
       
       function updateArrows() {
