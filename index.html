@@ -83,7 +83,7 @@
         </div>
 
         <div class="mt-10">
-          <button onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})"
+          <button onclick="scrollToCommander()"
             class="bg-[#c5a47e] text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-[#b3936d] transition shadow-2xl">
             Réserver mon panier de la semaine
           </button>
@@ -363,6 +363,18 @@
         carousel.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
       }
 
+      function scrollToCommander() {
+        const el = document.getElementById('commander');
+        const offset = 80;
+
+        const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+      
       function updateArrows() {
         if (!prev || !next) return;
         const cards = getCards();
