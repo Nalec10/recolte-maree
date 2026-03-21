@@ -106,8 +106,10 @@ h1,h2,h3,.font-serif{
   }
 }
 
-.recipe-card:hover{
-  transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine){
+  .recipe-card:hover{
+    transform: translateY(-4px);
+  }
 }
 
 /* ===== ARROWS (desktop only) ===== */
