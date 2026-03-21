@@ -175,3 +175,9 @@ i.fas,i.far{
     transform: none !important;
   }
 }
+
+@media (max-width: 767px){
+  .recipe-card{
+    transition: none !important;
+  }
+}
