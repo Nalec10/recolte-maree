@@ -91,10 +91,19 @@ h1,h2,h3,.font-serif{
   position: relative;
 }
 
-/* Selection : ring intérieur (impossible à couper) */
+/* ===== SELECTION ===== */
 .recipe-card.selected{
-  outline:3px solid #1a2e4c;
-  outline-offset:2px;
+  outline: 3px solid #1a2e4c;
+  outline-offset: 2px;
+}
+
+/* ===== DESACTIVE LIFT MOBILE ===== */
+@media (max-width: 767px){
+  .recipe-card,
+  .recipe-card:hover,
+  .recipe-card.selected{
+    transform: none !important;
+  }
 }
 
 .recipe-card:hover{
@@ -153,30 +162,14 @@ i.fas,i.far{
   text-align:center;
 }
 
-/* ===== FIX iOS (mobile) : contour complet ===== */
-@media (max-width: 767px){
-  /* On désactive le contour extérieur (qui peut être rogné par Safari) */
-  .recipe-wrap.selected::after{
-  content: none !important; /* on coupe l’ancien pseudo-element */
-}
-
-/* On dessine le contour SUR la carte, au-dessus de l'image */
-.recipe-wrap.selected .recipe-card{
-  position: relative;
-  z-index: 2;
-
-  /* contour */
-  outline: var(--ring) solid var(--marine);
-  outline-offset: calc(-1 * var(--ring)); /* le fait “rentrer” dans la carte */
-}
-}
-
 #commander{
   scroll-margin-top: 100px;
 }
 
 @media (max-width: 767px){
-  .recipe-card:hover{
-    transform: none;
+  .recipe-card,
+  .recipe-card:hover,
+  .recipe-card.selected{
+    transform: none !important;
   }
 }
