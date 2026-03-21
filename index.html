@@ -175,7 +175,7 @@
     </section>
 
     <!-- ====== PANIER / PRIX / PAIEMENT ====== -->
-    <section class="py-10 md:py-20 bg-stone-50">
+    <section id="paiement" class="py-10 md:py-20 bg-stone-50">
       <div class="max-w-5xl mx-auto px-4">
         <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm border border-stone-200">
           <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -257,6 +257,12 @@
       }
       updatePayButton();
       calculate();
+      // 🔥 SCROLL AUTO
+      if (selectedRecipes.length === 3) {
+        setTimeout(() => {
+        scrollToPaiement();
+        }, 300);
+      }
     }
 
     function calculate() {
@@ -331,6 +337,18 @@
           behavior: 'smooth'
         });
       }
+
+    function scrollToPaiement() {
+      const el = document.getElementById('paiement');
+      const offset = 80;
+
+      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
     
     document.addEventListener("DOMContentLoaded", () => {
       setGuests(2);
