@@ -314,7 +314,8 @@
 
     function updatePayButton() {
        const btn = document.getElementById('pay-button');
-      const zip = document.getElementById("zip-code").value.trim();
+      const zipRaw = document.getElementById("zip-code").value.trim();
+      const zip = zipRaw.split(" - ")[0];
 
       const isValidZip = Object.keys(zipData).includes(zip);
       const ok = (selectedRecipes.length === 3) && isValidZip;
@@ -328,7 +329,8 @@
   const zipInput = document.getElementById("zip-code");
   const error = document.getElementById("zip-error");
 
-  const zip = zipInput.value.trim();
+  const zipRaw = zipInput.value.trim();
+  const zip = zipRaw.split(" - ")[0];
 
   // 🔴 BLOQUANT
   if (!Object.keys(zipData).includes(zip)) {
@@ -408,7 +410,7 @@ const btn = document.getElementById("pay-button");
       
 if (zipInput && suggestions) {
   zipInput.addEventListener("input", (e) => {
-  const query = e.target.value.trim();
+  const query = e.target.value.split(" - ")[0].trim();
 
   suggestions.innerHTML = "";
 
@@ -433,7 +435,7 @@ if (zipInput && suggestions) {
       li.textContent = `${zip} - ${zipData[zip]}`;
 
       li.addEventListener("click", () => {
-        zipInput.value = zip;
+        zipInput.value = `${zip} - ${zipData[zip]}`;
         suggestions.classList.add("hidden");
 
         updatePayButton();
