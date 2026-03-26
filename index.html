@@ -206,7 +206,7 @@
                 <input
                   type="text"
                   id="zip-code"
-                  placeholder="Ex : 17630"
+                  placeholder="Ex : 17630 (Île de Ré uniquement)"
                   class="w-full p-3 border border-stone-300 rounded-sm text-center text-black bg-white placeholder:text-stone-400"
                 />
                 <ul id="zip-suggestions" class="bg-white text-black w-full mt-2 border border-stone-200 rounded-sm hidden"></ul>
@@ -243,6 +243,15 @@
 
     let selectedRecipes = [];
     let guests = 2;
+
+    const zipData = {
+  "17580": "Le Bois-Plage-en-Ré",
+  "17630": "La Flotte",
+  "17410": "Saint-Martin-de-Ré",
+  "17670": "La Couarde-sur-Mer",
+  "17940": "Rivedoux-Plage",
+  "17740": "Sainte-Marie-de-Ré"
+};
 
     function showPage(pageId) {
       document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
@@ -307,22 +316,13 @@
        const btn = document.getElementById('pay-button');
       const zip = document.getElementById("zip-code").value.trim();
 
-      const isValidZip = allowedZipCodes.includes(zip);
+      const isValidZip = Object.keys(zipData).includes(zip);
       const ok = (selectedRecipes.length === 3) && isValidZip;
 
       btn.disabled = !ok;
       btn.classList.toggle('opacity-30', !ok);
       btn.classList.toggle('cursor-not-allowed', !ok);
     }
-    
-    const allowedZipCodes = [
-      "17580", // Le Bois-Plage
-      "17630", // La Flotte
-      "17410", // Saint-Martin
-      "17670", // La Couarde
-      "17940", // Rivedoux
-      "17740", // Sainte-Marie
-    ];
 
     async function startCheckout() {
   const zipInput = document.getElementById("zip-code");
@@ -331,7 +331,7 @@
   const zip = zipInput.value.trim();
 
   // 🔴 BLOQUANT
-  if (!allowedZipCodes.includes(zip)) {
+  if (!Object.keys(zipData).includes(zip)) {
     error.classList.remove("hidden");
     return;
   } else {
@@ -405,70 +405,58 @@
 const suggestions = document.getElementById("zip-suggestions");
 const error = document.getElementById("zip-error");
 const btn = document.getElementById("pay-button");
-
+      
 if (zipInput && suggestions) {
-  zipInput.addEventListener("input", async (e) => {
-    const query = e.target.value.trim();
+  zipInput.addEventListener("input", (e) => {
+  const query = e.target.value.trim();
 
-    updatePayButton();
+  suggestions.innerHTML = "";
 
-    // 🔹 Feedback live
-    if (allowedZipCodes.includes(query)) {
-      error.innerText = "Livraison disponible ✅";
-      error.classList.remove("hidden", "text-red-500");
-      error.classList.add("text-green-500");
-    } else {
-      error.innerText = "Zone non livrée";
-      error.classList.remove("hidden");
-      error.classList.add("text-red-500");
-    }
+    if (query.length === 0) {
+  error.classList.add("hidden");
+} else if (query.length >= 5 && !Object.keys(zipData).includes(query)) {
+  error.innerText = "Nous livrons uniquement sur l'île de Ré";
+  error.classList.remove("hidden");
+  error.classList.add("text-red-500");
+} else {
+  error.innerText = "Livraison disponible ✅";
+  error.classList.remove("hidden");
+  error.classList.remove("text-red-500");
+  error.classList.add("text-green-500");
+}
 
-    // 🔹 Suggestions
-    if (query.length < 2) {
-      suggestions.classList.add("hidden");
-      return;
-    }
+  // 🔹 Si l'utilisateur tape
+  Object.keys(zipData).forEach((zip) => {
+    if (zip.startsWith(query)) {
+      const li = document.createElement("li");
+      li.className = "p-3 hover:bg-stone-100 cursor-pointer text-sm";
+      li.textContent = `${zip} - ${zipData[zip]}`;
 
-    try {
-      const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}&limit=5`);
-      const data = await res.json();
+      li.addEventListener("click", () => {
+        zipInput.value = zip;
+        suggestions.classList.add("hidden");
 
-      suggestions.innerHTML = "";
+        updatePayButton();
 
-      data.features.forEach((item) => {
-        const city = item.properties.city;
-        const postcode = item.properties.postcode;
+        error.innerText = "Livraison disponible ✅";
+        error.classList.remove("hidden", "text-red-500");
+        error.classList.add("text-green-500");
 
-        if (!allowedZipCodes.includes(postcode)) return;
-
-        const li = document.createElement("li");
-        li.className = "p-3 hover:bg-stone-100 cursor-pointer text-sm";
-        li.textContent = `${postcode} - ${city}`;
-
-        li.addEventListener("click", () => {
-          zipInput.value = postcode;
-          suggestions.classList.add("hidden");
-
-          updatePayButton();
-          
-          error.innerText = "Livraison disponible ✅";
-          error.classList.remove("hidden", "text-red-500");
-          error.classList.add("text-green-500");
-        });
-
-        suggestions.appendChild(li);
+        zipInput.blur(); // 🔥 important mobile
       });
 
-      if (suggestions.children.length > 0) {
-        suggestions.classList.remove("hidden");
-      } else {
-        suggestions.classList.add("hidden");
-      }
-
-    } catch (err) {
-      console.error(err);
+      suggestions.appendChild(li);
     }
   });
+
+  if (suggestions.children.length > 0 && query.length > 0) {
+    suggestions.classList.remove("hidden");
+  } else {
+    suggestions.classList.add("hidden");
+  }
+
+  updatePayButton();
+});
 
   document.addEventListener("click", (e) => {
     if (!zipInput.contains(e.target) && !suggestions.contains(e.target)) {
