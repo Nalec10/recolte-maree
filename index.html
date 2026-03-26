@@ -209,6 +209,7 @@
                   placeholder="Ex : 17630"
                   class="w-full p-3 border border-stone-300 rounded-sm text-center text-black bg-white placeholder:text-stone-400"
                 />
+                <ul id="zip-suggestions" class="bg-white text-black w-full mt-2 border border-stone-200 rounded-sm hidden"></ul>
                 <p id="zip-error" class="text-red-500 text-xs mt-2 hidden">
                   Nous ne livrons pas encore dans cette zone
                 </p>
@@ -303,13 +304,17 @@
     }
 
     function updatePayButton() {
-      const btn = document.getElementById('pay-button');
-      const ok = (selectedRecipes.length === 3);
+       const btn = document.getElementById('pay-button');
+      const zip = document.getElementById("zip-code").value.trim();
+
+      const isValidZip = allowedZipCodes.includes(zip);
+      const ok = (selectedRecipes.length === 3) && isValidZip;
+
       btn.disabled = !ok;
       btn.classList.toggle('opacity-30', !ok);
       btn.classList.toggle('cursor-not-allowed', !ok);
     }
-
+    
     const allowedZipCodes = [
       "17580", // Le Bois-Plage
       "17630", // La Flotte
@@ -393,8 +398,86 @@
       updatePayButton();
 
       const payBtn = document.getElementById("pay-button");
-      if (payBtn) payBtn.addEventListener("click", startCheckout);
+  if (payBtn) payBtn.addEventListener("click", startCheckout);
 
+  // 🔥 AUTOCOMPLETE FIXÉ
+  const zipInput = document.getElementById("zip-code");
+const suggestions = document.getElementById("zip-suggestions");
+const error = document.getElementById("zip-error");
+const btn = document.getElementById("pay-button");
+
+if (zipInput && suggestions) {
+  zipInput.addEventListener("input", async (e) => {
+    const query = e.target.value.trim();
+
+    updatePayButton();
+
+    // 🔹 Feedback live
+    if (allowedZipCodes.includes(query)) {
+      error.innerText = "Livraison disponible ✅";
+      error.classList.remove("hidden", "text-red-500");
+      error.classList.add("text-green-500");
+    } else {
+      error.innerText = "Zone non livrée";
+      error.classList.remove("hidden");
+      error.classList.add("text-red-500");
+    }
+
+    // 🔹 Suggestions
+    if (query.length < 2) {
+      suggestions.classList.add("hidden");
+      return;
+    }
+
+    try {
+      const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}&limit=5`);
+      const data = await res.json();
+
+      suggestions.innerHTML = "";
+
+      data.features.forEach((item) => {
+        const city = item.properties.city;
+        const postcode = item.properties.postcode;
+
+        if (!allowedZipCodes.includes(postcode)) return;
+
+        const li = document.createElement("li");
+        li.className = "p-3 hover:bg-stone-100 cursor-pointer text-sm";
+        li.textContent = `${postcode} - ${city}`;
+
+        li.addEventListener("click", () => {
+          zipInput.value = postcode;
+          suggestions.classList.add("hidden");
+
+          updatePayButton();
+          
+          error.innerText = "Livraison disponible ✅";
+          error.classList.remove("hidden", "text-red-500");
+          error.classList.add("text-green-500");
+        });
+
+        suggestions.appendChild(li);
+      });
+
+      if (suggestions.children.length > 0) {
+        suggestions.classList.remove("hidden");
+      } else {
+        suggestions.classList.add("hidden");
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!zipInput.contains(e.target) && !suggestions.contains(e.target)) {
+      suggestions.classList.add("hidden");
+    }
+  });
+}
+
+      
       // ===== Carousel arrows desktop =====
       const carousel = document.getElementById("carousel");
       const prev = document.getElementById("carousel-prev");
