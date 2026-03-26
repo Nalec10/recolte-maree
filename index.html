@@ -199,6 +199,21 @@
                   —
                 </p>
 
+              <div class="mt-6 w-full">
+                <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-2">
+                  Code postal de livraison
+                </label>
+                <input
+                  type="text"
+                  id="zip-code"
+                  placeholder="Ex : 17630"
+                  class="w-full p-3 border border-stone-300 rounded-sm text-center"
+                >
+                <p id="zip-error" class="text-red-500 text-xs mt-2 hidden">
+                  Nous ne livrons pas encore dans cette zone
+                </p>
+              </div>
+
               <button id="pay-button" disabled
                 class="w-full bg-[#c5a47e] text-white py-4 rounded-sm font-bold uppercase tracking-widest opacity-30 cursor-not-allowed hover:bg-[#b3936d] transition-all">
                 Commander mon panier
@@ -295,36 +310,59 @@
       btn.classList.toggle('cursor-not-allowed', !ok);
     }
 
+    const allowedZipCodes = [
+      "17580", // Le Bois-Plage
+      "17630", // La Flotte
+      "17410", // Saint-Martin
+      "17670", // La Couarde
+      "17940", // Rivedoux
+      "17740", // Sainte-Marie
+    ];
+
     async function startCheckout() {
-      const btn = document.getElementById('pay-button');
-      if (btn.disabled) return;
+  const zipInput = document.getElementById("zip-code");
+  const error = document.getElementById("zip-error");
 
-      btn.disabled = true;
-      btn.classList.remove('opacity-30', 'cursor-not-allowed');
-      btn.classList.add('opacity-50', 'cursor-wait');
+  const zip = zipInput.value.trim();
 
-      const originalText = btn.innerText;
-      btn.innerText = "Redirection…";
+  // 🔴 BLOQUANT
+  if (!allowedZipCodes.includes(zip)) {
+    error.classList.remove("hidden");
+    return;
+  } else {
+    error.classList.add("hidden");
+  }
 
-      try {
-        const res = await fetch(`${WORKER_BASE}/api/create-session`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ guests, recipeIds: selectedRecipes })
-        });
+  const btn = document.getElementById('pay-button');
+  if (btn.disabled) return;
 
-        if (!res.ok) throw new Error(await res.text());
-        const data = await res.json();
-        if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
-        window.location.href = data.url;
-      } catch (err) {
-        alert("Impossible de lancer le paiement.\n\n" + err.message);
-        btn.disabled = false;
-        btn.classList.remove('opacity-50', 'cursor-wait');
-        updatePayButton();
-        btn.innerText = originalText;
-      }
-    }
+  btn.disabled = true;
+  btn.classList.remove('opacity-30', 'cursor-not-allowed');
+  btn.classList.add('opacity-50', 'cursor-wait');
+
+  const originalText = btn.innerText;
+  btn.innerText = "Redirection…";
+
+  try {
+    const res = await fetch(`${WORKER_BASE}/api/create-session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ guests, recipeIds: selectedRecipes, zip })
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
+    window.location.href = data.url;
+
+  } catch (err) {
+    alert("Impossible de lancer le paiement.\n\n" + err.message);
+    btn.disabled = false;
+    btn.classList.remove('opacity-50', 'cursor-wait');
+    updatePayButton();
+    btn.innerText = originalText;
+  }
+}
 
     function scrollToCommander() {
         const el = document.getElementById('commander');
