@@ -76,6 +76,9 @@ h1,h2,h3,.font-serif{
   scroll-snap-align: none !important;
   scroll-snap-stop: always;
 
+  display: flex;
+  flex-direction: column;
+
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius: var(--radius);
