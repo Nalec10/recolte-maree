@@ -330,6 +330,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let selectedRecipes = [];
     let guests = 2;
 
+    function getTotalPrice() {
+      switch (guests) {
+        case 2: return 74.90;
+        case 3: return 109.90;
+        case 4: return 139.90;
+        case 5: return 169.90;
+        default: return 0;
+      }
+    }
+
     const zipData = {
   "17580": "Le Bois-Plage-en-Ré",
   "17630": "La Flotte",
@@ -358,53 +368,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       updatePayButton();
     }
 
+    function getRecipeName(id) {
+      const card = document.getElementById(`recipe-${id}`);
+      return card?.querySelector('h3')?.innerText?.trim() || `Recette ${id}`;
+    }
+
     function toggleRecipe(id) {
       const card = document.getElementById(`recipe-${id}`);
       if (!card) return;
 
+      const recipeName = getRecipeName(id);
+  
       if (selectedRecipes.includes(id)) {
         selectedRecipes = selectedRecipes.filter(r => r !== id);
         card.classList.remove('selected');
+
+        dataLayer.push({
+          event: "recipe_deselected",
+          recipe_id: id,
+          recipe_name: recipeName,
+          selected_count: selectedRecipes.length
+        });
+
       } else if (selectedRecipes.length < 3) {
         selectedRecipes.push(id);
         card.classList.add('selected');
+
+        dataLayer.push({
+          event: "recipe_selected",
+          recipe_id: id,
+          recipe_name: recipeName,
+          selected_count: selectedRecipes.length
+        });
       }
-      updatePayButton();
-      calculate();
-      // 🔥 SCROLL AUTO
-      if (selectedRecipes.length === 3) {
-        setTimeout(() => {
-        scrollToPaiement();
-        }, 300);
-      }
-    }
+
+  updatePayButton();
+  calculate();
+
+  if (selectedRecipes.length === 3) {
+    setTimeout(() => {
+      scrollToPaiement();
+    }, 300);
+  }
+}
 
     function calculate() {
-  let total = 0;
+      const total = getTotalPrice();
 
-  switch (guests) {
-    case 2: total = 74.90; break;
-    case 3: total = 109.90; break;
-    case 4: total = 139.90; break;
-    case 5: total = 169.90; break;
-    default: total = 0;
-  }
+      document.getElementById('total-price').innerText = total.toFixed(2) + " €";
 
-  // Total
-  document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+      const meals = guests * 3;
+      document.getElementById('plates-count').innerText = meals + " assiettes complètes";
 
-  // Nombre d’assiettes
-  const meals = guests * 3;
-
-  document.getElementById('plates-count').innerText =
-    meals + " assiettes complètes";
-
-  // Prix par assiette
-  const perMeal = total / meals;
-
-  document.getElementById('price-per-meal').innerText =
-    "Soit seulement " + perMeal.toFixed(2) + " € / assiette";
-}
+      const perMeal = total / meals;
+      document.getElementById('price-per-meal').innerText =
+        "Soit seulement " + perMeal.toFixed(2) + " € / assiette";
+    }
 
     function updatePayButton() {
        const btn = document.getElementById('pay-button');
@@ -460,7 +479,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   event: "start_checkout",
   guests: guests,
   recipes: selectedRecipes,
-  value: total, // optionnel mais très utile
+  value: getTotalPrice(),
   currency: "EUR"
 });
     window.location.href = data.url;
