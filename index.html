@@ -266,8 +266,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="bg-[#1a2e4c] p-8 rounded-sm text-white flex flex-col items-center">
               <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 mb-2">Panier Total</span>
               <div class="text-5xl font-serif mb-2" id="total-price">0.00 €</div>
+                <p id="plates-count" class="text-sm text-stone-300">
+                  —
+                </p>
                 <p id="price-per-meal" class="text-xs text-stone-400">
                   —
+                </p>
+                <p class="text-xs text-stone-400 mt-1">
+                  Moins cher qu’un restaurant, bien meilleur qu’un plat préparé
+                </p>
+                <p class="text-xs text-stone-400 mt-2">
+                    ⚠️ Commandes clôturent jeudi 20h • Quantités limitées
                 </p>
 
               <div class="mt-6 w-full">
@@ -362,26 +371,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     function calculate() {
-      let total = 0;
+  let total = 0;
 
-      switch (guests) {
-      case 2: total = 74.90; break;
-      case 3: total = 109.90; break;
-      case 4: total = 139.90; break;
-      case 5: total = 169.90; break;
-      default: total = 0;
-    }
+  switch (guests) {
+    case 2: total = 74.90; break;
+    case 3: total = 109.90; break;
+    case 4: total = 139.90; break;
+    case 5: total = 169.90; break;
+    default: total = 0;
+  }
 
-    // Affichage total
-    document.getElementById('total-price').innerText = total.toFixed(2) + " €";
+  // Total
+  document.getElementById('total-price').innerText = total.toFixed(2) + " €";
 
-    // Calcul prix par assiette
-    const meals = guests * 3;
-    const perMeal = total / meals;
+  // Nombre d’assiettes
+  const meals = guests * 3;
 
-    document.getElementById('price-per-meal').innerText =
-      "Soit " + perMeal.toFixed(2) + " € / assiette";
-    }
+  document.getElementById('plates-count').innerText =
+    meals + " assiettes complètes";
+
+  // Prix par assiette
+  const perMeal = total / meals;
+
+  document.getElementById('price-per-meal').innerText =
+    "Soit seulement " + perMeal.toFixed(2) + " € / assiette";
+}
 
     function updatePayButton() {
        const btn = document.getElementById('pay-button');
