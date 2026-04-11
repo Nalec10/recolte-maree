@@ -397,6 +397,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     async function startCheckout() {
+      
   const zipInput = document.getElementById("zip-code");
   const error = document.getElementById("zip-error");
 
@@ -431,9 +432,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!res.ok) throw new Error(await res.text());
     const data = await res.json();
     if (!data.url) throw new Error("Pas d'URL Stripe renvoyée.");
+    
+    dataLayer.push({
+  event: "start_checkout",
+  guests: guests,
+  recipes: selectedRecipes,
+  value: total, // optionnel mais très utile
+  currency: "EUR"
+});
     window.location.href = data.url;
 
   } catch (err) {
+    dataLayer.push({
+    event: "checkout_error",
+    message: err.message
+  });
+
     alert("Impossible de lancer le paiement.\n\n" + err.message);
     btn.disabled = false;
     btn.classList.remove('opacity-50', 'cursor-wait');
@@ -443,15 +457,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 }
 
     function scrollToCommander() {
-        const el = document.getElementById('commander');
-        const offset = 80;
+        dataLayer.push({
+    event: "click_cta_hero"
+  });
 
-        const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+  const el = document.getElementById('commander');
+  const offset = 80;
 
-        window.scrollTo({
-          top: y,
-          behavior: 'smooth'
-        });
+  const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+  window.scrollTo({
+    top: y,
+    behavior: 'smooth'
+  });
       }
 
     function scrollToPaiement() {
