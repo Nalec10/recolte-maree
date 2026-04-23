@@ -110,10 +110,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10 md:mb-16">
           <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">Paniers de la Semaine</h2>
-          <p class="text-stone-500 max-w-xl mx-auto italic">3 recettes à sélectionner,  Pour 2 à 5 personnes,  Quantités limitées</p>
-          <p class="text-[12px] text-stone-400 mt-2">
-            ⏰ Commandes jusqu’à jeudi 20h • Livraisons vendredi & samedi
-          </p>
           <p class="mt-4 text-sm text-[#1a2e4c] font-semibold">
             👉 Glissez pour découvrir, cliquez pour choisir
           </p>
@@ -276,19 +272,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   —
                 </p>
 
+              <div class="order-breakdown mt-5 w-full">
+                <div class="order-breakdown__row">
+                  <span>Panier de base</span>
+                  <strong id="base-total-price">0.00 €</strong>
+                </div>
+                <div class="order-breakdown__row">
+                  <span>Compléments cuisine</span>
+                  <strong id="addon-total-price">0.00 €</strong>
+                </div>
+              </div>
+
+              <p id="addon-selection-summary" class="order-breakdown__summary">
+                Aucun indispensable ajouté
+              </p>
+
               <div class="mt-6 w-full">
                 <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-2">
                   Code postal de livraison
                 </label>
-                <input
-                  type="text"
-                  id="zip-code"
-                  placeholder="Ex : 17630 (Île de Ré uniquement)"
-                  class="w-full p-3 border border-stone-300 rounded-sm text-center text-black bg-white placeholder:text-stone-400"
-                />
-                <ul id="zip-suggestions" class="bg-white text-black w-full mt-2 border border-stone-200 rounded-sm hidden"></ul>
-                <p id="zip-error" class="text-red-500 text-xs mt-2 hidden">
-                  Nous ne livrons pas encore dans cette zone
+                <div class="zip-select-wrap">
+                  <select
+                    id="zip-code"
+                    class="zip-select w-full p-3 border border-stone-300 rounded-sm text-center text-black bg-white"
+                  >
+                    <option value="">Choisissez votre commune</option>
+                    <option value="17940">17940 - Rivedoux-Plage</option>
+                    <option value="17740">17740 - Sainte-Marie-de-Ré</option>
+                    <option value="17630">17630 - La Flotte</option>
+                    <option value="17410">17410 - Saint-Martin-de-Ré</option>
+                    <option value="17580">17580 - Le Bois-Plage-en-Ré</option>
+                    <option value="17670">17670 - La Couarde-sur-Mer</option>
+                    <option value="17111">17111 - Loix</option>
+                    <option value="17590">17590 - Ars-en-Ré / Saint-Clément-des-Baleines</option>
+                    <option value="17880">17880 - Les Portes-en-Ré</option>
+                  </select>
+                  <span class="zip-select__icon" aria-hidden="true">⌄</span>
+                </div>
+                <p id="zip-error" class="text-xs mt-2 hidden">
+                  Choisissez votre commune pour la livraison
                 </p>
               </div>
 
@@ -298,21 +320,85 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </button>
 
               <p class="text-[9px] mt-4 text-stone-400 uppercase tracking-widest">Paiement 100% sécurisé</p>
-               <p class="text-[9px] text-stone-100/70 mt-1">
-                  Moins cher qu’un restaurant, bien meilleur qu’un plat préparé
-                </p>
-                <p class="text-[9px] text-stone-100/70 mt-2">
-                    ⚠️ Commandes clôturent jeudi 20h
-                </p>
-                <p class="text-[9px] text-stone-100/70 mt-2">
-                    Quantités limitées
-                </p>
             </div>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <div id="pantry-modal" class="pantry-modal" aria-hidden="true">
+    <div class="pantry-modal__backdrop" data-close-pantry-modal></div>
+
+    <div
+      id="pantry-modal-dialog"
+      class="pantry-modal__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pantry-modal-title"
+      aria-describedby="pantry-modal-description"
+    >
+      <button
+        type="button"
+        id="pantry-modal-close"
+        class="pantry-modal__close"
+        aria-label="Fermer la fenêtre"
+      >
+        ✕
+      </button>
+
+      <p class="pantry-modal__eyebrow">Avant le paiement</p>
+      <h3 id="pantry-modal-title" class="pantry-modal__title font-serif">
+        Ajoutez les indispensables si besoin
+      </h3>
+      <p id="pantry-modal-description" class="pantry-modal__description">
+        Si vous n’avez pas déjà certains basiques chez vous, cochez simplement ceux à ajouter à votre panier.
+      </p>
+
+      <div class="pantry-modal__summary">
+        <span class="pantry-modal__summary-label">Recettes sélectionnées</span>
+        <div id="pantry-selected-recipes" class="pantry-modal__summary-recipes"></div>
+        <div class="pantry-modal__pricing">
+          <div class="pantry-modal__pricing-row">
+            <span>Panier de base</span>
+            <strong id="pantry-base-price">0.00 €</strong>
+          </div>
+          <div class="pantry-modal__pricing-row">
+            <span>Compléments choisis</span>
+            <strong id="pantry-options-price">0.00 €</strong>
+          </div>
+          <div id="pantry-options-breakdown" class="pantry-modal__pricing-list">
+            <div class="pantry-modal__pricing-item pantry-modal__pricing-item--empty">
+              <span>Aucun indispensable ajouté</span>
+              <strong>0.00 €</strong>
+            </div>
+          </div>
+          <div class="pantry-modal__pricing-row pantry-modal__pricing-row--total">
+            <span>Total après ajouts</span>
+            <strong id="pantry-grand-total">0.00 €</strong>
+          </div>
+        </div>
+        <p id="pantry-selection-copy" class="pantry-modal__selection-copy">
+          Aucun indispensable ajouté pour le moment.
+        </p>
+      </div>
+
+      <div id="pantry-items" class="pantry-modal__items"></div>
+
+      <p id="pantry-empty" class="pantry-modal__empty hidden">
+        Aucun ingrédient complémentaire n’est proposé pour cette sélection.
+      </p>
+
+      <div class="pantry-modal__actions">
+        <button type="button" id="pantry-skip" class="pantry-btn pantry-btn--ghost">
+          Passer sans ajout
+        </button>
+        <button type="button" id="pantry-confirm" class="pantry-btn pantry-btn--primary">
+          Continuer vers le paiement
+        </button>
+      </div>
+    </div>
+  </div>
 
   <footer class="bg-[#1a2e4c] text-stone-400 py-20 border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 text-center">
@@ -329,8 +415,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     let selectedRecipes = [];
     let guests = 2;
+    let pantrySelections = [];
+    let pantryDraftSelections = [];
 
-    function getTotalPrice() {
+    const BUNDLE_ID = "bundle-all";
+    const BUNDLE_DISCOUNT_RATE = 0.15;
+
+    function getBasePrice() {
       switch (guests) {
         case 2: return 74.90;
         case 3: return 109.90;
@@ -352,6 +443,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "17880": "Les Portes-en-Ré",    
 };
 
+    const recipeLabels = {
+      1: "Courges rôties",
+      2: "Riso crémeux",
+      3: "Chou-fleur rôti",
+      4: "Salade tiède",
+      5: "Recette à venir"
+    };
+
+    const pantryCatalog = {
+      "olive-oil": {
+        label: "Huile d'olive",
+        note: "Pression douce, goût fruité.",
+        description: "Parfaite pour les cuissons, les légumes rôtis et les finitions minute à table.",
+        price: 8.90,
+        image: "pantry-olive.svg"
+      },
+      "sea-salt": {
+        label: "Sel fin",
+        note: "Le réflexe du quotidien.",
+        description: "Pour assaisonner proprement et révéler chaque ingrédient sans le masquer.",
+        price: 3.20,
+        image: "pantry-salt.svg"
+      },
+      "black-pepper": {
+        label: "Poivre noir",
+        note: "Fraîcheur et relief.",
+        description: "Quelques tours suffisent pour réveiller une crème, une vinaigrette ou un riso.",
+        price: 4.30,
+        image: "pantry-pepper.svg"
+      },
+      "vinegar": {
+        label: "Vinaigre artisanal",
+        note: "Une pointe vive et nette.",
+        description: "Idéal pour équilibrer la salade tiède et apporter du pep's aux sauces minute.",
+        price: 5.40,
+        image: "pantry-vinegar.svg"
+      },
+      "mustard": {
+        label: "Moutarde douce",
+        note: "Texture souple et gourmande.",
+        description: "La base idéale pour monter une vinaigrette maison en quelques secondes.",
+        price: 4.90,
+        image: "pantry-mustard.svg"
+      }
+    };
+
+    const pantryItemsByRecipe = {
+      1: ["olive-oil", "sea-salt", "black-pepper"],
+      2: ["olive-oil", "sea-salt", "black-pepper"],
+      3: ["olive-oil", "sea-salt", "black-pepper"],
+      4: ["olive-oil", "sea-salt", "black-pepper", "vinegar", "mustard"]
+    };
+
     function showPage(pageId) {
       document.querySelectorAll('main').forEach(m => m.classList.add('hidden-page'));
       const target = document.getElementById('page-' + pageId);
@@ -371,6 +515,493 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function getRecipeName(id) {
       const card = document.getElementById(`recipe-${id}`);
       return card?.querySelector('h3')?.innerText?.trim() || `Recette ${id}`;
+    }
+
+    function getRecipeLabel(id) {
+      return recipeLabels[id] || getRecipeName(id);
+    }
+
+    function roundPrice(value) {
+      return Math.round(value * 100) / 100;
+    }
+
+    function formatPrice(value) {
+      return `${roundPrice(value).toFixed(2)} €`;
+    }
+
+    function getPantryOptions() {
+      const options = new Map();
+
+      selectedRecipes.forEach((recipeId) => {
+        const pantryItemIds = pantryItemsByRecipe[recipeId] || [];
+
+        pantryItemIds.forEach((itemId) => {
+          const item = pantryCatalog[itemId];
+          if (!item) return;
+
+          if (!options.has(itemId)) {
+            options.set(itemId, {
+              id: itemId,
+              label: item.label,
+              note: item.note,
+              description: item.description,
+              price: item.price,
+              image: item.image,
+              recipeIds: []
+            });
+          }
+
+          const option = options.get(itemId);
+          if (!option.recipeIds.includes(recipeId)) {
+            option.recipeIds.push(recipeId);
+          }
+        });
+      });
+
+      return Array.from(options.values());
+    }
+
+    function hasBundleOffer(options = getPantryOptions()) {
+      return options.length > 1;
+    }
+
+    function getBundleOffer(options = getPantryOptions()) {
+      if (!hasBundleOffer(options)) return null;
+
+      const regularPrice = roundPrice(options.reduce((sum, item) => sum + item.price, 0));
+      const discountedPrice = roundPrice(regularPrice * (1 - BUNDLE_DISCOUNT_RATE));
+
+      return {
+        id: BUNDLE_ID,
+        label: "On prend l'tout",
+        note: "Tous les indispensables de la sélection, à prix réduit.",
+        description: "Vous recevez l'ensemble des produits utiles pour les recettes choisies, avec une remise immédiate.",
+        image: "pantry-bundle.svg",
+        regularPrice,
+        price: discountedPrice,
+        savings: roundPrice(regularPrice - discountedPrice),
+        itemIds: options.map((item) => item.id)
+      };
+    }
+
+    function syncSelection(selection) {
+      const availableIds = new Set(getPantryOptions().map((item) => item.id));
+      if (hasBundleOffer()) availableIds.add(BUNDLE_ID);
+      return selection.filter((itemId) => availableIds.has(itemId));
+    }
+
+    function syncPantrySelections() {
+      pantrySelections = syncSelection(pantrySelections);
+      pantryDraftSelections = syncSelection(pantryDraftSelections);
+    }
+
+    function isBundleSelected(selection = pantrySelections) {
+      return selection.includes(BUNDLE_ID);
+    }
+
+    function getSelectedPantryItems(selection = pantrySelections) {
+      const pantryOptions = getPantryOptions();
+      const bundleOffer = getBundleOffer(pantryOptions);
+      const selectedItemIds = isBundleSelected(selection)
+        ? (bundleOffer?.itemIds || [])
+        : selection.filter((itemId) => itemId !== BUNDLE_ID);
+
+      return selectedItemIds
+        .map((itemId) => pantryOptions.find((item) => item.id === itemId))
+        .filter(Boolean)
+        .map((item) => ({
+          id: item.id,
+          label: item.label,
+          note: item.note,
+          description: item.description,
+          price: item.price,
+          recipes: item.recipeIds.map((recipeId) => ({
+            id: recipeId,
+            label: getRecipeLabel(recipeId)
+          }))
+        }));
+    }
+
+    function getPantryAdditionalPrice(selection = pantrySelections) {
+      const pantryOptions = getPantryOptions();
+      const bundleOffer = getBundleOffer(pantryOptions);
+
+      if (isBundleSelected(selection)) {
+        return bundleOffer?.price || 0;
+      }
+
+      return roundPrice(
+        pantryOptions
+          .filter((item) => selection.includes(item.id))
+          .reduce((sum, item) => sum + item.price, 0)
+      );
+    }
+
+    function getPantrySelectionSummary(selection = pantrySelections) {
+      const pantryOptions = getPantryOptions();
+      const bundleOffer = getBundleOffer(pantryOptions);
+
+      if (isBundleSelected(selection) && bundleOffer) {
+        return `${bundleOffer.label} • ${formatPrice(bundleOffer.price)}`;
+      }
+
+      const selectedItems = getSelectedPantryItems(selection);
+      if (selectedItems.length === 0) return "Aucun indispensable ajouté";
+
+      return selectedItems.map((item) => item.label).join(" • ");
+    }
+
+    function getPantryPayload(selection = pantrySelections) {
+      const pantryOptions = getPantryOptions();
+      const bundleOffer = getBundleOffer(pantryOptions);
+      const items = getSelectedPantryItems(selection);
+
+      return {
+        selectionType: isBundleSelected(selection) ? "bundle" : "individual",
+        itemIds: items.map((item) => item.id),
+        items,
+        bundle: isBundleSelected(selection) && bundleOffer
+          ? {
+              id: bundleOffer.id,
+              label: bundleOffer.label,
+              price: bundleOffer.price,
+              regularPrice: bundleOffer.regularPrice,
+              savings: bundleOffer.savings
+            }
+          : null,
+        additionalTotal: getPantryAdditionalPrice(selection),
+        finalTotal: roundPrice(getBasePrice() + getPantryAdditionalPrice(selection))
+      };
+    }
+
+    function getPantryBreakdown(selection = pantrySelections) {
+      const selectedItems = getSelectedPantryItems(selection);
+      const rows = selectedItems.map((item) => ({
+        label: item.label,
+        price: item.price,
+        kind: "item"
+      }));
+
+      const payload = getPantryPayload(selection);
+
+      if (payload.bundle) {
+        rows.push({
+          label: "Remise On prend l'tout",
+          price: -payload.bundle.savings,
+          kind: "discount"
+        });
+      }
+
+      return rows;
+    }
+
+    function getCheckoutLineItems(selection = pantrySelections) {
+      const pantryPayload = getPantryPayload(selection);
+      const recipeLabels = selectedRecipes.map((recipeId) => getRecipeLabel(recipeId));
+      const lineItems = [{
+        type: "base",
+        label: "Panier de base",
+        amount: getBasePrice(),
+        description: `${guests} convives • ${recipeLabels.join(" • ")}`
+      }];
+
+      if (pantryPayload.bundle) {
+        lineItems.push({
+          type: "pantry_bundle",
+          id: pantryPayload.bundle.id,
+          label: pantryPayload.bundle.label,
+          amount: pantryPayload.bundle.price,
+          description: pantryPayload.items.map((item) => item.label).join(" • "),
+          savings: pantryPayload.bundle.savings
+        });
+      } else {
+        pantryPayload.items.forEach((item) => {
+          lineItems.push({
+            type: "pantry_item",
+            id: item.id,
+            label: item.label,
+            amount: item.price,
+            description: item.recipes.map((recipe) => recipe.label).join(" • ")
+          });
+        });
+      }
+
+      return lineItems.map((item) => ({
+        ...item,
+        amount: roundPrice(item.amount)
+      }));
+    }
+
+    function getCheckoutRequestPayload(zip, selection = pantrySelections) {
+      const pantryPayload = getPantryPayload(selection);
+      const recipeLabels = selectedRecipes.map((recipeId) => getRecipeLabel(recipeId));
+
+      return {
+        guests,
+        recipeIds: selectedRecipes,
+        recipeLabels,
+        zip,
+        pantrySelectionType: pantryPayload.selectionType,
+        pantryItemIds: pantryPayload.itemIds,
+        pantryItems: pantryPayload.items,
+        pantryBundle: pantryPayload.bundle,
+        pantryBreakdown: getPantryBreakdown(selection),
+        pantryAdditionalTotal: pantryPayload.additionalTotal,
+        expectedOrderTotal: pantryPayload.finalTotal,
+        checkoutLineItems: getCheckoutLineItems(selection),
+        checkoutSummary: {
+          baseTotal: getBasePrice(),
+          pantryTotal: pantryPayload.additionalTotal,
+          finalTotal: pantryPayload.finalTotal,
+          pantryLabel: getPantrySelectionSummary(selection)
+        }
+      };
+    }
+
+    function updateOrderSummary() {
+      const baseTotal = getBasePrice();
+      const addonsTotal = getPantryAdditionalPrice(pantrySelections);
+      const total = roundPrice(baseTotal + addonsTotal);
+      const meals = guests * 3;
+
+      document.getElementById('total-price').innerText = formatPrice(total);
+      document.getElementById('plates-count').innerText = meals + " assiettes complètes";
+      document.getElementById('price-per-meal').innerText =
+        "Soit seulement " + formatPrice(total / meals) + " / assiette";
+
+      document.getElementById("base-total-price").innerText = formatPrice(baseTotal);
+      document.getElementById("addon-total-price").innerText = formatPrice(addonsTotal);
+      document.getElementById("addon-selection-summary").innerText = getPantrySelectionSummary(pantrySelections);
+    }
+
+    function updatePantryPricing() {
+      const payload = getPantryPayload(pantryDraftSelections);
+      const confirmButton = document.getElementById("pantry-confirm");
+      const breakdown = document.getElementById("pantry-options-breakdown");
+
+      document.getElementById("pantry-base-price").innerText = formatPrice(getBasePrice());
+      document.getElementById("pantry-options-price").innerText = formatPrice(payload.additionalTotal);
+      document.getElementById("pantry-grand-total").innerText = formatPrice(payload.finalTotal);
+      document.getElementById("pantry-selection-copy").innerText = getPantrySelectionSummary(pantryDraftSelections);
+
+      if (breakdown) {
+        const rows = getPantryBreakdown(pantryDraftSelections);
+        breakdown.innerHTML = rows.length === 0
+          ? `
+            <div class="pantry-modal__pricing-item pantry-modal__pricing-item--empty">
+              <span>Aucun indispensable ajouté</span>
+              <strong>0.00 €</strong>
+            </div>
+          `
+          : rows.map((row) => `
+            <div class="pantry-modal__pricing-item ${row.kind === "discount" ? "pantry-modal__pricing-item--discount" : ""}">
+              <span>${row.label}</span>
+              <strong>${row.price < 0 ? "-" : ""}${formatPrice(Math.abs(row.price))}</strong>
+            </div>
+          `).join("");
+      }
+
+      if (confirmButton) {
+        confirmButton.innerText = `Continuer vers le paiement • ${formatPrice(payload.finalTotal)}`;
+      }
+    }
+
+    function renderPantryModal() {
+      syncPantrySelections();
+
+      const pantryOptions = getPantryOptions();
+      const bundleOffer = getBundleOffer(pantryOptions);
+      const bundleSelected = isBundleSelected(pantryDraftSelections);
+      const items = document.getElementById("pantry-items");
+      const empty = document.getElementById("pantry-empty");
+      const selectedRecipesContainer = document.getElementById("pantry-selected-recipes");
+
+      if (!items || !empty || !selectedRecipesContainer) return pantryOptions;
+
+      selectedRecipesContainer.innerHTML = selectedRecipes
+        .map((recipeId) => `<span class="pantry-chip">${getRecipeLabel(recipeId)}</span>`)
+        .join("");
+
+      if (pantryOptions.length === 0) {
+        items.innerHTML = "";
+        empty.classList.remove("hidden");
+        updatePantryPricing();
+        return pantryOptions;
+      }
+
+      empty.classList.add("hidden");
+      items.innerHTML = `
+        ${bundleOffer ? `
+          <label class="pantry-option pantry-option--bundle ${bundleSelected ? "is-selected" : ""}">
+            <input
+              type="checkbox"
+              class="pantry-option__checkbox"
+              data-pantry-item="${bundleOffer.id}"
+              ${bundleSelected ? "checked" : ""}
+            >
+            <img src="${bundleOffer.image}" alt="${bundleOffer.label}" class="pantry-option__image">
+            <span class="pantry-option__content">
+              <span class="pantry-option__top">
+                <span class="pantry-option__kicker">Offre cuisine</span>
+                <span class="pantry-option__title">${bundleOffer.label}</span>
+                <span class="pantry-option__note">${bundleOffer.note}</span>
+                <span class="pantry-option__description">${bundleOffer.description}</span>
+              </span>
+              <span class="pantry-option__recipes pantry-option__recipes--products">
+                ${pantryOptions
+                  .map((item) => `<span class="pantry-option__recipe">${item.label}</span>`)
+                  .join("")}
+              </span>
+              <span class="pantry-option__price">
+                <span class="pantry-option__price-current">${formatPrice(bundleOffer.price)}</span>
+                <span class="pantry-option__price-compare">${formatPrice(bundleOffer.regularPrice)}</span>
+                <span class="pantry-option__price-saving">-${formatPrice(bundleOffer.savings)}</span>
+              </span>
+            </span>
+          </label>
+        ` : ""}
+        ${pantryOptions.map((item) => `
+          <label class="pantry-option ${pantryDraftSelections.includes(item.id) ? "is-selected" : ""} ${bundleSelected ? "is-disabled" : ""}">
+            <input
+              type="checkbox"
+              class="pantry-option__checkbox"
+              data-pantry-item="${item.id}"
+              ${pantryDraftSelections.includes(item.id) ? "checked" : ""}
+              ${bundleSelected ? "disabled" : ""}
+            >
+            <img src="${item.image}" alt="${item.label}" class="pantry-option__image">
+            <span class="pantry-option__content">
+              <span class="pantry-option__top">
+                <span class="pantry-option__kicker">Produit complémentaire</span>
+                <span class="pantry-option__title">${item.label}</span>
+                <span class="pantry-option__note">${item.note}</span>
+                <span class="pantry-option__description">${item.description}</span>
+              </span>
+              <span class="pantry-option__recipes">
+                ${item.recipeIds
+                  .map((recipeId) => `<span class="pantry-option__recipe">${getRecipeLabel(recipeId)}</span>`)
+                  .join("")}
+              </span>
+              <span class="pantry-option__price">
+                <span class="pantry-option__price-current">${formatPrice(item.price)}</span>
+              </span>
+            </span>
+          </label>
+        `).join("")}
+      `;
+
+      updatePantryPricing();
+      return pantryOptions;
+    }
+
+    function openPantryModal() {
+      const modal = document.getElementById("pantry-modal");
+      const dialog = document.getElementById("pantry-modal-dialog");
+      if (!modal) return;
+
+      pantryDraftSelections = [...pantrySelections];
+      renderPantryModal();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+
+      const closeButton = document.getElementById("pantry-modal-close");
+
+      if (dialog) {
+        dialog.scrollTop = 0;
+        dialog.scrollLeft = 0;
+      }
+
+      requestAnimationFrame(() => {
+        if (dialog) {
+          dialog.scrollTop = 0;
+          dialog.scrollLeft = 0;
+        }
+
+        if (closeButton) {
+          try {
+            closeButton.focus({ preventScroll: true });
+          } catch (error) {
+            closeButton.focus();
+          }
+        }
+      });
+
+      setTimeout(() => {
+        if (dialog) {
+          dialog.scrollTop = 0;
+          dialog.scrollLeft = 0;
+        }
+      }, 80);
+
+      dataLayer.push({
+        event: "pantry_modal_opened",
+        recipes: selectedRecipes,
+        pantry_options: getPantryOptions().map((item) => item.id)
+      });
+    }
+
+    function closePantryModal() {
+      const modal = document.getElementById("pantry-modal");
+      if (!modal) return;
+
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+      pantryDraftSelections = [...pantrySelections];
+    }
+
+    function togglePantryItem(itemId, checked) {
+      if (!itemId) return;
+
+      if (itemId === BUNDLE_ID) {
+        pantryDraftSelections = checked ? [BUNDLE_ID] : [];
+        return;
+      }
+
+      if (checked) {
+        pantryDraftSelections = Array.from(new Set([
+          ...pantryDraftSelections.filter((value) => value !== BUNDLE_ID),
+          itemId
+        ]));
+      } else {
+        pantryDraftSelections = pantryDraftSelections.filter((value) => value !== itemId);
+      }
+    }
+
+    function getValidatedZip() {
+      const zipInput = document.getElementById("zip-code");
+      const error = document.getElementById("zip-error");
+
+      const zip = zipInput.value.trim();
+
+      if (!Object.keys(zipData).includes(zip)) {
+        error.innerText = "Choisissez votre commune pour la livraison";
+        error.classList.remove("hidden", "text-green-500");
+        error.classList.add("text-red-500");
+        return null;
+      }
+
+      error.innerText = `Livraison disponible à ${zipData[zip]} ✅`;
+      error.classList.remove("hidden", "text-red-500");
+      error.classList.add("text-green-500");
+      return zip;
+    }
+
+    function handlePayButtonClick() {
+      const btn = document.getElementById('pay-button');
+      if (!btn || btn.disabled) return;
+
+      const zip = getValidatedZip();
+      if (!zip) return;
+
+      const pantryOptions = getPantryOptions();
+      if (pantryOptions.length === 0) {
+        startCheckout();
+        return;
+      }
+
+      openPantryModal();
     }
 
     function toggleRecipe(id) {
@@ -402,6 +1033,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         });
       }
 
+  syncPantrySelections();
   updatePayButton();
   calculate();
 
@@ -413,22 +1045,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 }
 
     function calculate() {
-      const total = getTotalPrice();
-
-      document.getElementById('total-price').innerText = total.toFixed(2) + " €";
-
-      const meals = guests * 3;
-      document.getElementById('plates-count').innerText = meals + " assiettes complètes";
-
-      const perMeal = total / meals;
-      document.getElementById('price-per-meal').innerText =
-        "Soit seulement " + perMeal.toFixed(2) + " € / assiette";
+      updateOrderSummary();
     }
 
     function updatePayButton() {
        const btn = document.getElementById('pay-button');
-      const zipRaw = document.getElementById("zip-code").value.trim();
-      const zip = zipRaw.split(" - ")[0];
+      const zip = document.getElementById("zip-code").value.trim();
 
       const isValidZip = Object.keys(zipData).includes(zip);
       const ok = (selectedRecipes.length === 3) && isValidZip;
@@ -439,23 +1061,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     async function startCheckout() {
-      
-  const zipInput = document.getElementById("zip-code");
-  const error = document.getElementById("zip-error");
-
-  const zipRaw = zipInput.value.trim();
-  const zip = zipRaw.split(" - ")[0];
-
-  // 🔴 BLOQUANT
-  if (!Object.keys(zipData).includes(zip)) {
-    error.classList.remove("hidden");
-    return;
-  } else {
-    error.classList.add("hidden");
-  }
+  const zip = getValidatedZip();
+  if (!zip) return;
 
   const btn = document.getElementById('pay-button');
   if (btn.disabled) return;
+
+  const checkoutPayload = getCheckoutRequestPayload(zip, pantrySelections);
+  const pantryPayload = getPantryPayload(pantrySelections);
 
   btn.disabled = true;
   btn.classList.remove('opacity-30', 'cursor-not-allowed');
@@ -465,10 +1078,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   btn.innerText = "Redirection…";
 
   try {
+    // Transmet les ingrédients optionnels pour que le Worker puisse les rattacher à la commande.
     const res = await fetch(`${WORKER_BASE}/api/create-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ guests, recipeIds: selectedRecipes, zip })
+      body: JSON.stringify(checkoutPayload)
     });
 
     if (!res.ok) throw new Error(await res.text());
@@ -479,7 +1093,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   event: "start_checkout",
   guests: guests,
   recipes: selectedRecipes,
-  value: getTotalPrice(),
+  pantry_items: pantryPayload.items.map((item) => item.label),
+  pantry_selection_type: pantryPayload.selectionType,
+  value: pantryPayload.finalTotal,
   currency: "EUR"
 });
     window.location.href = data.url;
@@ -530,71 +1146,80 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       setGuests(2);
       updatePayButton();
 
-      const payBtn = document.getElementById("pay-button");
-  if (payBtn) payBtn.addEventListener("click", startCheckout);
+  const payBtn = document.getElementById("pay-button");
+  if (payBtn) payBtn.addEventListener("click", handlePayButtonClick);
 
-  // 🔥 AUTOCOMPLETE FIXÉ
-  const zipInput = document.getElementById("zip-code");
-const suggestions = document.getElementById("zip-suggestions");
-const error = document.getElementById("zip-error");
-const btn = document.getElementById("pay-button");
-      
-if (zipInput && suggestions) {
-  zipInput.addEventListener("input", (e) => {
-  const query = e.target.value.split(" - ")[0].trim();
+  const pantryItems = document.getElementById("pantry-items");
+  const pantryClose = document.getElementById("pantry-modal-close");
+  const pantrySkip = document.getElementById("pantry-skip");
+  const pantryConfirm = document.getElementById("pantry-confirm");
 
-  suggestions.innerHTML = "";
+  if (pantryItems) {
+    pantryItems.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (!target.matches("[data-pantry-item]")) return;
 
-    if (query.length === 0) {
-  error.classList.add("hidden");
-} else if (query.length >= 5 && !Object.keys(zipData).includes(query)) {
-  error.innerText = "Nous livrons uniquement sur l'île de Ré";
-  error.classList.remove("hidden");
-  error.classList.add("text-red-500");
-} else {
-  error.innerText = "Livraison disponible ✅";
-  error.classList.remove("hidden");
-  error.classList.remove("text-red-500");
-  error.classList.add("text-green-500");
-}
+      togglePantryItem(target.dataset.pantryItem, target.checked);
+      renderPantryModal();
+    });
+  }
 
-  // 🔹 Si l'utilisateur tape
-  Object.keys(zipData).forEach((zip) => {
-    if (zip.startsWith(query)) {
-      const li = document.createElement("li");
-      li.className = "p-3 hover:bg-stone-100 cursor-pointer text-sm";
-      li.textContent = `${zip} - ${zipData[zip]}`;
+  if (pantryClose) pantryClose.addEventListener("click", closePantryModal);
+  document.querySelectorAll("[data-close-pantry-modal]").forEach((element) => {
+    element.addEventListener("click", closePantryModal);
+  });
 
-      li.addEventListener("click", () => {
-        zipInput.value = `${zip} - ${zipData[zip]}`;
-        suggestions.classList.add("hidden");
+  if (pantrySkip) {
+    pantrySkip.addEventListener("click", () => {
+      pantrySelections = [];
+      pantryDraftSelections = [];
+      calculate();
+      closePantryModal();
 
-        updatePayButton();
-
-        error.innerText = "Livraison disponible ✅";
-        error.classList.remove("hidden", "text-red-500");
-        error.classList.add("text-green-500");
-
-        zipInput.blur(); // 🔥 important mobile
+      dataLayer.push({
+        event: "pantry_modal_skipped",
+        recipes: selectedRecipes
       });
 
-      suggestions.appendChild(li);
+      startCheckout();
+    });
+  }
+
+  if (pantryConfirm) {
+    pantryConfirm.addEventListener("click", () => {
+      pantrySelections = [...pantryDraftSelections];
+      calculate();
+      closePantryModal();
+
+      dataLayer.push({
+        event: "pantry_modal_confirmed",
+        recipes: selectedRecipes,
+        pantry_items: getPantryPayload(pantrySelections).itemIds
+      });
+
+      startCheckout();
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closePantryModal();
     }
   });
 
-  if (suggestions.children.length > 0 && query.length > 0) {
-    suggestions.classList.remove("hidden");
-  } else {
-    suggestions.classList.add("hidden");
-  }
-
-  updatePayButton();
-});
-
-  document.addEventListener("click", (e) => {
-    if (!zipInput.contains(e.target) && !suggestions.contains(e.target)) {
-      suggestions.classList.add("hidden");
+  const zipInput = document.getElementById("zip-code");
+  const error = document.getElementById("zip-error");
+      
+if (zipInput) {
+  zipInput.addEventListener("change", () => {
+    const zip = zipInput.value.trim();
+    if (!zip) {
+      error.classList.add("hidden");
+    } else {
+      getValidatedZip();
     }
+    updatePayButton();
   });
 }
 

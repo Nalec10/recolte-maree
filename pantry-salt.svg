@@ -1,0 +1,16 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#DCE7F2"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#EEF4F9"/>
+  <circle cx="132" cy="108" r="72" fill="#C7D5E4"/>
+  <ellipse cx="318" cy="286" rx="174" ry="70" fill="#D9E3ED"/>
+  <path d="M226 258C226 224 254 196 288 196H352C386 196 414 224 414 258C414 300 380 330 320 330C260 330 226 300 226 258Z" fill="#FAFBFD"/>
+  <path d="M246 246H394C390 282 364 304 320 304C276 304 250 282 246 246Z" fill="#FFFFFF"/>
+  <path d="M268 208L282 182L296 208H268Z" fill="#FFFFFF"/>
+  <path d="M314 180L330 146L346 180H314Z" fill="#FFFFFF"/>
+  <path d="M360 206L374 174L388 206H360Z" fill="#FFFFFF"/>
+  <circle cx="488" cy="138" r="18" fill="#FFFFFF"/>
+  <circle cx="522" cy="168" r="12" fill="#FFFFFF"/>
+  <circle cx="456" cy="180" r="10" fill="#FFFFFF"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Sel fin</text>
+  <text x="58" y="126" fill="#6B7B8B" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Pour assaisonner juste comme il faut</text>
+</svg>

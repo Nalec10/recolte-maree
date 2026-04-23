@@ -1,0 +1,16 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#E8DDD5"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#F6F0EB"/>
+  <circle cx="510" cy="116" r="78" fill="#D1B7A4"/>
+  <ellipse cx="242" cy="306" rx="160" ry="58" fill="#E2D1C2"/>
+  <rect x="286" y="98" width="72" height="154" rx="36" fill="#2E2119"/>
+  <rect x="282" y="84" width="80" height="34" rx="17" fill="#CFB194"/>
+  <rect x="276" y="240" width="92" height="36" rx="18" fill="#CFB194"/>
+  <path d="M222 278C246 254 274 238 304 230C296 270 268 300 228 314L222 278Z" fill="#8E6E59"/>
+  <circle cx="438" cy="248" r="20" fill="#463329"/>
+  <circle cx="476" cy="280" r="16" fill="#463329"/>
+  <circle cx="516" cy="244" r="18" fill="#463329"/>
+  <circle cx="540" cy="286" r="12" fill="#463329"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Poivre noir</text>
+  <text x="58" y="126" fill="#7C6B60" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Le petit relief qui change tout</text>
+</svg>

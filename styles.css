@@ -181,3 +181,490 @@ i.fas,i.far{
     transition: none !important;
   }
 }
+
+.order-breakdown{
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+}
+
+.order-breakdown__row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  color:#d6d3d1;
+  font-size:12px;
+}
+
+.order-breakdown__row + .order-breakdown__row{
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.order-breakdown__row strong{
+  color:#fff;
+  font-size:13px;
+}
+
+.order-breakdown__summary{
+  width:100%;
+  margin:10px 0 0;
+  color:#cbd5e1;
+  font-size:11px;
+  line-height:1.6;
+  text-align:center;
+}
+
+.zip-select-wrap{
+  position:relative;
+}
+
+.zip-select{
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  padding-right:48px !important;
+  cursor:pointer;
+}
+
+.zip-select__icon{
+  position:absolute;
+  top:50%;
+  right:16px;
+  transform:translateY(-50%);
+  color:#1a2e4c;
+  font-size:20px;
+  line-height:1;
+  pointer-events:none;
+}
+
+body.modal-open{
+  overflow:hidden;
+}
+
+.pantry-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+
+.pantry-modal.is-open{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.pantry-modal__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(15,23,42,.48);
+  backdrop-filter:blur(4px);
+}
+
+.pantry-modal__dialog{
+  position:relative;
+  width:min(100%, 760px);
+  max-height:min(86vh, 820px);
+  overflow:auto;
+  padding:28px;
+  scroll-padding-bottom:120px;
+  border:1px solid #e7e5e4;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 30px 80px rgba(15,23,42,.22);
+}
+
+.pantry-modal__close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:999px;
+  background:#f5f5f4;
+  color:var(--marine);
+  font-size:16px;
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.pantry-modal__close:hover{
+  background:#e7e5e4;
+  transform:translateY(-1px);
+}
+
+.pantry-modal__eyebrow{
+  display:block;
+  margin-bottom:10px;
+  color:#a8a29e;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+}
+
+.pantry-modal__title{
+  margin:0;
+  color:var(--marine);
+  font-size:clamp(1.9rem, 4vw, 2.6rem);
+  line-height:1.1;
+}
+
+.pantry-modal__description{
+  margin:14px 0 0;
+  color:#57534e;
+  font-size:15px;
+  line-height:1.7;
+  max-width:620px;
+}
+
+.pantry-modal__summary{
+  margin-top:26px;
+  padding:18px;
+  border:1px solid #e7e5e4;
+  border-radius:16px;
+  background:#fafaf9;
+}
+
+.pantry-modal__pricing{
+  margin-top:14px;
+  display:grid;
+  gap:10px;
+}
+
+.pantry-modal__pricing-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  color:#57534e;
+  font-size:14px;
+}
+
+.pantry-modal__pricing-row strong{
+  color:var(--marine);
+  font-size:15px;
+}
+
+.pantry-modal__pricing-list{
+  display:grid;
+  gap:8px;
+  margin-top:4px;
+}
+
+.pantry-modal__pricing-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:8px 12px;
+  border-radius:12px;
+  background:#fff;
+  color:#57534e;
+  font-size:13px;
+}
+
+.pantry-modal__pricing-item strong{
+  color:var(--marine);
+  font-size:14px;
+}
+
+.pantry-modal__pricing-item--discount{
+  background:rgba(197,164,126,.14);
+  color:#6b5b49;
+}
+
+.pantry-modal__pricing-item--discount strong{
+  color:#8b6f4f;
+}
+
+.pantry-modal__pricing-item--empty{
+  background:transparent;
+  padding:0;
+  color:#78716c;
+}
+
+.pantry-modal__pricing-row--total{
+  margin-top:4px;
+  padding-top:12px;
+  border-top:1px solid #e7e5e4;
+  font-weight:700;
+}
+
+.pantry-modal__pricing-row--total strong{
+  font-size:18px;
+}
+
+.pantry-modal__summary-label{
+  display:block;
+  margin-bottom:12px;
+  color:#78716c;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.pantry-modal__summary-recipes,
+.pantry-option__recipes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.pantry-chip,
+.pantry-option__recipe{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(26,46,76,.06);
+  color:var(--marine);
+  font-size:12px;
+  font-weight:600;
+}
+
+.pantry-modal__items{
+  display:grid;
+  gap:14px;
+  margin-top:22px;
+}
+
+.pantry-modal__selection-copy{
+  margin:14px 0 0;
+  color:#57534e;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.pantry-option{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  padding:18px;
+  border:1px solid #e7e5e4;
+  border-radius:16px;
+  background:#fff;
+  cursor:pointer;
+  transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.pantry-option.is-selected{
+  border-color:rgba(26,46,76,.34);
+  box-shadow:0 16px 34px rgba(15,23,42,.12);
+}
+
+.pantry-option.is-disabled{
+  opacity:.64;
+}
+
+.pantry-option--bundle{
+  background:linear-gradient(135deg, rgba(197,164,126,.12), rgba(26,46,76,.03));
+}
+
+.pantry-option:hover{
+  border-color:rgba(26,46,76,.18);
+  box-shadow:0 12px 28px rgba(15,23,42,.08);
+  transform:translateY(-1px);
+}
+
+.pantry-option__checkbox{
+  width:18px;
+  height:18px;
+  margin-top:4px;
+  accent-color:var(--marine);
+  flex-shrink:0;
+}
+
+.pantry-option__image{
+  width:132px;
+  height:118px;
+  object-fit:cover;
+  border-radius:14px;
+  flex-shrink:0;
+  border:1px solid #e7e5e4;
+  background:#f5f5f4;
+}
+
+.pantry-option__content{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  gap:12px;
+}
+
+.pantry-option__top{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.pantry-option__kicker{
+  color:#a8a29e;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.pantry-option__title{
+  color:var(--marine);
+  font-size:18px;
+  font-weight:700;
+  line-height:1.3;
+}
+
+.pantry-option__note{
+  color:#78716c;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.pantry-option__description{
+  color:#57534e;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.pantry-option__recipes--products .pantry-option__recipe{
+  background:rgba(197,164,126,.18);
+}
+
+.pantry-option__price{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  margin-top:auto;
+}
+
+.pantry-option__price-current{
+  color:var(--marine);
+  font-size:18px;
+  font-weight:700;
+}
+
+.pantry-option__price-compare{
+  color:#a8a29e;
+  font-size:14px;
+  text-decoration:line-through;
+}
+
+.pantry-option__price-saving{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(26,46,76,.08);
+  color:var(--marine);
+  font-size:12px;
+  font-weight:700;
+}
+
+.pantry-modal__empty{
+  margin:22px 0 0;
+  padding:18px;
+  border-radius:16px;
+  background:#fafaf9;
+  color:#78716c;
+  text-align:center;
+}
+
+.pantry-modal__actions{
+  position:sticky;
+  bottom:0;
+  z-index:4;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:26px;
+  padding:18px 0 6px;
+  background:transparent;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+
+.pantry-btn{
+  min-height:48px;
+  min-width:220px;
+  padding:0 22px;
+  border-radius:12px;
+  border:1px solid transparent;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.pantry-btn:hover{
+  transform:translateY(-1px);
+}
+
+.pantry-btn--ghost{
+  border-color:#d6d3d1;
+  background:#fff;
+  color:#44403c;
+}
+
+.pantry-btn--ghost:hover{
+  background:#fafaf9;
+}
+
+.pantry-btn--primary{
+  background:var(--gold);
+  color:#fff;
+  box-shadow:0 12px 30px rgba(197,164,126,.24);
+}
+
+.pantry-btn--primary:hover{
+  background:#b3936d;
+}
+
+@media (max-width: 767px){
+  .pantry-modal{
+    padding:16px;
+    align-items:flex-end;
+  }
+
+  .pantry-modal__dialog{
+    width:100%;
+    max-height:88vh;
+    padding:24px 18px 18px;
+    border-radius:20px 20px 16px 16px;
+  }
+
+  .pantry-modal__pricing-row{
+    font-size:13px;
+  }
+
+  .pantry-option{
+    flex-direction:column;
+  }
+
+  .pantry-option__image{
+    width:100%;
+    height:180px;
+  }
+
+  .pantry-modal__actions{
+    padding-top:16px;
+  }
+
+  .pantry-btn{
+    width:min(100%, 320px);
+  }
+}

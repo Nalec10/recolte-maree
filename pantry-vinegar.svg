@@ -1,0 +1,13 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#F2E1D5"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#FAF1EA"/>
+  <circle cx="130" cy="116" r="74" fill="#E6C0A5"/>
+  <ellipse cx="314" cy="302" rx="174" ry="64" fill="#EFDACA"/>
+  <path d="M292 88H348L334 132H306L292 88Z" fill="#1A2E4C"/>
+  <path d="M254 132C254 108 274 88 298 88H342C366 88 386 108 386 132V186C386 204 398 220 418 232C446 248 462 272 462 304C462 346 400 372 320 372C240 372 178 346 178 304C178 272 194 248 222 232C242 220 254 204 254 186V132Z" fill="#8D4D3B"/>
+  <path d="M224 258H416C404 306 370 332 320 332C270 332 236 306 224 258Z" fill="#B86D56"/>
+  <circle cx="500" cy="240" r="18" fill="#7E4B3B"/>
+  <circle cx="534" cy="274" r="12" fill="#A06049"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Vinaigre artisanal</text>
+  <text x="58" y="126" fill="#8A6A59" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Pour une vinaigrette vive et nette</text>
+</svg>

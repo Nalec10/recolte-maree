@@ -1,0 +1,16 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#E8ECEF"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#F4F6F8"/>
+  <circle cx="130" cy="104" r="70" fill="#D8E1E8"/>
+  <circle cx="520" cy="118" r="80" fill="#D5C09F"/>
+  <rect x="172" y="142" width="296" height="174" rx="24" fill="#B88955"/>
+  <rect x="196" y="166" width="248" height="126" rx="18" fill="#D8B283"/>
+  <rect x="214" y="194" width="50" height="72" rx="14" fill="#5D764C"/>
+  <rect x="282" y="206" width="60" height="60" rx="18" fill="#FBFCFD"/>
+  <rect x="360" y="194" width="62" height="72" rx="18" fill="#D6AF39"/>
+  <circle cx="316" cy="188" r="16" fill="#453228"/>
+  <path d="M204 166L262 120H378L436 166H204Z" fill="#A8753E"/>
+  <path d="M288 230C302 214 326 206 350 210C342 232 320 248 294 252L288 230Z" fill="#799756"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">On prend l'tout</text>
+  <text x="58" y="126" fill="#7B6B5B" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Les indispensables ensemble, au meilleur prix</text>
+</svg>
