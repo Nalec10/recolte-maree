@@ -260,16 +260,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div><!-- /#carousel -->
       </div><!-- /.recipe-carousel-container -->
 
-      <div id="recipe-selection-summary" class="recipe-selection-summary" hidden>
-        <div class="recipe-selection-summary__header">
-          <span class="recipe-selection-summary__eyebrow">Recettes sélectionnées</span>
-          <h3 class="recipe-selection-summary__title">Panier recette par recette</h3>
-          <p class="recipe-selection-summary__subtitle">
-            Retrouve pour chaque plat choisi les produits inclus dans le panier de base et les basiques que l’on peut ajouter si besoin.
-          </p>
-        </div>
-
-        <div id="recipe-selection-summary-list" class="recipe-selection-summary__grid"></div>
+      <div id="recipe-selection-lane" class="recipe-selection-lane" hidden>
+        <div id="recipe-selection-track" class="recipe-selection-track"></div>
       </div>
     </section>
 
@@ -629,40 +621,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         .filter(Boolean);
     }
 
-    function renderRecipeSelectionSummary() {
-      const container = document.getElementById("recipe-selection-summary");
-      const list = document.getElementById("recipe-selection-summary-list");
+    function syncRecipeSelectionLaneScroll() {
+      const carousel = document.getElementById("carousel");
+      const selectionLane = document.getElementById("recipe-selection-lane");
 
-      if (!container || !list) return;
+      if (!carousel || !selectionLane || selectionLane.hidden) return;
+      selectionLane.scrollLeft = carousel.scrollLeft;
+    }
+
+    function renderRecipeSelectionLane() {
+      const lane = document.getElementById("recipe-selection-lane");
+      const track = document.getElementById("recipe-selection-track");
+
+      if (!lane || !track) return;
 
       if (selectedRecipes.length === 0) {
-        container.hidden = true;
-        list.innerHTML = "";
+        lane.hidden = true;
+        track.innerHTML = "";
         return;
       }
 
-      list.innerHTML = selectedRecipes
+      track.innerHTML = Object.keys(recipeLabels)
+        .map(Number)
         .map((recipeId) => {
+          if (!selectedRecipes.includes(recipeId)) {
+            return `<div class="recipe-selection-slot" aria-hidden="true"></div>`;
+          }
+
           const baseIngredients = getRecipeBaseIngredients(recipeId);
           const optionalBasics = getRecipeOptionalBasics(recipeId);
 
           return `
-            <article class="recipe-selection-summary__card">
-              <h4 class="recipe-selection-summary__card-title">${getRecipeLabel(recipeId)}</h4>
-              <div class="recipe-selection-summary__row">
-                <span class="recipe-selection-summary__label">Panier de base :</span>
-                <p class="recipe-selection-summary__value">${baseIngredients.join(", ")}</p>
+            <div class="recipe-selection-slot">
+              <div class="recipe-selection-text">
+                <div class="recipe-selection-text__row">
+                  <span class="recipe-selection-text__label">Panier de base :</span>
+                  <p class="recipe-selection-text__value">${baseIngredients.join(", ")}</p>
+                </div>
+                <div class="recipe-selection-text__row">
+                  <span class="recipe-selection-text__label">Basiques en option :</span>
+                  <p class="recipe-selection-text__value">${optionalBasics.join(", ")}</p>
+                </div>
               </div>
-              <div class="recipe-selection-summary__row">
-                <span class="recipe-selection-summary__label">Basiques en option :</span>
-                <p class="recipe-selection-summary__value">${optionalBasics.join(", ")}</p>
-              </div>
-            </article>
+            </div>
           `;
         })
         .join("");
 
-      container.hidden = false;
+      lane.hidden = false;
+      syncRecipeSelectionLaneScroll();
     }
 
     function roundPrice(value) {
@@ -1179,7 +1186,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   syncPantrySelections();
   updatePayButton();
-  renderRecipeSelectionSummary();
+  renderRecipeSelectionLane();
   calculate();
   syncRecipeCardHeights();
 
@@ -1372,6 +1379,7 @@ if (zipInput) {
       
       // ===== Carousel arrows desktop =====
       const carousel = document.getElementById("carousel");
+      const selectionLane = document.getElementById("recipe-selection-lane");
       const prev = document.getElementById("carousel-prev");
       const next = document.getElementById("carousel-next");
 
@@ -1445,7 +1453,12 @@ if (zipInput) {
         setTimeout(updateArrows, 250);
       });
 
-      if (carousel) carousel.addEventListener("scroll", () => requestAnimationFrame(updateArrows), { passive: true });
+      if (carousel) {
+        carousel.addEventListener("scroll", () => requestAnimationFrame(() => {
+          syncRecipeSelectionLaneScroll();
+          updateArrows();
+        }), { passive: true });
+      }
 
       const recipeImages = carousel ? Array.from(carousel.querySelectorAll("img")) : [];
       recipeImages.forEach((image) => {
@@ -1455,15 +1468,17 @@ if (zipInput) {
 
       // centre la 1ère carte au chargement
       requestAnimationFrame(() => {
-        renderRecipeSelectionSummary();
+        renderRecipeSelectionLane();
         syncRecipeCardHeights();
         scrollToIndex(0, false);
+        syncRecipeSelectionLaneScroll();
         updateArrows();
       });
 
       if (document.fonts?.ready) {
         document.fonts.ready.then(() => {
           syncRecipeCardHeights();
+          syncRecipeSelectionLaneScroll();
           updateArrows();
         });
       }
@@ -1471,6 +1486,7 @@ if (zipInput) {
       window.addEventListener("resize", () => {
         syncRecipeCardHeights();
         scrollToIndex(getCenteredIndex(), false);
+        syncRecipeSelectionLaneScroll();
         updateArrows();
       });
     });

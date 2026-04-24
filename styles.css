@@ -112,90 +112,59 @@ h1,h2,h3,.font-serif{
   padding-top:12px;
 }
 
-.recipe-selection-summary{
-  margin-top: 2.5rem;
-  padding: 2rem;
-  border: 1px solid #e7e5e4;
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(248, 245, 240, 0.85), rgba(255, 255, 255, 0.98));
-  box-shadow: 0 10px 30px rgba(26, 46, 76, 0.08);
-}
+.recipe-selection-lane{
+  --cardw: min(86vw, 380px);
+  --gap: 16px;
+  --edge: calc((100% - var(--cardw)) / 2);
 
-.recipe-selection-summary__header{
-  margin-bottom: 1.5rem;
-}
-
-.recipe-selection-summary__eyebrow{
-  display: inline-block;
-  margin-bottom: .55rem;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: #9a8a77;
-}
-
-.recipe-selection-summary__title{
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2rem, 3.4vw, 2.8rem);
-  line-height: .95;
-  color: #1a2e4c;
-}
-
-.recipe-selection-summary__subtitle{
   margin-top: .9rem;
-  max-width: 48rem;
-  font-size: .98rem;
-  line-height: 1.7;
-  color: #57534e;
+  overflow-x: hidden;
+  overflow-y: visible;
+  padding: 0 max(16px, var(--edge)) 0 max(16px, var(--edge));
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  pointer-events: none;
 }
 
-.recipe-selection-summary__grid{
-  display: grid;
-  gap: 1rem;
+.recipe-selection-lane::-webkit-scrollbar{
+  display:none;
 }
 
-.recipe-selection-summary__card{
-  display: grid;
-  gap: 1rem;
-  padding: 1.25rem 1.35rem;
-  border: 1px solid #e7e5e4;
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.92);
+.recipe-selection-track{
+  display:flex;
+  align-items:flex-start;
+  gap: var(--gap);
+  width:max-content;
 }
 
-.recipe-selection-summary__card-title{
-  margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  color: #1a2e4c;
+.recipe-selection-slot{
+  flex: 0 0 var(--cardw);
 }
 
-.recipe-selection-summary__row{
-  display: grid;
-  gap: .35rem;
+.recipe-selection-text{
+  display:grid;
+  gap:.7rem;
+  padding: .1rem 1.5rem 0;
 }
 
-.recipe-selection-summary__label{
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: #1a2e4c;
+.recipe-selection-text__row{
+  display:grid;
+  gap:.18rem;
 }
 
-.recipe-selection-summary__value{
-  margin: 0;
-  font-size: .95rem;
-  line-height: 1.65;
-  color: #57534e;
+.recipe-selection-text__label{
+  font-size:.66rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#1a2e4c;
 }
 
-@media (min-width: 900px){
-  .recipe-selection-summary__grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.recipe-selection-text__value{
+  margin:0;
+  font-size:.9rem;
+  line-height:1.55;
+  color:#57534e;
 }
 
 /* ===== SELECTION ===== */
