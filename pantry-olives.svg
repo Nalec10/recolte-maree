@@ -1,0 +1,15 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#E8ECE5"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#F3F5F0"/>
+  <circle cx="126" cy="106" r="72" fill="#D8E0D3"/>
+  <circle cx="514" cy="118" r="80" fill="#D7C2A1"/>
+  <ellipse cx="224" cy="308" rx="154" ry="54" fill="#D7DFD0"/>
+  <rect x="248" y="112" width="152" height="186" rx="26" fill="#8C6141"/>
+  <rect x="270" y="136" width="108" height="140" rx="18" fill="#F7F1E8"/>
+  <ellipse cx="302" cy="184" rx="22" ry="28" fill="#2A2F37"/>
+  <ellipse cx="344" cy="204" rx="24" ry="30" fill="#3A4048"/>
+  <ellipse cx="314" cy="238" rx="20" ry="24" fill="#20242B"/>
+  <path d="M396 258C430 220 470 204 512 210C494 246 458 274 406 286L396 258Z" fill="#5E7A49"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Olives noires</text>
+  <text x="58" y="126" fill="#6F6B60" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Salines, rondes, mediterraneennes</text>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#DEE8EF"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#EDF3F7"/>
+  <circle cx="516" cy="116" r="80" fill="#D5C3A7"/>
+  <ellipse cx="214" cy="304" rx="152" ry="54" fill="#D7E4EC"/>
+  <rect x="214" y="146" width="212" height="118" rx="20" fill="#B9C9D6"/>
+  <path d="M236 204C252 176 286 160 322 160C356 160 390 176 406 204C390 232 356 248 322 248C286 248 252 232 236 204Z" fill="#6C8498"/>
+  <path d="M214 186L176 204L214 222V186Z" fill="#7C93A6"/>
+  <path d="M430 190L466 176L454 204L466 232L430 218V190Z" fill="#8DA4B6"/>
+  <circle cx="356" cy="194" r="6" fill="#1A2E4C"/>
+  <path d="M258 204H390" stroke="#DDE7EE" stroke-width="8" stroke-linecap="round"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Sardines</text>
+  <text x="58" y="126" fill="#667988" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">La note marine de l'assiette</text>
+</svg>

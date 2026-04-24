@@ -1,0 +1,16 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="420" rx="28" fill="#F2E5D2"/>
+  <rect x="34" y="34" width="572" height="352" rx="24" fill="#F8F0E5"/>
+  <circle cx="514" cy="116" r="78" fill="#E3CAA0"/>
+  <ellipse cx="212" cy="300" rx="148" ry="56" fill="#E6D4BB"/>
+  <rect x="248" y="118" width="144" height="176" rx="26" fill="#D4A56B"/>
+  <rect x="268" y="138" width="104" height="136" rx="18" fill="#F2D29A"/>
+  <circle cx="288" cy="162" r="10" fill="#C6904F"/>
+  <circle cx="326" cy="176" r="12" fill="#D39B58"/>
+  <circle cx="350" cy="214" r="14" fill="#C98A44"/>
+  <circle cx="304" cy="224" r="11" fill="#D7A76F"/>
+  <circle cx="336" cy="246" r="10" fill="#B97C3E"/>
+  <circle cx="286" cy="256" r="9" fill="#C18B52"/>
+  <text x="58" y="88" fill="#1A2E4C" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700">Chapelure</text>
+  <text x="58" y="126" fill="#7C6B58" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20">Le croustillant minute</text>
+</svg>
