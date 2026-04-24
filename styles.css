@@ -113,17 +113,13 @@ h1,h2,h3,.font-serif{
 }
 
 .recipe-selection-lane{
-  --cardw: min(86vw, 380px);
-  --gap: 16px;
-  --edge: calc((100% - var(--cardw)) / 2);
-
   margin-top: .9rem;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: visible;
-  padding: 0 max(16px, var(--edge)) 0 max(16px, var(--edge));
   scrollbar-width: none;
   -ms-overflow-style: none;
   pointer-events: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .recipe-selection-lane::-webkit-scrollbar{
@@ -133,7 +129,6 @@ h1,h2,h3,.font-serif{
 .recipe-selection-track{
   display:flex;
   align-items:flex-start;
-  gap: var(--gap);
   width:max-content;
 }
 

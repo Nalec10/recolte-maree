@@ -629,6 +629,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       selectionLane.scrollLeft = carousel.scrollLeft;
     }
 
+    function syncRecipeSelectionLaneMetrics() {
+      const carousel = document.getElementById("carousel");
+      const selectionLane = document.getElementById("recipe-selection-lane");
+      const selectionTrack = document.getElementById("recipe-selection-track");
+
+      if (!carousel || !selectionLane || !selectionTrack || selectionLane.hidden) return;
+
+      const carouselStyles = window.getComputedStyle(carousel);
+      const gap = carouselStyles.columnGap || carouselStyles.gap || "16px";
+      const paddingLeft = carouselStyles.paddingLeft || "0px";
+      const paddingRight = carouselStyles.paddingRight || "0px";
+      const cards = Array.from(carousel.querySelectorAll(".recipe-card"));
+      const slots = Array.from(selectionTrack.querySelectorAll(".recipe-selection-slot"));
+
+      selectionTrack.style.gap = gap;
+      selectionLane.style.paddingLeft = paddingLeft;
+      selectionLane.style.paddingRight = paddingRight;
+
+      slots.forEach((slot, index) => {
+        const card = cards[index];
+        if (!card) return;
+
+        const width = card.getBoundingClientRect().width;
+        slot.style.flexBasis = `${width}px`;
+        slot.style.width = `${width}px`;
+        slot.style.maxWidth = `${width}px`;
+      });
+    }
+
     function renderRecipeSelectionLane() {
       const lane = document.getElementById("recipe-selection-lane");
       const track = document.getElementById("recipe-selection-track");
@@ -669,6 +698,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         .join("");
 
       lane.hidden = false;
+      syncRecipeSelectionLaneMetrics();
       syncRecipeSelectionLaneScroll();
     }
 
@@ -1470,6 +1500,7 @@ if (zipInput) {
       requestAnimationFrame(() => {
         renderRecipeSelectionLane();
         syncRecipeCardHeights();
+        syncRecipeSelectionLaneMetrics();
         scrollToIndex(0, false);
         syncRecipeSelectionLaneScroll();
         updateArrows();
@@ -1478,6 +1509,7 @@ if (zipInput) {
       if (document.fonts?.ready) {
         document.fonts.ready.then(() => {
           syncRecipeCardHeights();
+          syncRecipeSelectionLaneMetrics();
           syncRecipeSelectionLaneScroll();
           updateArrows();
         });
@@ -1485,6 +1517,7 @@ if (zipInput) {
 
       window.addEventListener("resize", () => {
         syncRecipeCardHeights();
+        syncRecipeSelectionLaneMetrics();
         scrollToIndex(getCenteredIndex(), false);
         syncRecipeSelectionLaneScroll();
         updateArrows();
