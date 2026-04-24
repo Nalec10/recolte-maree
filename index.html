@@ -145,10 +145,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       Courges rôties, pois chiches croustillants & ail confit
     </h3>
 
-    <p class="text-sm text-stone-500 italic">
-      Des légumes rôtis au four, des pois chiches croustillants, une touche d’ail confit.<br>
-      👉 Gourmand, chaud, profondément réconfortant.
-    </p>
+    <div class="recipe-card__content">
+      <p class="text-sm text-stone-500 italic">
+        Des légumes rôtis au four, des pois chiches croustillants, une touche d’ail confit.<br>
+        👉 Gourmand, chaud, profondément réconfortant.
+      </p>
+    </div>
 
     <div class="recipe-card__badges mt-3 text-sm text-stone-600 space-y-1">
   <div><span class="font-medium">🥇 Le plus choisi</span> • Gourmand</div>
@@ -167,10 +169,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       Riso crémeux, fenouil, asperges & éclats iodés
     </h3>
 
-    <p class="text-sm text-stone-500 italic">
-      Un riso fondant aux notes anisées, relevé par une touche iodée et un croquant végétal.<br>
-      👉 Une assiette élégante, inspirée de l’océan.<br>
-    </p>
+    <div class="recipe-card__content">
+      <p class="text-sm text-stone-500 italic">
+        Un riso fondant aux notes anisées, relevé par une touche iodée et un croquant végétal.<br>
+        👉 Une assiette élégante, inspirée de l’océan.<br>
+      </p>
+    </div>
 
     <div class="recipe-card__badges mt-3 text-sm text-stone-600 space-y-1">
   <div><span class="font-medium">🌊 Signature</span> • Expérience</div>
@@ -189,10 +193,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       Chou-fleur rôti, semoule & crème épicée
     </h3>
 
-    <p class="text-sm text-stone-500 italic">
-      Un chou-fleur bien grillé, une semoule légère & une crème onctueuse.<br>
-      👉 L’équilibre parfait entre puissance et douceur.
-    </p>
+    <div class="recipe-card__content">
+      <p class="text-sm text-stone-500 italic">
+        Un chou-fleur bien grillé, une semoule légère & une crème onctueuse.<br>
+        👉 L’équilibre parfait entre puissance et douceur.
+      </p>
+    </div>
 
     <div class="recipe-card__badges mt-3 text-sm text-stone-600 space-y-1">
   <div><span class="font-medium">✔️ Équilibré</span> • Facile</div>
@@ -211,10 +217,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       Salade tiède patate douce, haricots blancs, poire & vinaigrette vive
     </h3>
 
-    <p class="text-sm text-stone-500 italic">
-      Le chaud et le froid se rencontrent : patate douce rôtie, poire & vinaigrette.<br>
-      👉 Frais, contrasté, légèrement acidulé.<br>
-    </p>
+    <div class="recipe-card__content">
+      <p class="text-sm text-stone-500 italic">
+        Le chaud et le froid se rencontrent : patate douce rôtie, poire & vinaigrette.<br>
+        👉 Frais, contrasté, légèrement acidulé.<br>
+      </p>
+    </div>
 
     <div class="recipe-card__badges mt-3 text-sm text-stone-600 space-y-1">
   <div><span class="font-medium">🥗 Léger</span> • Frais</div>
@@ -233,10 +241,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       Pommes de terre nouvelles, asperges blanches, betterave & condiments iodés
     </h3>
 
-    <p class="text-sm text-stone-500 italic">
-      Pommes de terre nouvelles écrasées à l’huile d’olive, asperges blanches dorées à la chapelure, betterave rôties, sardines, olives noires et tartare d’algues Aonori à la framboise.<br>
-      Une assiette fraîche, iodée et printanière, entre terre et mer.
-    </p>
+    <div class="recipe-card__content">
+      <p class="text-sm text-stone-500 italic">
+        Pommes de terre nouvelles écrasées à l’huile d’olive, asperges blanches dorées à la chapelure, betterave rôties, sardines, olives noires et tartare d’algues Aonori à la framboise.<br>
+        Une assiette fraîche, iodée et printanière, entre terre et mer.
+      </p>
+    </div>
 
     <div class="recipe-card__badges mt-3 text-sm text-stone-600 space-y-1">
   <div><span class="font-medium">🥇 Le plus iodé</span> • Printanier</div>
@@ -249,6 +259,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         </div><!-- /#carousel -->
       </div><!-- /.recipe-carousel-container -->
+
+      <div id="recipe-selection-summary" class="recipe-selection-summary" hidden>
+        <div class="recipe-selection-summary__header">
+          <span class="recipe-selection-summary__eyebrow">Recettes sélectionnées</span>
+          <h3 class="recipe-selection-summary__title">Panier recette par recette</h3>
+          <p class="recipe-selection-summary__subtitle">
+            Retrouve pour chaque plat choisi les produits inclus dans le panier de base et les basiques que l’on peut ajouter si besoin.
+          </p>
+        </div>
+
+        <div id="recipe-selection-summary-list" class="recipe-selection-summary__grid"></div>
+      </div>
     </section>
 
     <!-- ====== PANIER / PRIX / PAIEMENT ====== -->
@@ -460,6 +482,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       5: "Pommes de terre nouvelles"
     };
 
+    const recipeIngredientsByRecipe = {
+      1: [
+        "courge",
+        "patate douce",
+        "pois chiches",
+        "ail",
+        "abricots secs",
+        "graines de courge",
+        "maceron",
+        "tartare d’algues à la framboise",
+        "fromage de chèvre frais"
+      ],
+      2: [
+        "riso",
+        "fenouil",
+        "asperges vertes",
+        "échalote",
+        "ail",
+        "oignon",
+        "tartare d’algues citron confit",
+        "gomasio des marais",
+        "maceron"
+      ],
+      3: [
+        "chou-fleur",
+        "semoule",
+        "yaourt végétal",
+        "algomasio sésame toasté piment & aonori",
+        "radis",
+        "kiwi"
+      ],
+      4: [
+        "patate douce",
+        "poire",
+        "haricots blancs",
+        "mâche",
+        "échalote"
+      ],
+      5: [
+        "pommes de terre nouvelles",
+        "asperges blanches",
+        "betterave",
+        "tartare d’algues Aonori à la framboise"
+      ]
+    };
+
     const pantryCatalog = {
       "olive-oil": {
         label: "Huile d'olive",
@@ -550,6 +618,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     function getRecipeLabel(id) {
       return recipeLabels[id] || getRecipeName(id);
+    }
+
+    function getRecipeBaseIngredients(id) {
+      return recipeIngredientsByRecipe[id] || [];
+    }
+
+    function getRecipeOptionalBasics(id) {
+      return (pantryItemsByRecipe[id] || [])
+        .map((itemId) => pantryCatalog[itemId]?.label)
+        .filter(Boolean);
+    }
+
+    function renderRecipeSelectionSummary() {
+      const container = document.getElementById("recipe-selection-summary");
+      const list = document.getElementById("recipe-selection-summary-list");
+
+      if (!container || !list) return;
+
+      if (selectedRecipes.length === 0) {
+        container.hidden = true;
+        list.innerHTML = "";
+        return;
+      }
+
+      list.innerHTML = selectedRecipes
+        .map((recipeId) => {
+          const baseIngredients = getRecipeBaseIngredients(recipeId);
+          const optionalBasics = getRecipeOptionalBasics(recipeId);
+
+          return `
+            <article class="recipe-selection-summary__card">
+              <h4 class="recipe-selection-summary__card-title">${getRecipeLabel(recipeId)}</h4>
+              <div class="recipe-selection-summary__row">
+                <span class="recipe-selection-summary__label">Panier de base :</span>
+                <p class="recipe-selection-summary__value">${baseIngredients.join(", ")}</p>
+              </div>
+              <div class="recipe-selection-summary__row">
+                <span class="recipe-selection-summary__label">Basiques en option :</span>
+                <p class="recipe-selection-summary__value">${optionalBasics.join(", ")}</p>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      container.hidden = false;
     }
 
     function roundPrice(value) {
@@ -1066,7 +1180,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   syncPantrySelections();
   updatePayButton();
+  renderRecipeSelectionSummary();
   calculate();
+  syncRecipeCardHeights();
 
   if (selectedRecipes.length === 3) {
     setTimeout(() => {
@@ -1340,6 +1456,7 @@ if (zipInput) {
 
       // centre la 1ère carte au chargement
       requestAnimationFrame(() => {
+        renderRecipeSelectionSummary();
         syncRecipeCardHeights();
         scrollToIndex(0, false);
         updateArrows();
