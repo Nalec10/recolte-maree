@@ -1264,6 +1264,25 @@ if (zipInput) {
         return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
       }
 
+      function syncRecipeCardHeights() {
+        const cards = getCards();
+        if (cards.length === 0) return;
+
+        cards.forEach((card) => {
+          card.style.height = "auto";
+        });
+
+        const tallestCard = cards.reduce((maxHeight, card) => {
+          return Math.max(maxHeight, card.getBoundingClientRect().height);
+        }, 0);
+
+        if (!tallestCard) return;
+
+        cards.forEach((card) => {
+          card.style.height = `${Math.ceil(tallestCard)}px`;
+        });
+      }
+
       function getCenteredIndex() {
         const cards = getCards();
         if (!carousel || cards.length === 0) return 0;
@@ -1313,13 +1332,28 @@ if (zipInput) {
 
       if (carousel) carousel.addEventListener("scroll", () => requestAnimationFrame(updateArrows), { passive: true });
 
+      const recipeImages = carousel ? Array.from(carousel.querySelectorAll("img")) : [];
+      recipeImages.forEach((image) => {
+        if (image.complete) return;
+        image.addEventListener("load", syncRecipeCardHeights, { once: true });
+      });
+
       // centre la 1ère carte au chargement
       requestAnimationFrame(() => {
+        syncRecipeCardHeights();
         scrollToIndex(0, false);
         updateArrows();
       });
 
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+          syncRecipeCardHeights();
+          updateArrows();
+        });
+      }
+
       window.addEventListener("resize", () => {
+        syncRecipeCardHeights();
         scrollToIndex(getCenteredIndex(), false);
         updateArrows();
       });
