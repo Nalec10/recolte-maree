@@ -109,6 +109,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- TEXTE -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10 md:mb-16">
+          <p class="text-[11px] font-bold uppercase tracking-[0.24em] text-[#c5a47e] mb-3">
+            Choisissez 3 recettes
+          </p>
           <h2 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">Recettes de la Semaine</h2>
           <p class="mt-4 text-sm text-[#1a2e4c] font-semibold">
             👉 Glissez pour découvrir, cliquez pour choisir
@@ -274,12 +277,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <h3 class="text-3xl font-bold text-[#1a2e4c] mb-6 font-serif">Votre Panier Personnalisé</h3>
               <p class="text-stone-500 mb-8 text-sm">Chaque panier comprend les ingrédients frais pour 3 recettes complètes, belles et délicieuses</p>
 
-              <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">Convives</label>
-              <div class="flex gap-4">
-                <button onclick="setGuests(2)" id="g-2" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">2</button>
-                <button onclick="setGuests(3)" id="g-3" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">3</button>
-                <button onclick="setGuests(4)" id="g-4" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">4</button>
-                <button onclick="setGuests(5)" id="g-5" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">5</button>
+              <div id="guest-selection">
+                <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">Convives</label>
+                <div class="flex gap-4">
+                  <button onclick="setGuests(2)" id="g-2" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">2</button>
+                  <button onclick="setGuests(3)" id="g-3" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">3</button>
+                  <button onclick="setGuests(4)" id="g-4" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">4</button>
+                  <button onclick="setGuests(5)" id="g-5" class="g-btn w-12 h-12 rounded-sm border border-stone-200 font-bold flex items-center justify-center hover:border-[#1a2e4c] transition">5</button>
+                </div>
               </div>
             </div>
 
@@ -318,6 +323,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     class="zip-select w-full p-3 border border-stone-300 rounded-sm text-center text-black bg-white"
                   >
                     <option value="">Choisissez votre commune</option>
+                    <option value="17000">17000 - La Rochelle</option>
+                    <option value="17137">17137 - L'Houmeau</option>
                     <option value="17940">17940 - Rivedoux-Plage</option>
                     <option value="17740">17740 - Sainte-Marie-de-Ré</option>
                     <option value="17630">17630 - La Flotte</option>
@@ -377,7 +384,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           Si vous n’avez pas déjà certains basiques chez vous, cochez simplement ceux à ajouter à votre panier.
         </p>
 
-        <div class="pantry-modal__summary">
+        <div id="pantry-top-summary" class="pantry-modal__summary">
           <span class="pantry-modal__summary-label">Recettes sélectionnées</span>
           <div id="pantry-selected-recipes" class="pantry-modal__summary-recipes"></div>
           <div class="pantry-modal__pricing">
@@ -386,7 +393,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <strong id="pantry-base-price">0.00 €</strong>
             </div>
             <div class="pantry-modal__pricing-row">
-              <span>Compléments choisis</span>
+              <span>Indispensables sélectionnés</span>
               <strong id="pantry-options-price">0.00 €</strong>
             </div>
             <div id="pantry-options-breakdown" class="pantry-modal__pricing-list">
@@ -411,13 +418,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           Aucun ingrédient complémentaire n’est proposé pour cette sélection.
         </p>
 
-        <div class="pantry-modal__actions">
-          <button type="button" id="pantry-skip" class="pantry-btn pantry-btn--ghost">
-            Passer sans ajout
-          </button>
-          <button type="button" id="pantry-confirm" class="pantry-btn pantry-btn--primary">
-            Continuer vers le paiement
-          </button>
+        <div class="pantry-modal__footer">
+          <div id="pantry-inline-summary" class="pantry-modal__inline-summary" hidden aria-hidden="true">
+            <span class="pantry-modal__inline-summary-label">Indispensables sélectionnés</span>
+            <p id="pantry-inline-selection" class="pantry-modal__inline-summary-copy">
+              Aucun indispensable en option ajouté
+            </p>
+            <div class="pantry-modal__inline-summary-row">
+              <span>Panier de base</span>
+              <strong id="pantry-inline-base">0.00 €</strong>
+            </div>
+            <div class="pantry-modal__inline-summary-total">
+              <span>Total après ajouts</span>
+              <strong id="pantry-inline-total">0.00 €</strong>
+            </div>
+          </div>
+
+          <div class="pantry-modal__actions">
+            <button type="button" id="pantry-skip" class="pantry-btn pantry-btn--ghost">
+              Passer sans ajout
+            </button>
+            <button type="button" id="pantry-confirm" class="pantry-btn pantry-btn--primary">
+              Continuer vers le paiement
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -443,6 +467,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const BUNDLE_ID = "bundle-all";
     const BUNDLE_DISCOUNT_RATE = 0.15;
+    const CAROUSEL_TEASER_INTERVAL = 3000;
+    const CAROUSEL_TEASER_PROGRESS = 0.25;
+
+    let carouselTeaserIntervalId = null;
+    let carouselTeaserReturnTimeoutId = null;
+    let carouselTeaserResetTimeoutId = null;
+    let hasCarouselInteracted = false;
+    let isCarouselTeaserRunning = false;
 
     function getBasePrice() {
       switch (guests) {
@@ -455,6 +487,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     const zipData = {
+  "17000": "La Rochelle",
+  "17137": "L'Houmeau",
   "17580": "Le Bois-Plage-en-Ré",
   "17630": "La Flotte",
   "17410": "Saint-Martin-de-Ré",
@@ -855,6 +889,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       };
     }
 
+    function updatePantryInlineSummaryVisibility() {
+      const dialog = document.getElementById("pantry-modal-dialog");
+      const topSummary = document.getElementById("pantry-top-summary");
+      const inlineSummary = document.getElementById("pantry-inline-summary");
+
+      if (!dialog || !topSummary || !inlineSummary) return;
+
+      const revealOffset = 24;
+      const hasScrolled = dialog.scrollTop > revealOffset;
+      const topSummaryBottom = topSummary.offsetTop + topSummary.offsetHeight;
+      const topSummaryOutOfView = dialog.scrollTop + revealOffset >= topSummaryBottom;
+      const shouldShow = hasScrolled && topSummaryOutOfView;
+
+      inlineSummary.hidden = !shouldShow;
+      inlineSummary.setAttribute("aria-hidden", shouldShow ? "false" : "true");
+    }
+
     function getPantryBreakdown(selection = pantrySelections) {
       const selectedItems = getSelectedPantryItems(selection);
       const rows = selectedItems.map((item) => ({
@@ -959,11 +1010,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const payload = getPantryPayload(pantryDraftSelections);
       const confirmButton = document.getElementById("pantry-confirm");
       const breakdown = document.getElementById("pantry-options-breakdown");
+      const inlineSelection = document.getElementById("pantry-inline-selection");
+      const inlineBase = document.getElementById("pantry-inline-base");
+      const inlineTotal = document.getElementById("pantry-inline-total");
 
       document.getElementById("pantry-base-price").innerText = formatPrice(getBasePrice());
       document.getElementById("pantry-options-price").innerText = formatPrice(payload.additionalTotal);
       document.getElementById("pantry-grand-total").innerText = formatPrice(payload.finalTotal);
       document.getElementById("pantry-selection-copy").innerText = getPantrySelectionSummary(pantryDraftSelections);
+
+      if (inlineSelection) {
+        inlineSelection.innerText = payload.items.length === 0
+          ? "Aucun indispensable en option ajouté"
+          : payload.bundle
+            ? `${payload.bundle.label} (${formatPrice(payload.bundle.price)})`
+            : payload.items
+                .map((item) => `${item.label} (${formatPrice(item.price)})`)
+                .join(" • ");
+      }
+
+      if (inlineBase) {
+        inlineBase.innerText = formatPrice(getBasePrice());
+      }
+
+      if (inlineTotal) {
+        inlineTotal.innerText = formatPrice(payload.finalTotal);
+      }
 
       if (breakdown) {
         const rows = getPantryBreakdown(pantryDraftSelections);
@@ -985,6 +1057,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (confirmButton) {
         confirmButton.innerText = `Continuer vers le paiement • ${formatPrice(payload.finalTotal)}`;
       }
+
+      updatePantryInlineSummaryVisibility();
     }
 
     function renderPantryModal() {
@@ -1012,6 +1086,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       empty.classList.add("hidden");
       items.innerHTML = `
+        ${pantryOptions.map((item) => `
+          <label class="pantry-option ${pantryDraftSelections.includes(item.id) ? "is-selected" : ""} ${bundleSelected ? "is-disabled" : ""}">
+            <input
+              type="checkbox"
+              class="pantry-option__checkbox"
+              data-pantry-item="${item.id}"
+              ${pantryDraftSelections.includes(item.id) ? "checked" : ""}
+              ${bundleSelected ? "disabled" : ""}
+            >
+            <img src="${item.image}" alt="${item.label}" class="pantry-option__image">
+            <span class="pantry-option__content">
+              <span class="pantry-option__top">
+                <span class="pantry-option__kicker">Indispensable en option</span>
+                <span class="pantry-option__title">${item.label}</span>
+                <span class="pantry-option__note">${item.note}</span>
+                <span class="pantry-option__description">${item.description}</span>
+              </span>
+              <span class="pantry-option__recipes">
+                ${item.recipeIds
+                  .map((recipeId) => `<span class="pantry-option__recipe">${getRecipeLabel(recipeId)}</span>`)
+                  .join("")}
+              </span>
+              <span class="pantry-option__price">
+                <span class="pantry-option__price-current">${formatPrice(item.price)}</span>
+              </span>
+            </span>
+          </label>
+        `).join("")}
         ${bundleOffer ? `
           <label class="pantry-option pantry-option--bundle ${bundleSelected ? "is-selected" : ""}">
             <input
@@ -1041,34 +1143,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </span>
           </label>
         ` : ""}
-        ${pantryOptions.map((item) => `
-          <label class="pantry-option ${pantryDraftSelections.includes(item.id) ? "is-selected" : ""} ${bundleSelected ? "is-disabled" : ""}">
-            <input
-              type="checkbox"
-              class="pantry-option__checkbox"
-              data-pantry-item="${item.id}"
-              ${pantryDraftSelections.includes(item.id) ? "checked" : ""}
-              ${bundleSelected ? "disabled" : ""}
-            >
-            <img src="${item.image}" alt="${item.label}" class="pantry-option__image">
-            <span class="pantry-option__content">
-              <span class="pantry-option__top">
-                <span class="pantry-option__kicker">Produit complémentaire</span>
-                <span class="pantry-option__title">${item.label}</span>
-                <span class="pantry-option__note">${item.note}</span>
-                <span class="pantry-option__description">${item.description}</span>
-              </span>
-              <span class="pantry-option__recipes">
-                ${item.recipeIds
-                  .map((recipeId) => `<span class="pantry-option__recipe">${getRecipeLabel(recipeId)}</span>`)
-                  .join("")}
-              </span>
-              <span class="pantry-option__price">
-                <span class="pantry-option__price-current">${formatPrice(item.price)}</span>
-              </span>
-            </span>
-          </label>
-        `).join("")}
       `;
 
       updatePantryPricing();
@@ -1078,6 +1152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function openPantryModal() {
       const modal = document.getElementById("pantry-modal");
       const dialog = document.getElementById("pantry-modal-dialog");
+      const inlineSummary = document.getElementById("pantry-inline-summary");
       if (!modal) return;
 
       pantryDraftSelections = [...pantrySelections];
@@ -1093,6 +1168,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         dialog.scrollLeft = 0;
       }
 
+      if (inlineSummary) {
+        inlineSummary.hidden = true;
+        inlineSummary.setAttribute("aria-hidden", "true");
+      }
+
       requestAnimationFrame(() => {
         if (dialog) {
           dialog.scrollTop = 0;
@@ -1106,6 +1186,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             closeButton.focus();
           }
         }
+
+        updatePantryInlineSummaryVisibility();
       });
 
       setTimeout(() => {
@@ -1113,6 +1195,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           dialog.scrollTop = 0;
           dialog.scrollLeft = 0;
         }
+
+        updatePantryInlineSummaryVisibility();
       }, 80);
 
       dataLayer.push({
@@ -1124,12 +1208,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     function closePantryModal() {
       const modal = document.getElementById("pantry-modal");
+      const inlineSummary = document.getElementById("pantry-inline-summary");
       if (!modal) return;
 
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
       document.body.classList.remove("modal-open");
       pantryDraftSelections = [...pantrySelections];
+
+      if (inlineSummary) {
+        inlineSummary.hidden = true;
+        inlineSummary.setAttribute("aria-hidden", "true");
+      }
     }
 
     function togglePantryItem(itemId, checked) {
@@ -1185,11 +1275,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       openPantryModal();
     }
 
+    function clearCarouselTeaserTimers() {
+      if (carouselTeaserIntervalId) {
+        window.clearInterval(carouselTeaserIntervalId);
+        carouselTeaserIntervalId = null;
+      }
+
+      if (carouselTeaserReturnTimeoutId) {
+        window.clearTimeout(carouselTeaserReturnTimeoutId);
+        carouselTeaserReturnTimeoutId = null;
+      }
+
+      if (carouselTeaserResetTimeoutId) {
+        window.clearTimeout(carouselTeaserResetTimeoutId);
+        carouselTeaserResetTimeoutId = null;
+      }
+    }
+
+    function stopCarouselTeaser(markInteracted = true) {
+      clearCarouselTeaserTimers();
+      isCarouselTeaserRunning = false;
+
+      if (markInteracted) {
+        hasCarouselInteracted = true;
+      }
+    }
+
     function toggleRecipe(id) {
       const card = document.getElementById(`recipe-${id}`);
       if (!card) return;
 
+      const previousSelectionCount = selectedRecipes.length;
       const recipeName = getRecipeName(id);
+      stopCarouselTeaser();
   
       if (selectedRecipes.includes(id)) {
         selectedRecipes = selectedRecipes.filter(r => r !== id);
@@ -1220,10 +1338,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   calculate();
   syncRecipeCardHeights();
 
-  if (selectedRecipes.length === 3) {
+  if (previousSelectionCount < 3 && selectedRecipes.length === 3) {
     setTimeout(() => {
-      scrollToPaiement();
-    }, 300);
+      scrollToGuests();
+    }, 350);
   }
 }
 
@@ -1324,6 +1442,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         behavior: 'smooth'
       });
     }
+
+    function scrollToGuests() {
+      const el = document.getElementById('guest-selection');
+      if (!el) {
+        scrollToPaiement();
+        return;
+      }
+
+      const offset = 120;
+      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
     
     document.addEventListener("DOMContentLoaded", () => {
       setGuests(2);
@@ -1336,6 +1470,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const pantryClose = document.getElementById("pantry-modal-close");
   const pantrySkip = document.getElementById("pantry-skip");
   const pantryConfirm = document.getElementById("pantry-confirm");
+  const pantryDialog = document.getElementById("pantry-modal-dialog");
 
   if (pantryItems) {
     pantryItems.addEventListener("change", (event) => {
@@ -1390,6 +1525,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       closePantryModal();
     }
   });
+
+  if (pantryDialog) {
+    pantryDialog.addEventListener("scroll", () => {
+      requestAnimationFrame(updatePantryInlineSummaryVisibility);
+    }, { passive: true });
+  }
 
   const zipInput = document.getElementById("zip-code");
   const error = document.getElementById("zip-error");
@@ -1452,15 +1593,21 @@ if (zipInput) {
         return best;
       }
 
-      function scrollToIndex(index, smooth = true) {
+      function getCardScrollTarget(index) {
         const cards = getCards();
-        if (!carousel || cards.length === 0) return;
+        if (!carousel || cards.length === 0) return 0;
 
         const i = Math.max(0, Math.min(cards.length - 1, index));
         const card = cards[i];
-        const left = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
+        const target = card.offsetLeft - (carousel.clientWidth - card.clientWidth) / 2;
+        const maxScroll = Math.max(0, carousel.scrollWidth - carousel.clientWidth);
 
-        carousel.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
+        return Math.max(0, Math.min(maxScroll, target));
+      }
+
+      function scrollToIndex(index, smooth = true) {
+        if (!carousel) return;
+        carousel.scrollTo({ left: getCardScrollTarget(index), behavior: smooth ? "smooth" : "auto" });
       }
       
       function updateArrows() {
@@ -1473,17 +1620,71 @@ if (zipInput) {
         next.disabled = (idx === cards.length - 1);
       }
 
+      function runCarouselTeaser() {
+        const cards = getCards();
+
+        if (
+          !carousel ||
+          cards.length < 2 ||
+          hasCarouselInteracted ||
+          selectedRecipes.length > 0 ||
+          isCarouselTeaserRunning
+        ) {
+          return;
+        }
+
+        const firstCardLeft = getCardScrollTarget(0);
+        const secondCardLeft = getCardScrollTarget(1);
+        const teaserLeft = firstCardLeft + ((secondCardLeft - firstCardLeft) * CAROUSEL_TEASER_PROGRESS);
+
+        isCarouselTeaserRunning = true;
+        carousel.scrollTo({ left: firstCardLeft, behavior: "auto" });
+
+        requestAnimationFrame(() => {
+          carousel.scrollTo({ left: teaserLeft, behavior: "smooth" });
+
+          carouselTeaserReturnTimeoutId = window.setTimeout(() => {
+            carousel.scrollTo({ left: firstCardLeft, behavior: "smooth" });
+
+            carouselTeaserResetTimeoutId = window.setTimeout(() => {
+              isCarouselTeaserRunning = false;
+            }, 550);
+          }, 450);
+        });
+      }
+
+      function startCarouselTeaser() {
+        if (
+          !carousel ||
+          hasCarouselInteracted ||
+          selectedRecipes.length > 0 ||
+          carouselTeaserIntervalId
+        ) {
+          return;
+        }
+
+        carouselTeaserIntervalId = window.setInterval(runCarouselTeaser, CAROUSEL_TEASER_INTERVAL);
+      }
+
       if (prev) prev.addEventListener("click", () => {
+        stopCarouselTeaser();
         scrollToIndex(getCenteredIndex() - 1, true);
         setTimeout(updateArrows, 250);
       });
 
       if (next) next.addEventListener("click", () => {
+        stopCarouselTeaser();
         scrollToIndex(getCenteredIndex() + 1, true);
         setTimeout(updateArrows, 250);
       });
 
       if (carousel) {
+        ["pointerdown", "touchstart", "wheel"].forEach((eventName) => {
+          carousel.addEventListener(eventName, () => {
+            stopCarouselTeaser();
+          }, { passive: true });
+        });
+
         carousel.addEventListener("scroll", () => requestAnimationFrame(() => {
           syncRecipeSelectionLaneScroll();
           updateArrows();
@@ -1504,6 +1705,7 @@ if (zipInput) {
         scrollToIndex(0, false);
         syncRecipeSelectionLaneScroll();
         updateArrows();
+        startCarouselTeaser();
       });
 
       if (document.fonts?.ready) {
