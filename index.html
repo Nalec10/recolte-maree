@@ -1310,7 +1310,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function queueGuestsScroll() {
       clearGuestScrollTimers();
 
-      [260, 820].forEach((delay) => {
+      [0, 220, 650].forEach((delay) => {
         const timeoutId = window.setTimeout(() => {
           scrollToGuests();
         }, delay);
@@ -1357,7 +1357,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   syncRecipeCardHeights();
 
   if (previousSelectionCount < 3 && selectedRecipes.length === 3) {
-    queueGuestsScroll();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        queueGuestsScroll();
+      });
+    });
   }
 }
 
@@ -1460,29 +1464,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     function scrollToGuests() {
-      const heading = document.getElementById('guest-selection-heading');
       const section = document.getElementById('paiement');
-      const target = heading || section;
 
-      if (!target) {
+      if (!section) {
         scrollToPaiement();
         return;
       }
 
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const y = Math.max(
+        0,
+        Math.round(section.getBoundingClientRect().top + window.pageYOffset - 48)
+      );
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
       });
-
-      const offset = 96;
-      const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-      window.setTimeout(() => {
-        window.scrollTo({
-          top: y,
-          behavior: 'smooth'
-        });
-      }, 40);
     }
     
     document.addEventListener("DOMContentLoaded", () => {
