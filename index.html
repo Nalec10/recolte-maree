@@ -274,7 +274,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="bg-white p-8 md:p-12 rounded-sm shadow-sm border border-stone-200">
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 class="text-3xl font-bold text-[#1a2e4c] mb-6 font-serif">Votre Panier Personnalisé</h3>
+              <h3 id="guest-selection-heading" class="text-3xl font-bold text-[#1a2e4c] mb-6 font-serif">Votre Panier Personnalisé</h3>
               <p class="text-stone-500 mb-8 text-sm">Chaque panier comprend les ingrédients frais pour 3 recettes complètes, belles et délicieuses</p>
 
               <div id="guest-selection">
@@ -473,6 +473,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let carouselTeaserIntervalId = null;
     let carouselTeaserReturnTimeoutId = null;
     let carouselTeaserResetTimeoutId = null;
+    let guestScrollTimeoutIds = [];
     let hasCarouselInteracted = false;
     let isCarouselTeaserRunning = false;
 
@@ -1301,6 +1302,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     }
 
+    function clearGuestScrollTimers() {
+      guestScrollTimeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      guestScrollTimeoutIds = [];
+    }
+
+    function queueGuestsScroll() {
+      clearGuestScrollTimers();
+
+      [260, 820].forEach((delay) => {
+        const timeoutId = window.setTimeout(() => {
+          scrollToGuests();
+        }, delay);
+
+        guestScrollTimeoutIds.push(timeoutId);
+      });
+    }
+
     function toggleRecipe(id) {
       const card = document.getElementById(`recipe-${id}`);
       if (!card) return;
@@ -1339,9 +1357,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   syncRecipeCardHeights();
 
   if (previousSelectionCount < 3 && selectedRecipes.length === 3) {
-    setTimeout(() => {
-      scrollToGuests();
-    }, 350);
+    queueGuestsScroll();
   }
 }
 
@@ -1444,19 +1460,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     function scrollToGuests() {
-      const el = document.getElementById('guest-selection');
-      if (!el) {
+      const heading = document.getElementById('guest-selection-heading');
+      const section = document.getElementById('paiement');
+      const target = heading || section;
+
+      if (!target) {
         scrollToPaiement();
         return;
       }
 
-      const offset = 120;
-      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
+
+      const offset = 96;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+      window.setTimeout(() => {
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }, 40);
     }
     
     document.addEventListener("DOMContentLoaded", () => {
