@@ -268,6 +268,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+    <a id="guest-selection-jump" href="#paiement" class="sr-only" aria-hidden="true" tabindex="-1">
+      Aller au panier personnalisé
+    </a>
+
     <!-- ====== PANIER / PRIX / PAIEMENT ====== -->
     <section id="paiement" class="py-10 md:py-20 bg-stone-50">
       <div class="max-w-5xl mx-auto px-4">
@@ -474,8 +478,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let carouselTeaserReturnTimeoutId = null;
     let carouselTeaserResetTimeoutId = null;
     let guestScrollTimeoutIds = [];
+    let guestScrollAnimationFrameId = null;
     let hasCarouselInteracted = false;
     let isCarouselTeaserRunning = false;
+    let isCarouselInView = false;
+    let hasAutoScrolledToGuests = false;
 
     function getBasePrice() {
       switch (guests) {
@@ -654,6 +661,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return (pantryItemsByRecipe[id] || [])
         .map((itemId) => pantryCatalog[itemId]?.label)
         .filter(Boolean);
+    }
+
+    function syncRecipeCardHeights() {
+      const carousel = document.getElementById("carousel");
+      const cards = carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
+      if (cards.length === 0) return;
+
+      cards.forEach((card) => {
+        card.style.height = "auto";
+      });
+
+      const tallestCard = cards.reduce((maxHeight, card) => {
+        return Math.max(maxHeight, card.getBoundingClientRect().height);
+      }, 0);
+
+      if (!tallestCard) return;
+
+      cards.forEach((card) => {
+        card.style.height = `${Math.ceil(tallestCard)}px`;
+      });
     }
 
     function syncRecipeSelectionLaneScroll() {
@@ -1305,25 +1332,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function clearGuestScrollTimers() {
       guestScrollTimeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
       guestScrollTimeoutIds = [];
+
+      if (guestScrollAnimationFrameId) {
+        window.cancelAnimationFrame(guestScrollAnimationFrameId);
+        guestScrollAnimationFrameId = null;
+      }
     }
 
     function queueGuestsScroll() {
       clearGuestScrollTimers();
 
-      [0, 220, 650].forEach((delay) => {
-        const timeoutId = window.setTimeout(() => {
-          scrollToGuests();
-        }, delay);
+      const timeoutId = window.setTimeout(() => {
+        scrollToGuests();
+      }, 260);
 
-        guestScrollTimeoutIds.push(timeoutId);
-      });
+      guestScrollTimeoutIds.push(timeoutId);
+    }
+
+    function maybeAutoScrollToGuests() {
+      if (selectedRecipes.length === 3) {
+        if (!hasAutoScrolledToGuests) {
+          hasAutoScrolledToGuests = true;
+          queueGuestsScroll();
+        }
+        return;
+      }
+
+      hasAutoScrolledToGuests = false;
     }
 
     function toggleRecipe(id) {
       const card = document.getElementById(`recipe-${id}`);
       if (!card) return;
 
-      const previousSelectionCount = selectedRecipes.length;
       const recipeName = getRecipeName(id);
       stopCarouselTeaser();
   
@@ -1355,14 +1396,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   renderRecipeSelectionLane();
   calculate();
   syncRecipeCardHeights();
-
-  if (previousSelectionCount < 3 && selectedRecipes.length === 3) {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        queueGuestsScroll();
-      });
-    });
-  }
+  maybeAutoScrollToGuests();
 }
 
     function calculate() {
@@ -1451,16 +1485,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
       }
 
-    function scrollToPaiement() {
-      const el = document.getElementById('paiement');
-      const offset = 80;
+    function animateWindowScrollTo(targetY, duration = 1180) {
+      if (guestScrollAnimationFrameId) {
+        window.cancelAnimationFrame(guestScrollAnimationFrameId);
+        guestScrollAnimationFrameId = null;
+      }
 
-      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      const startY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const boundedTargetY = Math.max(0, Math.round(targetY));
+      const distance = boundedTargetY - startY;
 
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
-      });
+      if (Math.abs(distance) < 4) {
+        window.scrollTo(0, boundedTargetY);
+        return;
+      }
+
+      const startTime = performance.now();
+      const easeInOutSine = (progress) => (
+        -(Math.cos(Math.PI * progress) - 1) / 2
+      );
+
+      const step = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeInOutSine(progress);
+        const nextY = startY + (distance * easedProgress);
+
+        window.scrollTo(0, nextY);
+
+        if (progress < 1) {
+          guestScrollAnimationFrameId = window.requestAnimationFrame(step);
+          return;
+        }
+
+        guestScrollAnimationFrameId = null;
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}#paiement`);
+      };
+
+      guestScrollAnimationFrameId = window.requestAnimationFrame(step);
     }
 
     function scrollToGuests() {
@@ -1471,15 +1533,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         return;
       }
 
-      const y = Math.max(
-        0,
-        Math.round(section.getBoundingClientRect().top + window.pageYOffset - 48)
-      );
+      const targetY = section.getBoundingClientRect().top + window.pageYOffset - 56;
+      animateWindowScrollTo(targetY, 1260);
+    }
 
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
+    function scrollToPaiement() {
+      const section = document.getElementById('paiement');
+      if (!section) return;
+
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
+
+      window.setTimeout(() => {
+        const y = Math.max(0, Math.round(section.offsetTop - 56));
+        window.scrollTo({
+          top: y,
+          behavior: 'auto'
+        });
+      }, 160);
     }
     
     document.addEventListener("DOMContentLoaded", () => {
@@ -1581,25 +1654,6 @@ if (zipInput) {
         return carousel ? Array.from(carousel.querySelectorAll(".recipe-card")) : [];
       }
 
-      function syncRecipeCardHeights() {
-        const cards = getCards();
-        if (cards.length === 0) return;
-
-        cards.forEach((card) => {
-          card.style.height = "auto";
-        });
-
-        const tallestCard = cards.reduce((maxHeight, card) => {
-          return Math.max(maxHeight, card.getBoundingClientRect().height);
-        }, 0);
-
-        if (!tallestCard) return;
-
-        cards.forEach((card) => {
-          card.style.height = `${Math.ceil(tallestCard)}px`;
-        });
-      }
-
       function getCenteredIndex() {
         const cards = getCards();
         if (!carousel || cards.length === 0) return 0;
@@ -1649,6 +1703,7 @@ if (zipInput) {
         if (
           !carousel ||
           cards.length < 2 ||
+          !isCarouselInView ||
           hasCarouselInteracted ||
           selectedRecipes.length > 0 ||
           isCarouselTeaserRunning
@@ -1658,27 +1713,34 @@ if (zipInput) {
 
         const firstCardLeft = getCardScrollTarget(0);
         const secondCardLeft = getCardScrollTarget(1);
-        const teaserLeft = firstCardLeft + ((secondCardLeft - firstCardLeft) * CAROUSEL_TEASER_PROGRESS);
+        const isDesktopViewport = window.matchMedia("(min-width: 768px)").matches;
+        const teaserDistance = Math.max(
+          isDesktopViewport ? 120 : 48,
+          Math.round(
+            Math.abs(secondCardLeft - firstCardLeft) * (isDesktopViewport ? 0.33 : CAROUSEL_TEASER_PROGRESS)
+          )
+        );
 
         isCarouselTeaserRunning = true;
         carousel.scrollTo({ left: firstCardLeft, behavior: "auto" });
 
         requestAnimationFrame(() => {
-          carousel.scrollTo({ left: teaserLeft, behavior: "smooth" });
+          carousel.scrollBy({ left: teaserDistance, behavior: "smooth" });
 
           carouselTeaserReturnTimeoutId = window.setTimeout(() => {
             carousel.scrollTo({ left: firstCardLeft, behavior: "smooth" });
 
             carouselTeaserResetTimeoutId = window.setTimeout(() => {
               isCarouselTeaserRunning = false;
-            }, 550);
-          }, 450);
+            }, 700);
+          }, 650);
         });
       }
 
       function startCarouselTeaser() {
         if (
           !carousel ||
+          !isCarouselInView ||
           hasCarouselInteracted ||
           selectedRecipes.length > 0 ||
           carouselTeaserIntervalId
@@ -1686,7 +1748,22 @@ if (zipInput) {
           return;
         }
 
+        runCarouselTeaser();
         carouselTeaserIntervalId = window.setInterval(runCarouselTeaser, CAROUSEL_TEASER_INTERVAL);
+      }
+
+      function updateCarouselTeaserVisibility() {
+        if (!carousel) return;
+
+        const rect = carousel.getBoundingClientRect();
+        isCarouselInView = rect.bottom > 80 && rect.top < (window.innerHeight - 80);
+
+        if (isCarouselInView) {
+          startCarouselTeaser();
+        } else if (!hasCarouselInteracted) {
+          clearCarouselTeaserTimers();
+          isCarouselTeaserRunning = false;
+        }
       }
 
       if (prev) prev.addEventListener("click", () => {
@@ -1728,7 +1805,7 @@ if (zipInput) {
         scrollToIndex(0, false);
         syncRecipeSelectionLaneScroll();
         updateArrows();
-        startCarouselTeaser();
+        updateCarouselTeaserVisibility();
       });
 
       if (document.fonts?.ready) {
@@ -1737,6 +1814,7 @@ if (zipInput) {
           syncRecipeSelectionLaneMetrics();
           syncRecipeSelectionLaneScroll();
           updateArrows();
+          updateCarouselTeaserVisibility();
         });
       }
 
@@ -1746,7 +1824,12 @@ if (zipInput) {
         scrollToIndex(getCenteredIndex(), false);
         syncRecipeSelectionLaneScroll();
         updateArrows();
+        updateCarouselTeaserVisibility();
       });
+
+      window.addEventListener("scroll", () => {
+        updateCarouselTeaserVisibility();
+      }, { passive: true });
     });
   </script>
 </body>

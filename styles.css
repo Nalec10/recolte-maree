@@ -239,6 +239,10 @@ i.fas,i.far{
   scroll-margin-top: 100px;
 }
 
+#paiement{
+  scroll-margin-top: 56px;
+}
+
 @media (max-width: 767px){
   .recipe-card,
   .recipe-card:hover,
