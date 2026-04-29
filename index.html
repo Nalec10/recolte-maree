@@ -1533,6 +1533,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         return;
       }
 
+      const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
+
+      if (isMobileViewport) {
+        if (guestScrollAnimationFrameId) {
+          window.cancelAnimationFrame(guestScrollAnimationFrameId);
+          guestScrollAnimationFrameId = null;
+        }
+
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        window.setTimeout(() => {
+          history.replaceState(null, '', `${window.location.pathname}${window.location.search}#paiement`);
+        }, 900);
+
+        return;
+      }
+
       const targetY = section.getBoundingClientRect().top + window.pageYOffset - 56;
       animateWindowScrollTo(targetY, 1260);
     }
