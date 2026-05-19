@@ -144,7 +144,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div onclick="toggleRecipe(1)" id="recipe-1" class="recipe-card">
             <img src="P1010484.JPG"
-              class="w-full h-64 object-cover" alt="Riso">
+              class="w-full h-64 object-cover" alt="RE001">
             
   <div class="recipe-card__body p-6">
     <h3 class="text-xl font-bold mb-2">
@@ -169,7 +169,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div onclick="toggleRecipe(2)" id="recipe-2" class="recipe-card">
             <img src="P1010497.JPG"
-              class="w-full h-64 object-cover" alt="Courge">
+              class="w-full h-64 object-cover" alt="RE002">
             <div class="recipe-card__body p-6">
     <h3 class="text-xl font-bold mb-2">
       Riso crémeux, fenouil, asperges vertes & éclats iodés
@@ -193,7 +193,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div onclick="toggleRecipe(3)" id="recipe-3" class="recipe-card">
             <img src="P1010474.JPG"
-              class="w-full h-64 object-cover" alt="Chou Fleur">
+              class="w-full h-64 object-cover" alt="RE003">
             <div class="recipe-card__body p-6">
     <h3 class="text-xl font-bold mb-2">
       Chou-fleur rôti, semoule & crème épicée
@@ -217,7 +217,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div onclick="toggleRecipe(4)" id="recipe-4" class="recipe-card">
             <img src="P1010460.JPG"
-              class="w-full h-64 object-cover" alt="Mache">
+              class="w-full h-64 object-cover" alt="RE004">
             <div class="recipe-card__body p-6">
     <h3 class="text-xl font-bold mb-2">
       Salade tiède patate douce, haricots blancs, poire & vinaigrette vive
@@ -241,7 +241,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div onclick="toggleRecipe(5)" id="recipe-5" class="recipe-card">
             <img src="recette-5-pommes-terre-asperges.jpeg"
-              class="w-full h-64 object-cover" alt="Pommes de terre nouvelles, asperges blanches et condiment iodé">
+              class="w-full h-64 object-cover" alt="RE005">
             <div class="recipe-card__body p-6">
     <h3 class="text-xl font-bold mb-2">
       Pommes de terre nouvelles, asperges blanches, betterave & condiments iodés
@@ -517,23 +517,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 };
 
     const recipeLabels = {
-      1: "Courges rôties",
-      2: "Riso crémeux",
-      3: "Chou-fleur rôti",
-      4: "Salade tiède",
-      5: "Pommes de terre nouvelles"
+      1: "Légumes",
+      2: "Riso",
+      3: "Chou-fleur",
+      4: "Salade",
+      5: "PDT"
     };
 
     const recipeIngredientsByRecipe = {
       1: [
-        "Courge",
+        "Carottes",
+        "Courgettes",
         "Patate douce",
         "Pois chiches secs",
         "Ail",
-        "Abricots secs",
-        "Maceron",
+        "Abricots moelleux",
         "Tartare d’algues Aonori à la framboise",
-        "Fromage de chèvre frais"
+        "Fromage de chèvre frais",
       ],
       2: [
         "Riso",
@@ -570,49 +570,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     };
 
     const pantryCatalog = {
-      "olive-oil": {
+      "huile-olive": {
         label: "Huile d'olive",
         note: "Pression douce, goût fruité.",
         description: "Parfaite pour les cuissons, les légumes rôtis et les finitions minute à table.",
         price: 8.90,
         image: "pantry-olive.svg"
       },
-      "sea-salt": {
+      "sel-fin": {
         label: "Sel fin",
         note: "Le réflexe du quotidien.",
         description: "Pour assaisonner proprement et révéler chaque ingrédient sans le masquer.",
         price: 3.20,
         image: "pantry-salt.svg"
       },
-      "black-pepper": {
+      "fleur-sel": {
+        label: "Fleur de Sel",
+        note: "Le réflexe du quotidien.",
+        description: "Pour assaisonner proprement et révéler chaque ingrédient sans le masquer.",
+        price: 3.20,
+        image: "pantry-salt.svg"
+      },
+      "gros-sel": {
+        label: "Gros Sel",
+        note: "Le réflexe du quotidien.",
+        description: "Pour assaisonner proprement et révéler chaque ingrédient sans le masquer.",
+        price: 3.20,
+        image: "pantry-salt.svg"
+      },
+      "maceron": {
         label: "Maceron",
         note: "Iode et relief.",
         description: "Quelques pincées suffisent pour réveiller une crème, une vinaigrette ou un riso.",
         price: 4.30,
         image: "pantry-pepper.svg"
       },
-      "vinegar": {
+      "vinaigre": {
         label: "Vinaigre de cidre artisanal",
         note: "Une pointe vive et nette.",
         description: "Idéal pour équilibrer la salade tiède et apporter du pep's aux sauces minute.",
         price: 5.40,
         image: "pantry-vinegar.svg"
       },
-      "mustard": {
+      "moutarde": {
         label: "Moutarde au maceron",
         note: "Texture souple et gourmande.",
         description: "La base idéale pour monter une vinaigrette maison en quelques secondes.",
         price: 4.90,
         image: "pantry-mustard.svg"
       },
-      "breadcrumbs": {
+      "chapelure": {
         label: "Chapelure",
         note: "Le croustillant minute.",
         description: "Parfaite pour dorer les asperges et apporter une fine croûte dorée au four comme à la poêle.",
         price: 2.90,
         image: "pantry-breadcrumbs.svg"
       },
-      "black-olives": {
+      "olives-noires": {
         label: "Olives noires",
         note: "Une touche saline et ronde.",
         description: "Elles ajoutent profondeur, relief et un vrai accent méditerranéen à l'assiette.",
@@ -629,11 +643,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     };
 
     const pantryItemsByRecipe = {
-      1: ["olive-oil", "sea-salt", "black-pepper"],
-      2: ["olive-oil", "sea-salt", "black-pepper"],
-      3: ["olive-oil", "sea-salt", "black-pepper"],
-      4: ["olive-oil", "sea-salt", "black-pepper", "vinegar", "mustard"],
-      5: ["olive-oil", "breadcrumbs", "black-olives", "sardines"]
+      1: ["maceron", "huile-olive", "sel-fin", "fleur-sel", "gros-sel"],
+      2: ["maceron", "huile-olive", "sel-fin", "fleur-sel", "gros-sel"],
+      3: ["maceron", "huile-olive", "sel-fin", "fleur-sel", "gros-sel"],
+      4: ["maceron", "huile-olive", "sel-fin", "fleur-sel", "gros-sel", "vinaigre", "moutarde"],
+      5: ["maceron", "huile-olive", "sel-fin", "fleur-sel", "gros-sel", "olives-noires", "sardines"]
     };
 
     function showPage(pageId) {
