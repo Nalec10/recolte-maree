@@ -43,6 +43,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="flex space-x-6 font-semibold text-[10px] uppercase tracking-[0.15em]">
           <button onclick="showPage('home')" class="nav-link text-[#1a2e4c]">Accueil</button>
+          <button onclick="scrollToContact()" class="nav-link text-[#1a2e4c]">Contact</button>
         </div>
       </div>
     </div>
@@ -353,6 +354,77 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
               <p class="text-[9px] mt-4 text-stone-400 uppercase tracking-widest">Paiement 100% sécurisé</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-10 md:py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10 md:mb-14">
+          <p class="text-[11px] font-bold uppercase tracking-[0.24em] text-[#c5a47e] mb-3">
+            Contact
+          </p>
+          <h3 class="text-4xl font-bold text-[#1a2e4c] mb-4 font-serif">Parlons de votre panier</h3>
+          <p class="max-w-2xl mx-auto text-sm text-stone-500">
+            Une question sur les recettes, la livraison ou une demande particulière ? Vous pouvez nous joindre directement
+            ou nous laisser un message ici.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+          <div class="contact-card">
+            <span class="contact-card__eyebrow">Coordonnées</span>
+            <h4 class="contact-card__title font-serif">Récolte & Marée vous répond rapidement</h4>
+            <p class="contact-card__copy">
+              Du premier renseignement jusqu'à la livraison, vous échangez directement avec nous.
+            </p>
+
+            <div class="contact-card__details">
+              <a href="tel:+33678362102" class="contact-detail">
+                <span class="contact-detail__label">Téléphone</span>
+                <span class="contact-detail__value">06 78 36 21 02</span>
+              </a>
+
+              <a href="mailto:jules@recolteetmaree.fr" class="contact-detail">
+                <span class="contact-detail__label">E-mail</span>
+                <span class="contact-detail__value">jules@recolteetmaree.fr</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-form-card">
+            <form id="contact-form" class="contact-form" novalidate>
+              <div class="contact-form__grid">
+                <div class="contact-field">
+                  <label for="contact-first-name" class="contact-field__label">Prénom</label>
+                  <input id="contact-first-name" name="firstName" type="text" autocomplete="given-name" required class="contact-field__input">
+                </div>
+
+                <div class="contact-field">
+                  <label for="contact-last-name" class="contact-field__label">Nom</label>
+                  <input id="contact-last-name" name="lastName" type="text" autocomplete="family-name" required class="contact-field__input">
+                </div>
+              </div>
+
+              <div class="contact-field">
+                <label for="contact-email" class="contact-field__label">E-mail</label>
+                <input id="contact-email" name="email" type="email" autocomplete="email" required class="contact-field__input">
+              </div>
+
+              <div class="contact-field">
+                <label for="contact-message" class="contact-field__label">Message</label>
+                <textarea id="contact-message" name="message" rows="6" required class="contact-field__input contact-field__textarea"></textarea>
+              </div>
+
+              <p id="contact-form-status" class="contact-form__status hidden" role="status" aria-live="polite"></p>
+
+              <div class="contact-form__actions">
+                <button id="contact-submit" type="submit" class="contact-form__submit">
+                  Envoyer mon message
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -1498,6 +1570,108 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
       }
 
+    function scrollToContact() {
+      const section = document.getElementById('contact');
+      if (!section) return;
+
+      const offset = 88;
+      const y = section.getBoundingClientRect().top + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+
+    function setContactFormStatus(message, type = "info") {
+      const status = document.getElementById("contact-form-status");
+      if (!status) return;
+
+      status.innerText = message || "";
+      status.hidden = !message;
+      status.classList.remove("hidden", "contact-form__status--success", "contact-form__status--error", "contact-form__status--loading");
+
+      if (!message) return;
+
+      if (type === "success") {
+        status.classList.add("contact-form__status--success");
+      } else if (type === "error") {
+        status.classList.add("contact-form__status--error");
+      } else if (type === "loading") {
+        status.classList.add("contact-form__status--loading");
+      }
+    }
+
+    async function handleContactSubmit(event) {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const submitButton = document.getElementById("contact-submit");
+      const formData = new FormData(form);
+      const firstName = String(formData.get("firstName") || "").trim();
+      const lastName = String(formData.get("lastName") || "").trim();
+      const email = String(formData.get("email") || "").trim();
+      const message = String(formData.get("message") || "").trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!firstName || !lastName || !email || !message) {
+        setContactFormStatus("Merci de renseigner votre prénom, votre nom, votre e-mail et votre message.", "error");
+        return;
+      }
+
+      if (!isValidEmail) {
+        setContactFormStatus("Merci de renseigner une adresse e-mail valide.", "error");
+        return;
+      }
+
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
+      setContactFormStatus("Envoi du message en cours…", "loading");
+
+      try {
+        const res = await fetch(`${WORKER_BASE}/api/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            message
+          })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok) {
+          throw new Error(data?.error || "Impossible d'envoyer votre message pour le moment.");
+        }
+
+        form.reset();
+        setContactFormStatus("Merci, votre message a bien été envoyé. Nous vous répondons très vite.", "success");
+
+        dataLayer.push({
+          event: "contact_form_success",
+          contact_email: email
+        });
+      } catch (error) {
+        setContactFormStatus(error.message || "Impossible d'envoyer votre message pour le moment.", "error");
+
+        dataLayer.push({
+          event: "contact_form_error",
+          contact_email: email,
+          message: error.message || "contact_form_error"
+        });
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+      }
+    }
+
     function animateWindowScrollTo(targetY, duration = 1180) {
       if (guestScrollAnimationFrameId) {
         window.cancelAnimationFrame(guestScrollAnimationFrameId);
@@ -1663,6 +1837,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   const zipInput = document.getElementById("zip-code");
   const error = document.getElementById("zip-error");
+  const contactForm = document.getElementById("contact-form");
       
 if (zipInput) {
   zipInput.addEventListener("change", () => {
@@ -1675,6 +1850,10 @@ if (zipInput) {
     updatePayButton();
   });
 }
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", handleContactSubmit);
+  }
 
       
       // ===== Carousel arrows desktop =====
